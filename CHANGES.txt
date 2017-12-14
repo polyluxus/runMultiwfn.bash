@@ -1,0 +1,46 @@
+VERSIONLOG
+
+0.4.3 2017-12-14
+  Execution script can now be created, which can be used to send it to a 
+  compute node. Helpful for long calculations and big molecules.
+  Scheduler is PBS.
+
+0.4.2 2017-12-13
+  Included swith for non-GUI mode.
+  Rewite of ugly testFile routine.
+  I abandon the idea for submultiwfn. 
+  Instead the next version will contain a subroutine to write a script, 
+  that can be submitted to a scheduler.
+
+0.4.1
+  I rewrote most of the procedures choosing the binary and 
+  updated a few other routines to a more elegant code (I hope).
+
+0.4(alpha)
+  Updated to version 3.4.1 of Multiwfn.
+  Included legacy switch.
+
+0.3(alpha) 
+  Further simplification of the installation process.
+  Planned:
+  Write a script that automagically adapts the binary locations.
+  Or analyze the binaries and create an auxiliary file, 
+  that make modifying the script unnecessary.
+  Extend the functionality of this script with the 
+    submultiwfn 
+  script, that non-interactively runs the program on the 
+  compute nodes (through a PBS scheduler).
+  This should be linked, so that redundant checks will not
+  be performed.
+  I'd like to add the possibility to add more customised 
+  settings to the binary paths.
+
+0.2(alpha) 2016-02-08
+  A slightly easier routine to set up the binaries. It now 
+  requires less tweaking of the script.
+
+0.1(alpha)
+  The first working draft of the script.
+  Version 3.3.8 of Multiwfn.
+
+(Martin; 0.4.3; 2017-12-14)
