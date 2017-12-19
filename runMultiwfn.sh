@@ -4,36 +4,10 @@
 scriptname=${0##*\/} # Remove trailing path
 scriptname=${scriptname%.sh} # remove scripting ending (if present)
 
-# Changes to
-# version="0.1(alpha)"
-# versiondate="2016-01-27"
-#
-# making installation simpler
-#
-# version="0.2(alpha)"
-# versiondate="2016-02-08"
-# 
-# using script to also log input
-#
-# version="0.3(alpha)"
-# versiondate="2017-03-06"
-#
-# changing to include version number (legacy support)
-# 
-# version="0.4"
-# versiondate="2017-12-01"
-# 
-# nogui switch
-# (requires separate binary)
-#
-# version="0.4.1"
-# versiondate="2017-12-11"
-#
-# rewritten without bulky testFile
-# verified with ShellCheck
+# See CHANGES.txt
 
-version="0.4.2"
-versiondate="2017-12-13"
+version="0.4.3"
+versiondate="2017-12-14"
 
 #
 # In order to make the installation and setup easier,
@@ -77,6 +51,10 @@ requested_NumCPU=2
 installNoguiMultiWFN="no"
 #  installNoguiMultiWFN="yes"
 
+# Specify default Walltime, this is only relevant for remote
+# execution as a header line for PBS.
+requested_Walltime="24:00:00"
+
 # See the readme file for more details. 
 
 
@@ -86,6 +64,14 @@ installNoguiMultiWFN="no"
 # You might not want to make modifications here.
 # If you do improve it, I would be happy to learn about it.
 #
+
+#
+# Get some informations of the platform
+#
+nodename=$(uname -n)
+operatingsystem=$(uname -o)
+architecture=$(uname -p)
+processortype=$(grep 'model name' /proc/cpuinfo|uniq|cut -d ':' -f 2)
 
 #
 # Set some default values for other variables
@@ -118,7 +104,7 @@ cat <<-EOF
    VERSION    :   $version
    DATE       :   $versiondate
 
-   USAGE      :   $scriptname [otions] [IPUT_FILE]
+   USAGE      :   $scriptname [options] [IPUT_FILE]
 
    VARIABLES  :
 
@@ -144,6 +130,14 @@ cat <<-EOF
               [Option has no effect if set though environment.]
 
      -g       run without GUI
+
+     -R       Execute in remote mode.
+              This option creates a job submission script for PBS
+              instead of running MultiWFN.
+
+     -w <ARG> Define maximum walltime.
+                Format: [[HH:]MM:]SS
+                (Default: $requested_Walltime)
 
      -q       Supress creating a logfile.
 
@@ -208,6 +202,63 @@ validateInteger ()
         [ ! -z "$2" ] && fatal "Value for $2 ($1) is no integer."
           [ -z "$2" ] && fatal "Value \"$1\" is no integer."
     fi
+}
+
+validateDuration ()
+{
+    local checkDuration=$1
+    # Split time in HH:MM:SS
+    # Strips away anything up to and including the rightmost colon
+    # strips nothing if no colon present
+    # and tests if the value is numeric
+    # this is assigned to seconds
+    local truncDuration_Seconds=${checkDuration##*:}
+    validateInteger "$truncDuration_Seconds" "seconds"
+    # If successful value is stored for later assembly
+    #
+    # Check if the value is given in seconds
+    # "${checkDuration%:*}" strips shortest match ":*" from back
+    # If no colon is present, the strings are identical
+    if [[ ! "$checkDuration" == "${checkDuration%:*}" ]]; then
+        # Strip seconds and colon
+        checkDuration="${checkDuration%:*}"
+        # Strips away anything up to and including the rightmost colon
+        # this is assigned as minutes
+        # and tests if the value is numeric
+        local truncDuration_Minutes=${checkDuration##*:}
+        validateInteger "$truncDuration_Minutes" "minutes"
+        # If successful value is stored for later assembly
+        #
+        # Check if value was given as MM:SS same procedure as above
+        if [[ ! "$checkDuration" == "${checkDuration%:*}" ]]; then
+            #Strip minutes and colon
+            checkDuration="${checkDuration%:*}"
+            # # Strips away anything up to and including the rightmost colon
+            # this is assigned as hours
+            # and tests if the value is numeric
+            local truncDuration_Hours=${checkDuration##*:}
+            validateInteger "$truncDuration_Hours" "hours"
+            # Check if value was given as HH:MM:SS if not, then exit
+            if [[ ! "$checkDuration" == "${checkDuration%:*}" ]]; then
+                fatal "Unrecognised duration format."
+            fi
+        fi
+    fi
+
+    # Modify the duration to have the format HH:MM:SS
+    # disregarding the format of the user input
+    # keep only 0-59 seconds stored, let rest overflow to minutes
+    local finalDuration_Seconds=$((truncDuration_Seconds % 60))
+    # Add any multiple of 60 seconds to the minutes given as input
+    truncDuration_Minutes=$((truncDuration_Minutes + truncDuration_Seconds / 60))
+    # save as minutes what cannot overflow as hours
+    local finalDuration_Minutes=$((truncDuration_Minutes % 60))
+    # add any multiple of 60 minutes to the hours given as input
+    local finalDuration_Hours=$((truncDuration_Hours + truncDuration_Minutes / 60))
+
+    # Format string and save on variable
+    printf -v requested_Walltime "%d:%02d:%02d" $finalDuration_Hours $finalDuration_Minutes \
+                                             $finalDuration_Seconds
 }
 
 #
@@ -285,6 +336,7 @@ setLoggingOptions ()
                  warning "Output '$outputfile' from a previous run will be overwritten."
                fi
                ;;
+       remote) setDefaultOutput ;;
         nolog) message "Logging is disabled." ;;
         *    ) fatal "(Unknown error in setLoggingOptions)" ;;
 
@@ -402,21 +454,20 @@ settings ()
 {
     local OPTIND=1 
 
-    while getopts :hqm:p:l:go:i:c:f options ; do
+    while getopts :hqm:p:l:gRw:o:i:c:f options ; do
         case $options in
 
             h) helpme ;;
 
             q) 
-               if [[ "$execmode" == "default" ]] ; then 
-                 execmode="nolog"
-                 unset outputfile
-               elif [[ "$execmode" == "logging" ]] ; then 
-                 fatal "Options \'-q\' and \'-o\' are mutually exclusive."
-               elif [[ "$execmode" == "nolog" ]] ; then
-                 warning "Option \'-q\' has been specified multiple times."
-                 warning "This has no further effect."
-               fi ;;
+               case $execmode in
+                 default) execmode="nolog"; unset outputfile ;;
+                 logging) fatal "Options '-q' and '-o' are mutually exclusive." ;;
+                  remote) fatal "Options '-q' and '-R' are mutually exclusive." ;;
+                   nolog) warning "Can it really be quieter than quiet? Ignore '-q'." ;;
+                       *) warning "Unspecified modus operandi. Ignore '-q'." ;;
+               esac
+               ;;
 
             m) 
                if [[ -z $requested_KMP_STACKSIZE ]] ; then 
@@ -426,7 +477,7 @@ settings ()
                  fi
                  requested_KMP_STACKSIZE="$OPTARG" 
                else
-                 fatal "Option \'-m\' has been specified multiple times."
+                 fatal "Option '-m' has been specified multiple times."
                fi ;;
 
             p) 
@@ -451,15 +502,27 @@ settings ()
                fi
                ;;
 
+            R)
+               case $execmode in
+                 default) execmode="remote" ;;
+                 logging) execmode="remote" ;;
+                  remote) warning "Already operating in remote mode. Ignore '-R'." ;;
+                   nolog) fatal "Options '-q' and '-R' are mutually exclusive." ;;
+                       *) warning "Unspecified modus operandi. Ignore '-R'." ;;
+               esac
+               ;;
+
+            w) validateDuration "$OPTARG"  ;;
+
             o) 
-               if [[ "$execmode" == "default" ]] ; then
-                 execmode="logging"; 
-                 outputfile="$OPTARG" 
-               elif [[ "$execmode" == "nolog" ]] ; then
-                 fatal "Options \'-o\' and \'-q\' are mutually exclusive."
-               elif [[ "$execmode" == "logging" ]] ; then
-                 fatal "Option \'-o\' has been specified multiple times."
-               fi ;;
+               case $execmode in
+                 default) execmode="logging"; outputfile="$OPTARG" ;;
+                 logging) fatal "I cowardly refuse to produce more than one log." ;;
+                  remote) outputfile="$OPTARG" ;;
+                   nolog) fatal "Options '-q' and '-o' are mutually exclusive." ;;
+                       *) warning "Unspecified modus operandi. Ignore '-o'." ;;
+               esac
+               ;;
 
             i) 
                if [[ -z $inputfile ]] ; then
@@ -469,8 +532,9 @@ settings ()
                  # isFile "$inputfile" || fatal "Inputfile '$inputfile' is no file or does not exist."
                  # isReadable "$inputfile" || fatal "Inputfile '$inputfile' is not readable."
                else
-                 fatal "Option \'-i\' has been specified multiple times."
-               fi ;;
+                 fatal "I only know how to operate on one inputfile."
+               fi 
+               ;;
 
             c) 
                if [[ -z $commandfile ]] ; then
@@ -480,8 +544,9 @@ settings ()
                  # isFile "$commandfile" || fatal "Inputfile '$commandfile' is no file or does not exist."
                  # isReadable "$commandfile" || fatal "Inputfile '$commandfile' is not readable."
                else 
-                 fatal "Option \'-c\' has been specified multiple times."
-               fi ;;
+                 fatal "I can only handle one set of commands."
+               fi
+               ;;
 
             f) forceScriptValues="true" ;;
 
@@ -510,6 +575,83 @@ settings ()
     checkTooManyArgs "$@"
 }
 
+runInteractive ()
+{
+    # Now everything should be set an we can call the program.
+    # Decide how to call the program analogous to setting permissions
+    #    input    4
+    #    command  2
+    #    output   1
+    # Therefore there are 8 callmodes.
+    # Two will fail, i.e. 2 (only com) and 3 (com + out).
+    #
+    # Initialise variable; i.e. just call the program
+
+    callmode=0
+    [[ ! -z $inputfile ]]   && ((callmode+=4))
+    [[ ! -z $commandfile ]] && ((callmode+=2))
+    [[ ! -z $outputfile ]]  && ((callmode+=1))
+
+    case $callmode in
+
+        0) Multiwfn  ;;
+        1) script -c "Multiwfn" "$outputfile" ;;
+        4) Multiwfn "$inputfile" ;;
+        5) script -c "Multiwfn \"$inputfile\"" "$outputfile" ;;
+        6) Multiwfn "$inputfile" < "$commandfile" ;;
+        7) Multiwfn "$inputfile" < "$commandfile" > "$outputfile" ;;
+        *) fatal "This set-up would cause Multiwfn to crash." ;;
+
+    esac
+}
+
+runRemote ()
+{
+    message "Remote mode selected, creating PBS job script instead."
+    if [[ ! -e ${outputfile%.*}.sh ]] ; then
+      submitscript="${outputfile%.*}.sh"
+    else
+      fatal "Designated submitscript ${outputfile%.*}.sh already exists."
+    fi
+    [[ -z $inputfile ]]   && fatal "No inputfile specified. Abort."
+    [[ -z $commandfile ]] && fatal "No commands specified. Abort."
+    [[ -z $outputfile ]]  && fatal "No outputfile selected. Abort."
+
+    cat > "$submitscript" <<-EOF
+#!/bin/sh
+#PBS -l nodes=1:ppn=$requested_NumCPU
+#PBS -l mem=$requested_KMP_STACKSIZE
+#PBS -l walltime=$requested_Walltime
+#PBS -N ${submitscript%.*}
+#PBS -m ae
+#PBS -o $submitscript.o\${PBS_JOBID%%.*}
+#PBS -e $submitscript.e\${PBS_JOBID%%.*}
+
+echo "This is $nodename"
+echo "OS $operatingsystem ($architecture)"
+echo "Running on $requested_NumCPU $processortype."
+echo "Calculation $inputfile and $commandfile from $PWD."
+echo "Working directry is \$PBS_O_WORKDIR"
+cd \$PBS_O_WORKDIR
+
+export PATH="\$PATH:$Multiwfnpath"
+export Multiwfnpath="$Multiwfnpath"
+export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$Multiwfnpath"
+export KMP_STACKSIZE=$requested_KMP_STACKSIZE
+
+date
+Multiwfn "$inputfile" < "$commandfile" > "$outputfile"
+date
+
+EOF
+
+message "Created submit PBS script, to start the job:"
+message "  qsub $submitscript"
+
+exit 0
+}
+
+
 
 #
 # Evaluate Options
@@ -520,36 +662,10 @@ setLoggingOptions
 checkAndSetMemory
 checkAndSetMultiWFN
 
-# Now everything should be set an we can call the program.
-# Decide how to call the program analogous to setting permissions 
-#    input    4
-#    command  2
-#    output   1
-# Therefore there are 8 callmodes.
-# Two will fail, i.e. 2 (only com) and 3 (com + out).
-#
-# Initialise variable; i.e. just call the program
+[[ "$execmode" == "remote" ]] && runRemote
 
-callmode=0  
-[[ ! -z $inputfile ]]   && ((callmode+=4))
-[[ ! -z $commandfile ]] && ((callmode+=2))
-[[ ! -z $outputfile ]]  && ((callmode+=1))
+runInteractive
 
-#if [ ! -z $inputfile ] ; then callmode=$((callmode+4)); fi
-#if [ ! -z $commandfile ] ; then callmode=$((callmode+2)); fi
-#if [ ! -z $outputfile ] ; then callmode=$((callmode+1)); fi
-
-case $callmode in
-  
-    0) Multiwfn  ;;
-    1) script -c "Multiwfn" "$outputfile" ;;
-    4) Multiwfn "$inputfile" ;;
-    5) script -c "Multiwfn $inputfile" "$outputfile" ;;
-    6) Multiwfn "$inputfile" < "$commandfile" ;;
-    7) Multiwfn "$inputfile" < "$commandfile" > "$outputfile" ;;
-    *) fatal "This set-up would cause Multiwfn to crash." ;;
-
-esac
-
-message "Thank you for traveling with $scriptname."
+message "Thank you for travelling with $scriptname."
 exit 0
+

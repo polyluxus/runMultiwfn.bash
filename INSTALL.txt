@@ -1,0 +1,158 @@
+INSTALLATION GUIDE
+
+This is the most important part, because without the 
+correct installation and subsequent modification of the 
+script itself, it will not work.
+I have tried to simplify it as much as possible and I will be
+working on it further, but until then see the following.
+
+(.) The script
+
+  You probably have obtained the script already, read the readme
+  and are ready to modify it to your system. Below are some
+  recommendations about how I have installed it.
+
+(a) Variables
+
+  The script will attempt to read variables necessary for
+  the execution of MultiWFN from the environment settings.
+  The reason for that was so that the script could be called 
+  by another script which submits it to a scheduler, and the 
+  execution is then carried out on via the compute nodes.
+  However, I have abandonned this idea. I am working on
+  another possibility to integrate this functionality here.
+
+  If variables are unset, they will be replaced by default 
+  values or they can be specified via the option switches.
+
+  If you followed the instructions in the Multiwfn manual 
+  then you might have already set the environment variables
+  KMP_STACKSIZE, and Multiwfnpath. 
+  In older versions you had to make additions to
+  LD_LIBRARY_PATH, too.
+  You might even have added a directory to PATH.
+  This needs to be undone.
+  If you have added any of the following lines to your 
+  bashrc, then they need to be removed. We assume for a
+  moment, that we unpacked the program to the path
+  ~/sob/Multiwfn, so the bashrc probably contains these
+  lines:
+    export KMP_STACKSIZE=64000000
+    export Multiwfnpath=~/sob/Multiwfn
+  And in older versions also
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/sob/Multiwfn
+  Delete them. Otherwise the script will always read 
+  these values and use them. Then there is no point in 
+  using this script it in the first place.
+
+(b) Unpacking
+
+  I personally like to have a seperate user for any
+  chemistry related software. This is not necessary. But
+  it keeps the pathnames a little shorter. On my system
+  the user is called "chemsoft". This is the home:
+    /home/chemsoft/
+
+  You can uncompress the original script to any location
+  that suits you. Note that you need a second level for 
+  the purpose of using different "settings.ini" 
+  This is the culprit, but I found this workaround easier
+  than anything else (so far).
+  For the purpose of this manual we use the sample user
+  "chemsoft" and we uncompress to the following path
+    /home/chemsoft/multiwfn/Multiwfn_3.4.1_bin_Linux
+
+  After that we create the following directories:
+    /home/chemsoft/multiwfn/Multiwfn_3.4.1_cpu1
+    /home/chemsoft/multiwfn/Multiwfn_3.4.1_cpu2
+    /home/chemsoft/multiwfn/Multiwfn_3.4.1_cpu4
+    /home/chemsoft/multiwfn/Multiwfn_3.4.1_cpu8
+    /home/chemsoft/multiwfn/Multiwfn_3.4.1_cpu10
+
+  In each of the directories we need to create the
+  symbolic links to the executeable:
+    ln -s ../Multiwfn_3.3.8_bin_Linux/Multiwfn
+  For older versions also the library:
+    ln -s ../Multiwfn_3.3.8_bin_Linux/libiomp5.so
+  You can also add a link to the examples
+    ln -s ../Multiwfn_3.3.8_bin_Linux/examples/
+
+  The only file that will be different is the file that
+  contains the settings for MultiWFN:
+    settings.ini
+  
+  For this to work correctly, you need to modify the
+  line responsible for the number of threads.
+  For the cpu1 case it should read like this:
+    nthreads= 1 //How many threads [...]
+  And so on for cpu2, cpu4, etc. ...
+  Before doing anything, the script will check if the requested 
+  directory exists. You can therefore have as many different 
+  cases as you like.
+  It depends on the number of processors you have available, 
+  or that you are willing to use for the calculation. 
+  I recommend procedures to a maximum of
+  half the number of cores per node you have.
+
+(c) Non-GUI versions
+
+  If you want to use the version without the GUI (and maybe want to
+  switch) you have to do the same as above for that version.
+  These binaries should be located in 
+    /home/chemsoft/multiwfn/Multiwfn_3.4.1ng_cpu1
+  and other cases.
+  Additionally you need to enable that mode, see below.
+
+(d) Modifying the script
+
+  The last thing you need to do is edit the script itself.
+  I have simplified the procedure and there is a very
+  short summary in the script itself.
+  You need to set a few variables so that the script is able to 
+  find the binaries. There are a few variables that need changing.
+  If you followed exactly the example above, then you might already 
+  be good to go. 
+  IF not, you need to modify the following line:
+   installPathMultiWFN="/home/chemsoft/multiwfn"
+  This variable needs to contain the path to the directory,
+  which contains the directories with the different set-ups.
+  The next line you need to change is the following:
+   installPrefixMultiWFN="Multiwfn_"
+  to whatever you have chosen your directory structure to be.
+  Next is the version number you are using:
+   installVersionMultiWFN="3.4.1"
+  Lastly the suffix that determines the number of cpus
+   installSuffixMultiWFN="_cpu"
+  You can also choose the default number of cpu there
+   requested_NumCPU=2
+
+  That should basically all jumbled together reproduce the full path
+  of the executables.
+
+  If you want to use the non-GUI version, you have to enable it:
+   installNoguiMultiWFN="yes"
+  The 'ng' part is currently still hardcoded.
+
+  The script will not check if there is an executeable, or 
+  settings.ini. It only checks the pathname.
+
+(e) Where does this script go? 
+
+  In principle you can place it anywhere you like.
+  I recommend choosing 
+   /home/chemsoft/multiwfn
+
+  Make sure it is executeable.
+   (chmod +x <scriptname>)
+
+  Now everything should be done.
+
+(e) Optional
+
+  You can create a softlink link in your personal ~/bin 
+  directory for easier access. This is of course provided 
+  that your ~/bin is part of $PATH.
+  Alternatively you can add an alias, or add the multiwfn
+  directory to your PATH.
+
+(Martin; v0.4.3; 2017-12-14)
