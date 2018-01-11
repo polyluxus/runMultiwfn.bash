@@ -1,5 +1,9 @@
 VERSIONLOG
 
+0.4.4 2018-01-11
+  Warns about local settings.ini
+  Addition of example files
+
 0.4.3 2017-12-14
   Execution script can now be created, which can be used to send it to a 
   compute node. Helpful for long calculations and big molecules.
@@ -43,4 +47,4 @@ VERSIONLOG
   The first working draft of the script.
   Version 3.3.8 of Multiwfn.
 
-(Martin; 0.4.3; 2017-12-14)
+(Martin; 0.4.4; 2018-01-11)

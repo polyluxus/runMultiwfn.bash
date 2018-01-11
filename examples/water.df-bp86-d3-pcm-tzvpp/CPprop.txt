@@ -1,0 +1,255 @@
+ ================   CP     1,     Type (3,-3)   ================
+ Position (Bohr):    0.00000000000000   -1.40469316617014   -0.88048690387453
+ Density of all electrons:  0.4186355115E+00
+ Density of Alpha electrons:  0.2093177557E+00
+ Density of Beta electrons:  0.2093177557E+00
+ Spin density of electrons:  0.0000000000E+00
+ Lagrangian kinetic energy G(r):  0.3143011150E-01
+ G(r) in X,Y,Z:  0.1525805496E-01  0.6038064422E-02  0.1013399212E-01
+ Hamiltonian kinetic energy K(r):  0.5920917436E+01
+ Potential energy density V(r): -0.5952347548E+01
+ Energy density E(r) or H(r): -0.5920917436E+01
+ Laplacian of electron density: -0.2355794930E+02
+ Electron localization function (ELF):  0.9978201345E+00
+ Localized orbital locator (LOL):  0.9553606456E+00
+ Local information entropy:  0.1328472702E+00
+ Reduced density gradient (RDG):  0.1000000000E+03
+ Reduced density gradient with promolecular approximation:  0.1000000000E+03
+ Sign(lambda2)*rho: -0.4186355115E+00
+ Sign(lambda2)*rho with promolecular approximation: -0.2910652830E+00
+ Corr. hole for alpha, ref.:   0.00000   0.00000   0.00000 : -0.2938435303E-02
+ Source function, ref.:   0.00000   0.00000   0.00000 :  0.1130800684E+01
+ Wavefunction value for orbital         1 :  0.1650279455E-03
+ Average local ionization energy:  0.5689474243E+00
+ User-defined real space function:  0.1000000000E+01
+ ESP from nuclear charges:  0.2635492848E+02
+ ESP from electrons: -0.5815571121E+01
+ Total ESP:  0.2053935736E+02 a.u. ( 0.5589043E+03 J/C, 0.1288865E+05 kcal/mol)
+ 
+ Note: Below information are for electron density
+ 
+ Components of gradient in x/y/z are:
+ -0.4212971753E-33 -0.2896988205E-15  0.1387778781E-16
+ Norm of gradient is:  0.2900310321E-15
+ 
+ Components of Laplacian in x/y/z are:
+ -0.8370089851E+01 -0.7385019175E+01 -0.7802840274E+01
+ Total: -0.2355794930E+02
+ 
+ Hessian matrix:
+ -0.8370089851E+01 -0.8279463020E-18 -0.8116976952E-18
+ -0.8279463020E-18 -0.7385019175E+01  0.7612133877E+00
+ -0.8116976952E-18  0.7612133877E+00 -0.7802840274E+01
+ Eigenvalues of Hessian: -0.8370089851E+01 -0.6804569579E+01 -0.8383289870E+01
+ Eigenvectors(columns) of Hessian:
+  0.1000000000E+01  0.0000000000E+00  0.0000000000E+00
+  0.0000000000E+00  0.7951912007E+00 -0.6063587671E+00
+  0.0000000000E+00  0.6063587671E+00  0.7951912007E+00
+ Determinant of Hessian: -0.4774690906D+03
+ Ellipticity of electron density:    0.001577
+ eta index:   -1.232009
+ 
+ ================   CP     2,     Type (3,-3)   ================
+ Position (Bohr):    0.00000000000000    0.00000000000000    0.22706416721816
+ Density of all electrons:  0.3019064216E+03
+ Density of Alpha electrons:  0.1509532108E+03
+ Density of Beta electrons:  0.1509532108E+03
+ Spin density of electrons:  0.0000000000E+00
+ Lagrangian kinetic energy G(r):  0.7726201339E+02
+ G(r) in X,Y,Z:  0.3101709641E+02  0.2117834757E+02  0.2506656941E+02
+ Hamiltonian kinetic energy K(r):  0.1128734834E+07
+ Potential energy density V(r): -0.1128812096E+07
+ Energy density E(r) or H(r): -0.1128734834E+07
+ Laplacian of electron density: -0.4514630287E+07
+ Electron localization function (ELF):  0.9999960776E+00
+ Localized orbital locator (LOL):  0.9980234055E+00
+ Local information entropy: -0.1028755797E+03
+ Reduced density gradient (RDG):  0.1000000000E+03
+ Reduced density gradient with promolecular approximation:  0.1000000000E+03
+ Sign(lambda2)*rho: -0.3019064216E+03
+ Sign(lambda2)*rho with promolecular approximation: -0.2923714590E+03
+ Corr. hole for alpha, ref.:   0.00000   0.00000   0.00000 : -0.1384581617E+03
+ Source function, ref.:   0.00000   0.00000   0.00000 :  0.1582208534E+07
+ Wavefunction value for orbital         1 :  0.1198549884E+02
+ Average local ionization energy:  0.1790317876E+02
+ User-defined real space function:  0.1000000000E+01
+ ESP from nuclear charges:  0.1384248079E+07
+ ESP from electrons: -0.2345690675E+02
+ Total ESP:  0.1384224622E+07 a.u. ( 0.3766667E+08 J/C, 0.8686148E+09 kcal/mol)
+ 
+ Note: Below information are for electron density
+ 
+ Components of gradient in x/y/z are:
+  0.9244463733E-32  0.1047116591E-17 -0.7286615755E-11
+ Norm of gradient is:  0.7286615755E-11
+ 
+ Components of Laplacian in x/y/z are:
+ -0.1504855917E+07 -0.1504896308E+07 -0.1504878062E+07
+ Total: -0.4514630287E+07
+ 
+ Hessian matrix:
+ -0.1504855917E+07  0.2346451066E-16 -0.8157236345E-17
+  0.2346451066E-16 -0.1504896308E+07  0.1925395850E-16
+ -0.8157236345E-17  0.1925395850E-16 -0.1504878062E+07
+ Eigenvalues of Hessian: -0.1504855917E+07 -0.1504896308E+07 -0.1504878062E+07
+ Eigenvectors(columns) of Hessian:
+  0.1000000000E+01  0.0000000000E+00  0.0000000000E+00
+  0.0000000000E+00  0.1000000000E+01  0.0000000000E+00
+  0.0000000000E+00  0.0000000000E+00  0.1000000000E+01
+ Determinant of Hessian: -0.3408025284D+19
+ Ellipticity of electron density:    0.000012
+ eta index:   -1.000027
+ 
+ ================   CP     3,     Type (3,-3)   ================
+ Position (Bohr):    0.00000000000000    1.40469316617014   -0.88048690387453
+ Density of all electrons:  0.4186355115E+00
+ Density of Alpha electrons:  0.2093177557E+00
+ Density of Beta electrons:  0.2093177557E+00
+ Spin density of electrons:  0.0000000000E+00
+ Lagrangian kinetic energy G(r):  0.3143011150E-01
+ G(r) in X,Y,Z:  0.1525805496E-01  0.6038064422E-02  0.1013399212E-01
+ Hamiltonian kinetic energy K(r):  0.5920917436E+01
+ Potential energy density V(r): -0.5952347548E+01
+ Energy density E(r) or H(r): -0.5920917436E+01
+ Laplacian of electron density: -0.2355794930E+02
+ Electron localization function (ELF):  0.9978201345E+00
+ Localized orbital locator (LOL):  0.9553606456E+00
+ Local information entropy:  0.1328472702E+00
+ Reduced density gradient (RDG):  0.1000000000E+03
+ Reduced density gradient with promolecular approximation:  0.1000000000E+03
+ Sign(lambda2)*rho: -0.4186355115E+00
+ Sign(lambda2)*rho with promolecular approximation: -0.2910652830E+00
+ Corr. hole for alpha, ref.:   0.00000   0.00000   0.00000 : -0.2938435303E-02
+ Source function, ref.:   0.00000   0.00000   0.00000 :  0.1130800684E+01
+ Wavefunction value for orbital         1 :  0.1650279455E-03
+ Average local ionization energy:  0.5689474243E+00
+ User-defined real space function:  0.1000000000E+01
+ ESP from nuclear charges:  0.2635492848E+02
+ ESP from electrons: -0.5815571121E+01
+ Total ESP:  0.2053935736E+02 a.u. ( 0.5589043E+03 J/C, 0.1288865E+05 kcal/mol)
+ 
+ Note: Below information are for electron density
+ 
+ Components of gradient in x/y/z are:
+  0.8011868569E-31  0.2567390744E-15  0.5551115123E-16
+ Norm of gradient is:  0.2626717348E-15
+ 
+ Components of Laplacian in x/y/z are:
+ -0.8370089851E+01 -0.7385019175E+01 -0.7802840274E+01
+ Total: -0.2355794930E+02
+ 
+ Hessian matrix:
+ -0.8370089851E+01  0.1005200568E-15 -0.7647878743E-16
+  0.1005200568E-15 -0.7385019175E+01 -0.7612133877E+00
+ -0.7647878743E-16 -0.7612133877E+00 -0.7802840274E+01
+ Eigenvalues of Hessian: -0.8370089851E+01 -0.6804569579E+01 -0.8383289870E+01
+ Eigenvectors(columns) of Hessian:
+  0.1000000000E+01  0.0000000000E+00  0.0000000000E+00
+  0.0000000000E+00  0.7951912007E+00  0.6063587671E+00
+  0.0000000000E+00 -0.6063587671E+00  0.7951912007E+00
+ Determinant of Hessian: -0.4774690906D+03
+ Ellipticity of electron density:    0.001577
+ eta index:   -1.232009
+ 
+ ================   CP     4,     Type (3,-1)   ================
+ Position (Bohr):    0.00000000000000   -1.15336558476215   -0.68682893781628
+ Density of all electrons:  0.3621635630E+00
+ Density of Alpha electrons:  0.1810817815E+00
+ Density of Beta electrons:  0.1810817815E+00
+ Spin density of electrons:  0.0000000000E+00
+ Lagrangian kinetic energy G(r):  0.7413740263E-01
+ G(r) in X,Y,Z:  0.3575138812E-01  0.1513038376E-01  0.2325563076E-01
+ Hamiltonian kinetic energy K(r):  0.7277703916E+00
+ Potential energy density V(r): -0.8019077942E+00
+ Energy density E(r) or H(r): -0.7277703916E+00
+ Laplacian of electron density: -0.2614531956E+01
+ Electron localization function (ELF):  0.9806846940E+00
+ Localized orbital locator (LOL):  0.8769448476E+00
+ Local information entropy:  0.1201747226E+00
+ Reduced density gradient (RDG):  0.1000000000E+03
+ Reduced density gradient with promolecular approximation:  0.1000000000E+03
+ Sign(lambda2)*rho: -0.3621635630E+00
+ Sign(lambda2)*rho with promolecular approximation: -0.2145134889E+00
+ Corr. hole for alpha, ref.:   0.00000   0.00000   0.00000 : -0.2021461051E-02
+ Source function, ref.:   0.00000   0.00000   0.00000 :  0.1549916724E+00
+ Wavefunction value for orbital         1 :  0.2380201540E-03
+ Average local ionization energy:  0.6021282629E+00
+ User-defined real space function:  0.1000000000E+01
+ ESP from nuclear charges:  0.8569706313E+01
+ ESP from electrons: -0.6659603780E+01
+ Total ESP:  0.1910102533E+01 a.u. ( 0.5197653E+02 J/C, 0.1198608E+04 kcal/mol)
+ 
+ Note: Below information are for electron density
+ 
+ Components of gradient in x/y/z are:
+ -0.9003722490E-32 -0.3677613769E-15 -0.1110223025E-15
+ Norm of gradient is:  0.3841541123E-15
+ 
+ Components of Laplacian in x/y/z are:
+ -0.1783189291E+01 -0.7733185893E-01 -0.7540108062E+00
+ Total: -0.2614531956E+01
+ 
+ Hessian matrix:
+ -0.1783189291E+01 -0.1065346333E-17 -0.1467833595E-17
+ -0.1065346333E-17 -0.7733185893E-01  0.1359850644E+01
+ -0.1467833595E-17  0.1359850644E+01 -0.7540108062E+00
+ Eigenvalues of Hessian: -0.1783189291E+01  0.9856378313E+00 -0.1816980496E+01
+ Eigenvectors(columns) of Hessian:
+  0.1000000000E+01  0.0000000000E+00  0.0000000000E+00
+  0.0000000000E+00  0.7878595284E+00 -0.6158549858E+00
+  0.0000000000E+00  0.6158549858E+00  0.7878595284E+00
+ Determinant of Hessian:  0.3193486446D+01
+ Ellipticity of electron density:    0.018950
+ eta index:    1.843457
+ 
+ ================   CP     5,     Type (3,-1)   ================
+ Position (Bohr):    0.00000000000000    1.15336558476215   -0.68682893781628
+ Density of all electrons:  0.3621635630E+00
+ Density of Alpha electrons:  0.1810817815E+00
+ Density of Beta electrons:  0.1810817815E+00
+ Spin density of electrons:  0.0000000000E+00
+ Lagrangian kinetic energy G(r):  0.7413740263E-01
+ G(r) in X,Y,Z:  0.3575138812E-01  0.1513038376E-01  0.2325563076E-01
+ Hamiltonian kinetic energy K(r):  0.7277703916E+00
+ Potential energy density V(r): -0.8019077942E+00
+ Energy density E(r) or H(r): -0.7277703916E+00
+ Laplacian of electron density: -0.2614531956E+01
+ Electron localization function (ELF):  0.9806846940E+00
+ Localized orbital locator (LOL):  0.8769448476E+00
+ Local information entropy:  0.1201747226E+00
+ Reduced density gradient (RDG):  0.1000000000E+03
+ Reduced density gradient with promolecular approximation:  0.1000000000E+03
+ Sign(lambda2)*rho: -0.3621635630E+00
+ Sign(lambda2)*rho with promolecular approximation: -0.2145134889E+00
+ Corr. hole for alpha, ref.:   0.00000   0.00000   0.00000 : -0.2021461051E-02
+ Source function, ref.:   0.00000   0.00000   0.00000 :  0.1549916724E+00
+ Wavefunction value for orbital         1 :  0.2380201540E-03
+ Average local ionization energy:  0.6021282629E+00
+ User-defined real space function:  0.1000000000E+01
+ ESP from nuclear charges:  0.8569706313E+01
+ ESP from electrons: -0.6659603780E+01
+ Total ESP:  0.1910102533E+01 a.u. ( 0.5197653E+02 J/C, 0.1198608E+04 kcal/mol)
+ 
+ Note: Below information are for electron density
+ 
+ Components of gradient in x/y/z are:
+  0.2588449845E-30  0.3712308239E-15 -0.1387778781E-15
+ Norm of gradient is:  0.3963226262E-15
+ 
+ Components of Laplacian in x/y/z are:
+ -0.1783189291E+01 -0.7733185893E-01 -0.7540108062E+00
+ Total: -0.2614531956E+01
+ 
+ Hessian matrix:
+ -0.1783189291E+01  0.1898700826E-15 -0.1476107696E-15
+  0.1898700826E-15 -0.7733185893E-01 -0.1359850644E+01
+ -0.1476107696E-15 -0.1359850644E+01 -0.7540108062E+00
+ Eigenvalues of Hessian: -0.1783189291E+01  0.9856378313E+00 -0.1816980496E+01
+ Eigenvectors(columns) of Hessian:
+  0.1000000000E+01  0.0000000000E+00  0.0000000000E+00
+  0.0000000000E+00  0.7878595284E+00  0.6158549858E+00
+  0.0000000000E+00 -0.6158549858E+00  0.7878595284E+00
+ Determinant of Hessian:  0.3193486446D+01
+ Ellipticity of electron density:    0.018950
+ eta index:    1.843457
+ 

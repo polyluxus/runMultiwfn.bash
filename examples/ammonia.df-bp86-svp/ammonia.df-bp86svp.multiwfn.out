@@ -1,0 +1,137 @@
+ Multiwfn -- A Multifunctional Wavefunction Analyzer (for Linux 64bit)
+ Version 3.4.1, release date: 2017-Nov-1
+ Project leader: Tian Lu (Beijing Kein Research Center for Natural Sciences)
+ Citation of Multiwfn: Tian Lu, Feiwu Chen, J. Comput. Chem. 33, 580-592 (2012)
+ Multiwfn official website: http://sobereva.com/multiwfn
+ Multiwfn English forum: http://sobereva.com/wfnbbs
+ Multiwfn Chinese forum: http://bbs.keinsci.com
+ ( The number of threads:  2   Current date: 2018-01-11   Time: 17:30:57 )
+ 
+ Please wait...
+ 
+ Total energy:     0.000000000000 Hartree,   Virial ratio:  1.00000000
+ Total/Alpha/Beta electrons:     10.0000      5.0000      5.0000
+ Number of orbital:     5,  Atoms:      4,  GTFs:     46
+ This is restricted close-shell single-determinant wavefunction
+ 
+ Formula: H3 N1 
+ Molecule weight:        17.03052
+
+ Loaded ammonia.df-bp86svp.wfx successfully!
+ 
+                    ------------ Main function menu ------------
+ 0 Show molecular structure and view orbitals
+ 1 Output all properties at a point
+ 2 Topology analysis
+ 3 Output and plot specific property in a line
+ 4 Output and plot specific property in a plane
+ 5 Output and plot specific property within a spatial region (calc. grid data)
+ 6 Check & modify wavefunction
+ 7 Population analysis and atomic charges
+ 8 Orbital composition analysis
+ 9 Bond order analysis
+ 10 Plot Total/Partial/Overlap population density-of-states (DOS)
+ 11 Plot IR/Raman/UV-Vis/ECD/VCD spectrum
+ 12 Quantitative analysis of molecular surface
+ 13 Process grid data (No grid data is presented currently)
+ 14 Adaptive natural density partitioning (AdNDP) analysis
+ 15 Fuzzy atomic space analysis
+ 16 Charge decomposition analysis (CDA) and extended CDA (ECDA)
+ 17 Basin analysis
+ 18 Electron excitation analysis
+ 100 Other functions (Part1)
+ 200 Other functions (Part2)
+                 ============== Population analysis ==============
+ -1 Define fragment
+ 0 Return
+ 1 Hirshfeld population
+ 2 Voronoi deformation density (VDD) population
+ 10 Becke atomic charge with atomic dipole moment correction
+ 11 Atomic dipole corrected Hirshfeld population (ADCH)
+ 12 CHELPG ESP fitting charge
+ 13 Merz-Kollmann (MK) ESP fitting charge
+ 14 AIM charge
+ 15 Hirshfeld-I charge
+ 16 CM5 charge
+ Citation: Theor. Chim. Acta. (Berl), 44, 129-138 (1977)
+ This task requests atomic densities, please select how to obtain them
+ 1 Use build-in sphericalized atomic densities in free-states (more convenient)
+ 2 Provide wavefunction file of involved elements by yourself or invoke Gaussian to automatically calculate them
+ Running: mkdir wfntmp
+ Running: cp atomwfn/*.wfn wfntmp/
+ All atom .wfn files needed have already presented in "atomwfn" folder, we will not calculate them
+ 
+ Radial grids:   75    Angular grids:  434   Total:     32550
+ Calculating, please wait...
+ 
+ Hirshfeld charge of atom     1(N ) is   -0.276787
+ Hirshfeld charge of atom     2(H ) is    0.092259
+ Hirshfeld charge of atom     3(H ) is    0.092262
+ Hirshfeld charge of atom     4(H ) is    0.092262
+ Summing up all charges:    -0.00000453
+ 
+ Atomic dipole moments (a.u.):
+ Atom     1(N ) in X/Y/Z:   0.000000   0.000000  -0.250767 Norm:   0.250767
+ Atom     2(H ) in X/Y/Z:   0.000000   0.146463  -0.075887 Norm:   0.164955
+ Atom     3(H ) in X/Y/Z:  -0.126836  -0.073229  -0.075884 Norm:   0.164949
+ Atom     4(H ) in X/Y/Z:   0.126836  -0.073229  -0.075884 Norm:   0.164949
+ Total dipole moment from atomic charges:    0.223008 a.u.
+ X/Y/Z of dipole from atomic charge:    0.000000   -0.000006   -0.223008 a.u.
+ Total atomic dipole moment:    0.478422 a.u.
+ X/Y/Z of total atomic dipole:    0.000000    0.000005   -0.478422 a.u.
+ 
+ Calculation took up       1 seconds wall clock time
+ 
+ If output atoms with charges to ammonia.df-bp86svp.chg in current folder? (y/n)
+ Result have been saved to ammonia.df-bp86svp.chg in current folder
+ Columns ranging from 1 to 5 are name,X,Y,Z,charge respectively, unit is Angstrom
+                 ============== Population analysis ==============
+ -1 Define fragment
+ 0 Return
+ 1 Hirshfeld population
+ 2 Voronoi deformation density (VDD) population
+ 10 Becke atomic charge with atomic dipole moment correction
+ 11 Atomic dipole corrected Hirshfeld population (ADCH)
+ 12 CHELPG ESP fitting charge
+ 13 Merz-Kollmann (MK) ESP fitting charge
+ 14 AIM charge
+ 15 Hirshfeld-I charge
+ 16 CM5 charge
+ Citation: Theor. Chim. Acta. (Berl), 44, 129-138 (1977)
+ This task requests atomic densities, please select how to obtain them
+ 1 Use build-in sphericalized atomic densities in free-states (more convenient)
+ 2 Provide wavefunction file of involved elements by yourself or invoke Gaussian to automatically calculate them
+ Radial grids:   75    Angular grids:  434   Total:     32550
+ Calculating, please wait...
+ 
+ Hirshfeld charge of atom     1(N ) is   -0.276886
+ Hirshfeld charge of atom     2(H ) is    0.092286
+ Hirshfeld charge of atom     3(H ) is    0.092288
+ Hirshfeld charge of atom     4(H ) is    0.092288
+ Summing up all charges:    -0.00002418
+ 
+ Atomic dipole moments (a.u.):
+ Atom     1(N ) in X/Y/Z:   0.000000   0.000024  -0.244944 Norm:   0.244944
+ Atom     2(H ) in X/Y/Z:   0.000000   0.155195  -0.077798 Norm:   0.173603
+ Atom     3(H ) in X/Y/Z:  -0.134399  -0.077596  -0.077795 Norm:   0.173598
+ Atom     4(H ) in X/Y/Z:   0.134399  -0.077596  -0.077795 Norm:   0.173598
+ Total dipole moment from atomic charges:    0.223076 a.u.
+ X/Y/Z of dipole from atomic charge:    0.000000   -0.000004   -0.223076 a.u.
+ Total atomic dipole moment:    0.478333 a.u.
+ X/Y/Z of total atomic dipole:    0.000000    0.000026   -0.478333 a.u.
+ 
+ Calculation took up       0 seconds wall clock time
+ 
+ If output atoms with charges to ammonia.df-bp86svp.chg in current folder? (y/n)
+                 ============== Population analysis ==============
+ -1 Define fragment
+ 0 Return
+ 1 Hirshfeld population
+ 2 Voronoi deformation density (VDD) population
+ 10 Becke atomic charge with atomic dipole moment correction
+ 11 Atomic dipole corrected Hirshfeld population (ADCH)
+ 12 CHELPG ESP fitting charge
+ 13 Merz-Kollmann (MK) ESP fitting charge
+ 14 AIM charge
+ 15 Hirshfeld-I charge
+ 16 CM5 charge
