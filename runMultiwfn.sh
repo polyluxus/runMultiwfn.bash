@@ -6,8 +6,8 @@ scriptname=${scriptname%.sh} # remove scripting ending (if present)
 
 # See CHANGES.txt
 
-version="0.4.3"
-versiondate="2017-12-14"
+version="0.4.4"
+versiondate="2018-01-11"
 
 #
 # In order to make the installation and setup easier,
@@ -446,6 +446,12 @@ checkAndSetMultiWFN ()
     message "  $Multiwfnpath"
 }
 
+# Check if a local settings.ini exists and warn
+checkLocalSettinsIni ()
+{
+    [[ -e ./settings.ini ]] && warning "Found local 'settings.ini'. This will overwrite any option set through the script."
+}
+
 #
 # Process Options
 #
@@ -661,6 +667,7 @@ settings "$@"
 setLoggingOptions
 checkAndSetMemory
 checkAndSetMultiWFN
+checkLocalSettinsIni
 
 [[ "$execmode" == "remote" ]] && runRemote
 

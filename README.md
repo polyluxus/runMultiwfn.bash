@@ -21,6 +21,7 @@ If you find any bugs, I appreciate a note, too.
 Enjoy working with this piece of code.
 
 ---
+
 ## How to use
 
 Requires Bash-4.2.1 (probably, that is what I tested) and 
@@ -142,13 +143,22 @@ The following option switches are available:
 
 ---
 
+## Examples
+
+The examples folder contains a few files generated with Gaussian 09, 
+that demonstrate some of the functionality of the script.  
+It also contains a slightly modified version os `settings.ini`.  
+To Do: Provide some more wfn files for some more elements and methods.
+
+---
+
 ## Who wrote this?
 
-Martin - that is me \(^-^)/
+Martin - that is me \\(^-^)/
 Complaints can be directed through the chat 'The Periodic Table'
 somewhere at https://chemistry.stackexchange.com,
 or via github (polyluxus), or any other way you can think of.
 I have a blog (that has not been updated in a while): 
 https://thedailystamp.wordpress.com/
 
-(Martin; 0.4.3; 2017-12-14)
+(Martin; 0.4.4; 2018-01-11)

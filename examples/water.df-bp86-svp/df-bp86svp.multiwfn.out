@@ -1,0 +1,680 @@
+ Multiwfn -- A Multifunctional Wavefunction Analyzer (for Linux 64bit)
+ Version 3.4.1, release date: 2017-Nov-1
+ Project leader: Tian Lu (Beijing Kein Research Center for Natural Sciences)
+ Citation of Multiwfn: Tian Lu, Feiwu Chen, J. Comput. Chem. 33, 580-592 (2012)
+ Multiwfn official website: http://sobereva.com/multiwfn
+ Multiwfn English forum: http://sobereva.com/wfnbbs
+ Multiwfn Chinese forum: http://bbs.keinsci.com
+ ( The number of threads:  2   Current date: 2018-01-11   Time: 15:45:01 )
+ 
+ Please wait...
+ Loading various information of the wavefunction
+ The highest angular moment basis functions is D
+ Loading basis-set definition...
+ Loading orbitals...
+ Converting basis function information to GTF information...
+ Generating overlap matrix...
+ Back converting basis function information from Cartesian to spherical type...
+ Generating density matrix based on SCF orbitals...
+ 
+ Total/Alpha/Beta electrons:     10.0000      5.0000      5.0000
+ Net charge:     0.00000      Expected multiplicity:    1
+ Atoms:      3,  Basis functions:     24,  GTFs:     39
+ Total energy:   -76.359305849633 Hartree,   Virial ratio:  2.00766423
+ This is a restricted single-determinant wavefunction
+ Orbitals from 1 to     5 are occupied
+ Title line of this file: Local Min Search (Sing)
+ Formula: H2 O1 
+ Molecule weight:        18.01528
+
+ Loaded df-bp86svp.fchk successfully!
+ 
+                    ------------ Main function menu ------------
+ 0 Show molecular structure and view orbitals
+ 1 Output all properties at a point
+ 2 Topology analysis
+ 3 Output and plot specific property in a line
+ 4 Output and plot specific property in a plane
+ 5 Output and plot specific property within a spatial region (calc. grid data)
+ 6 Check & modify wavefunction
+ 7 Population analysis and atomic charges
+ 8 Orbital composition analysis
+ 9 Bond order analysis
+ 10 Plot Total/Partial/Overlap population density-of-states (DOS)
+ 11 Plot IR/Raman/UV-Vis/ECD/VCD spectrum
+ 12 Quantitative analysis of molecular surface
+ 13 Process grid data (No grid data is presented currently)
+ 14 Adaptive natural density partitioning (AdNDP) analysis
+ 15 Fuzzy atomic space analysis
+ 16 Charge decomposition analysis (CDA) and extended CDA (ECDA)
+ 17 Basin analysis
+ 18 Electron excitation analysis
+ 100 Other functions (Part1)
+ 200 Other functions (Part2)
+ Note: Virtual orbitals higher than LUMO+10 have been discarded for saving computational time
+ 
+          !!! Note: All length units in this module are Bohr !!!
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+#    1 /    3: Trying from nuclear position of     1(O )
+#    2 /    3: Trying from nuclear position of     2(H )
+#    3 /    3: Trying from nuclear position of     3(H )
+                             ==== Summary ====
+  Index              Coordinate               Type
+     1    0.000000   -1.359724   -0.871490   (3,-3)
+     2    0.000000    0.000000    0.231688   (3,-3)
+     3    0.000000    1.359724   -0.871490   (3,-3)
+ Totally find     3 new critical points
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+#    1 /    3: Trying from midpoint between     1(O ) and    2(H )
+#    2 /    3: Trying from midpoint between     2(H ) and    3(H )
+#    3 /    3: Trying from midpoint between     1(O ) and    3(H )
+                             ==== Summary ====
+  Index              Coordinate               Type
+     4    0.000000   -1.148643   -0.706574   (3,-1)
+     5    0.000000    1.148643   -0.706574   (3,-1)
+ Totally find     2 new critical points
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+#    1 /    1: Trying from triangle center of     1(O )    2(H )    3(H )
+ Totally find     0 new critical points
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+ Totally found     0 new critical points
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+ Go forward from CP:      4 (3,-1) Position:    0.000000   -1.148643   -0.706574
+ Found new path after    49 iterations, path length:  1.4400
+ Reached CP     2 (3,-3) Position:    0.000000    0.000000    0.231688
+ 
+ Go backward from CP:     4 (3,-1) Position:    0.000000   -1.148643   -0.706574
+ Found new path after     9 iterations, path length:  0.2400
+ Reached CP     1 (3,-3) Position:    0.000000   -1.359724   -0.871490
+ 
+ Go forward from CP:      5 (3,-1) Position:    0.000000    1.148643   -0.706574
+ Found new path after     9 iterations, path length:  0.2400
+ Reached CP     3 (3,-3) Position:    0.000000    1.359724   -0.871490
+ 
+ Go backward from CP:     5 (3,-1) Position:    0.000000    1.148643   -0.706574
+ Found new path after    49 iterations, path length:  1.4400
+ Reached CP     2 (3,-3) Position:    0.000000    0.000000    0.231688
+ 
+ Totally found     4 new paths
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+ Totally found     0 new paths
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+ 
+                       ======== Process paths ========
+ 0 Return
+ 1 Print summary of paths
+ 2 Print detail of a path
+ 3 Delete some paths
+ 4 Save points of all paths to paths.txt in current folder
+ 5 Load paths from an external file
+ 6 Export paths as paths.pdb file in current folder
+ 7 Calculate specific real space funtion along the path
+ Done, path information have been saved to paths.txt in current folder
+ Units are in Bohr. The first two numbers respectively denote the number of paths, and the maximal number of points in the paths
+ 
+                       ======== Process paths ========
+ 0 Return
+ 1 Print summary of paths
+ 2 Print detail of a path
+ 3 Delete some paths
+ 4 Save points of all paths to paths.txt in current folder
+ 5 Load paths from an external file
+ 6 Export paths as paths.pdb file in current folder
+ 7 Calculate specific real space funtion along the path
+ Done, path information have been saved to paths.pdb in current folder
+ 
+                       ======== Process paths ========
+ 0 Return
+ 1 Print summary of paths
+ 2 Print detail of a path
+ 3 Delete some paths
+ 4 Save points of all paths to paths.txt in current folder
+ 5 Load paths from an external file
+ 6 Export paths as paths.pdb file in current folder
+ 7 Calculate specific real space funtion along the path
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+                ============ Modify or export found CPs ============
+ -1 Print summary of CPs (in Angstrom)
+ 0 Return
+ 1 Print summary of CPs (in Bohr)
+ 2 Delete some CPs
+ 3 Add a CP artificially
+ 4 Save CPs to CPs.txt in current folder
+ 5 Load CPs from a file
+ 6 Export CPs as CPs.pdb file in current folder
+ Done, CP information have been saved to CPs.txt in current folder
+ Note: The last column is CP type, 1=(3,-3) 2=(3,-1) 3=(3,+1) 4=(3,+3)
+ 
+                ============ Modify or export found CPs ============
+ -1 Print summary of CPs (in Angstrom)
+ 0 Return
+ 1 Print summary of CPs (in Bohr)
+ 2 Delete some CPs
+ 3 Add a CP artificially
+ 4 Save CPs to CPs.txt in current folder
+ 5 Load CPs from a file
+ 6 Export CPs as CPs.pdb file in current folder
+ Done, CP information have been saved to CPs.pdb in current folder
+ Note: Element C/N/O/F correspond to (3,-3)/(3,-1)/(3,+1)/(3,+3) respectively
+ 
+                ============ Modify or export found CPs ============
+ -1 Print summary of CPs (in Angstrom)
+ 0 Return
+ 1 Print summary of CPs (in Bohr)
+ 2 Delete some CPs
+ 3 Add a CP artificially
+ 4 Save CPs to CPs.txt in current folder
+ 5 Load CPs from a file
+ 6 Export CPs as CPs.pdb file in current folder
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+ Input the index of the CP that you are interested in
+ Note: If input 0, then properties of all CPs will be outputted to CPprop.txt in current folder (and if you feel the output speed is slow, you can input -1 to  avoid outputting ESP, which is the most expensive one)
+ Please wait...
+ Outputting CP     1  /     5
+ Outputting CP     2  /     5
+ Outputting CP     3  /     5
+ Outputting CP     4  /     5
+ Outputting CP     5  /     5
+ Done! The results have been outputted to CPprop.txt in current folder
+ Note: Unless otherwise specified, all units are in a.u.
+ 
+            ================ Topology analysis ===============
+ -11 Delete results and reselect real space function, current:  1
+ -10 Return
+ -9 Measure distances, angles and dihedral angles between CPs or atoms
+ -5 Modify or print detail or export paths, or calculate property along a path
+ -4 Modify or export CPs (critical points)
+ -3 Set interbasin surface generating parameters
+ -2 Set path searching parameters
+ -1 Set CP searching parameters
+ 0 Print and visualize all generated CPs, paths and surfaces
+ 1 Search CPs from a given starting point
+ 2 Search CPs from nuclear positions
+ 3 Search CPs from midpoint of atom pairs
+ 4 Search CPs from triangle center of three atoms
+ 5 Search CPs from pyramid center of four atoms
+ 6 Search CPs from a batch of points within a sphere
+ 7 Show real space function values at specific CP or all CPs
+ 8 Generate the path connected (3,-3) and (3,-1)
+ 9 Generate the path connected (3,+1) and (3,+3)
+ 10 Add or delete interbasin surfaces
+ 20 Calculate Shannon aromaticity index
+ 21 Calculate density curvature perpendicular to a specific plane at a point
+ 
+                    ------------ Main function menu ------------
+ 0 Show molecular structure and view orbitals
+ 1 Output all properties at a point
+ 2 Topology analysis
+ 3 Output and plot specific property in a line
+ 4 Output and plot specific property in a plane
+ 5 Output and plot specific property within a spatial region (calc. grid data)
+ 6 Check & modify wavefunction
+ 7 Population analysis and atomic charges
+ 8 Orbital composition analysis
+ 9 Bond order analysis
+ 10 Plot Total/Partial/Overlap population density-of-states (DOS)
+ 11 Plot IR/Raman/UV-Vis/ECD/VCD spectrum
+ 12 Quantitative analysis of molecular surface
+ 13 Process grid data (No grid data is presented currently)
+ 14 Adaptive natural density partitioning (AdNDP) analysis
+ 15 Fuzzy atomic space analysis
+ 16 Charge decomposition analysis (CDA) and extended CDA (ECDA)
+ 17 Basin analysis
+ 18 Electron excitation analysis
+ 100 Other functions (Part1)
+ 200 Other functions (Part2)
+               ------------ Other functions (Part 1) ------------ 
+ 0 Return
+ 1 Draw scatter graph between two functions and generate their cube files
+ 2 Export .pdb/.xyz/.wfn/.wfx/.molden/.fch/.47 files or input file of QC codes
+ 3 Calculate molecular van der Waals Volume
+ 4 Integrate a function in whole space
+ 5 Show overlap integral between alpha and beta orbitals
+ 6 Monitor SCF convergence process of Gaussian
+ 7 Generate Gaussian input file with initial guess from converged wavefunction
+ 8 Generate Gaussian input file with initial guess from fragment wavefunctions
+ 9 Evaluate coordination number for all atoms
+ 11 Calculate overlap and centroid distance between two orbitals
+ 13 Calculate HOMA and Bird aromaticity index
+ 14 Calculate LOLIPOP (LOL Integrated Pi Over Plane)
+ 15 Calculate intermolecular orbital overlap
+ 18 Yoshizawa's electron transport route analysis
+ 19 Generate promolecular .wfn file from fragment wavefunctions
+ 20 Calculate Hellmann-Feynman forces
+ 21 Calculate properties based on geometry information for specific atoms
+ 22 Detect pi orbitals and set occupation numbers
+ 23 Fit function distribution to atomic value
+ 24 Obtain NICS_ZZ for non-planar system
+ 25 Calculate area and perimeter for a ring
+ 1 Output current structure to .pdb file
+ 2 Output current structure to .xyz file
+ 4 Output current wavefunction as .wfx file
+ 5 Output current wavefunction as .wfn file
+ 6 Output current wavefunction as Molden input file (.molden)
+ 7 Output current wavefunction as .fch file
+ 8 Output current wavefunction as .47 file
+ 10 Output current structure to Gaussian input file
+ 11 Output current structure to GAMESS-US input file
+ 12 Output current structure to ORCA input file
+ 13 Output current structure to NWChem input file
+ 14 Output current structure to MOPAC input file
+ 15 Output current structure to PSI input file
+ 16 Output current structure to MRCC input file
+ 17 Output current structure to CFOUR input file
+ 18 Output current structure to Molpro input file
+ 19 Output current structure to Dalton input file
+ 20 Output current structure to Molcas input file
+ Input the path for pdb file, e.g. c:\ltwd.pdb
+ Exporting pdb file finished!
+ 
+               ------------ Other functions (Part 1) ------------ 
+ 0 Return
+ 1 Draw scatter graph between two functions and generate their cube files
+ 2 Export .pdb/.xyz/.wfn/.wfx/.molden/.fch/.47 files or input file of QC codes
+ 3 Calculate molecular van der Waals Volume
+ 4 Integrate a function in whole space
+ 5 Show overlap integral between alpha and beta orbitals
+ 6 Monitor SCF convergence process of Gaussian
+ 7 Generate Gaussian input file with initial guess from converged wavefunction
+ 8 Generate Gaussian input file with initial guess from fragment wavefunctions
+ 9 Evaluate coordination number for all atoms
+ 11 Calculate overlap and centroid distance between two orbitals
+ 13 Calculate HOMA and Bird aromaticity index
+ 14 Calculate LOLIPOP (LOL Integrated Pi Over Plane)
+ 15 Calculate intermolecular orbital overlap
+ 18 Yoshizawa's electron transport route analysis
+ 19 Generate promolecular .wfn file from fragment wavefunctions
+ 20 Calculate Hellmann-Feynman forces
+ 21 Calculate properties based on geometry information for specific atoms
+ 22 Detect pi orbitals and set occupation numbers
+ 23 Fit function distribution to atomic value
+ 24 Obtain NICS_ZZ for non-planar system
+ 25 Calculate area and perimeter for a ring
+ 
+                    ------------ Main function menu ------------
+ 0 Show molecular structure and view orbitals
+ 1 Output all properties at a point
+ 2 Topology analysis
+ 3 Output and plot specific property in a line
+ 4 Output and plot specific property in a plane
+ 5 Output and plot specific property within a spatial region (calc. grid data)
+ 6 Check & modify wavefunction
+ 7 Population analysis and atomic charges
+ 8 Orbital composition analysis
+ 9 Bond order analysis
+ 10 Plot Total/Partial/Overlap population density-of-states (DOS)
+ 11 Plot IR/Raman/UV-Vis/ECD/VCD spectrum
+ 12 Quantitative analysis of molecular surface
+ 13 Process grid data (No grid data is presented currently)
+ 14 Adaptive natural density partitioning (AdNDP) analysis
+ 15 Fuzzy atomic space analysis
+ 16 Charge decomposition analysis (CDA) and extended CDA (ECDA)
+ 17 Basin analysis
+ 18 Electron excitation analysis
+ 100 Other functions (Part1)
+ 200 Other functions (Part2)
+ -10 Return to main menu
+ -2 Obtain of deformation property
+ -1 Obtain of promolecule property
+ 0 Set custom operation
+             ----------- Avaliable real space functions -----------
+ 1 Electron density                 2 Gradient norm of electron density
+ 3 Laplacian of electron density    4 Value of orbital wavefunction
+ 5 Electron spin density
+ 6 Hamiltonian kinetic energy density K(r)
+ 7 Lagrangian kinetic energy density G(r)
+ 8 Electrostatic potential from nuclear charges
+ 9 Electron Localization Function (ELF)
+ 10 Localized orbital locator (LOL)
+ 11 Local information entropy
+ 12 Total electrostatic potential (ESP)
+ 13 Reduced density gradient (RDG)     14 RDG with promolecular approximation
+ 15 Sign(lambda2)*rho    16 Sign(lambda2)*rho with promolecular approximation
+ 17 Correlation hole for alpha, ref. point:   0.00000   0.00000   0.00000
+ 18 Average local ionization energy
+ 19 Source function, mode: 1, ref. point:   0.00000   0.00000   0.00000
+ 20 Electron delocalization range function EDR(r;d)
+ 21 Orbital overlap distance function D(r)
+ 100 User-defined real space function, iuserfunc=    0
+  -10 Return to main menu
+ Draw which type of map?
+ 1 Color-filled map
+ 2 Contour line map
+ 3 Relief map
+ 4 Shaded surface map
+ 5 Shaded surface map with projection
+ 6 Gradient lines map with/without contour lines
+ 7 Vector field map with/without contour lines
+  -10 Return to main menu
+ How many grids in the two dimensions respectively?
+ (200,200 is recommended)
+ Hint: You can press ENTER button directly to use recommended value
+  -10 Return to main menu
+ Define the plane to be plotted
+ 1:XY 2:XZ 3:YZ 4:Define by three atoms 5:Define by three points
+ 6:Input origin and translation vector (For expert user)
+ 7:Parallel to a bond and meantime normal to a plane defined by three atoms
+ 0:Set extension distance for plane type 1~5, current:  4.5000 Bohr
+ Input extension distance in Bohr, e.g. 4.5
+ Define the plane to be plotted
+ 1:XY 2:XZ 3:YZ 4:Define by three atoms 5:Define by three points
+ 6:Input origin and translation vector (For expert user)
+ 7:Parallel to a bond and meantime normal to a plane defined by three atoms
+ 0:Set extension distance for plane type 1~5, current:  6.0000 Bohr
+ Input the number of three atoms (e.g. 3,6,7)
+ 
+ X/Y/Z of origin of the plane:    0.00000  -9.87207  -0.02917 Bohr
+ X/Y/Z of end of the plane:       0.00000   9.53139  -2.06418 Bohr
+ X/Y/Z of translation vector 1:   0.00000   0.02154   0.01740 Bohr
+ X/Y/Z of translation vector 2:   0.00000   0.01735  -0.02148 Bohr
+ 
+ Please wait...
+ Note: All exponential functions exp(x) with x< -40.000 will be ignored 
+ The minimum of data:  -679859.926373392     
+ The maximum of data:   1512.16669114289     
+ 
+ -9 Only plot the data around certain atoms
+ -8 Change length unit of the graph to Angstrom
+ -7 Multiply data by a factor
+ -6 Export calculated plane data to plane.txt in current folder
+ -5 Return to main menu
+ -4 Switch ON/OFF of reversing ticks
+ -3 Set the number of ticks between the labels, current:  2
+ -2 Set stepsize in X and Y axes, current:  1.974  1.968
+ -1 Show the graph again
+ 0 Save the graph to a file
+ 1 Disable showing atom labels and reference point
+ 2 Enable showing isovalue on contour lines
+ 3 Change contour line setting
+ 4 Set marks of critical points and paths
+ 5 Disable showing contour lines
+ 6 Generate and show interbasin paths
+ 7 Set stepsize and maximal iteration for interbasin path generation
+ 15 Draw a contour line of vdW surface (electron density=0.001)
+ 17 Set the distance criterion for showing atom labels, current:  0.500
+ 18 Change style of atomic labels: Only plot element symbol
+ 
+ -9 Only plot the data around certain atoms
+ -8 Change length unit of the graph to Bohr
+ -7 Multiply data by a factor
+ -6 Export calculated plane data to plane.txt in current folder
+ -5 Return to main menu
+ -4 Switch ON/OFF of reversing ticks
+ -3 Set the number of ticks between the labels, current:  2
+ -2 Set stepsize in X and Y axes, current:  1.974  1.968
+ -1 Show the graph again
+ 0 Save the graph to a file
+ 1 Disable showing atom labels and reference point
+ 2 Enable showing isovalue on contour lines
+ 3 Change contour line setting
+ 4 Set marks of critical points and paths
+ 5 Disable showing contour lines
+ 6 Generate and show interbasin paths
+ 7 Set stepsize and maximal iteration for interbasin path generation
+ 15 Draw a contour line of vdW surface (electron density=0.001)
+ 17 Set the distance criterion for showing atom labels, current:  0.500
+ 18 Change style of atomic labels: Only plot element symbol
+ Found       2 (3,-1) CPs in the plane
+ Generating interbasin paths from (3,-1) CPs, Please wait...
+ 
+ -9 Only plot the data around certain atoms
+ -8 Change length unit of the graph to Bohr
+ -7 Multiply data by a factor
+ -6 Export calculated plane data to plane.txt in current folder
+ -5 Return to main menu
+ -4 Switch ON/OFF of reversing ticks
+ -3 Set the number of ticks between the labels, current:  2
+ -2 Set stepsize in X and Y axes, current:  1.974  1.968
+ -1 Show the graph again
+ 0 Save the graph to a file
+ 1 Disable showing atom labels and reference point
+ 2 Enable showing isovalue on contour lines
+ 3 Change contour line setting
+ 4 Set marks of critical points and paths
+ 5 Disable showing contour lines
+ 6 Delete interbasin paths
+ 15 Draw a contour line of vdW surface (electron density=0.001)
+ 17 Set the distance criterion for showing atom labels, current:  0.500
+ 18 Change style of atomic labels: Only plot element symbol
+ Graph have been saved to png file with "DISLIN" prefix in current directory
+ 
+ -9 Only plot the data around certain atoms
+ -8 Change length unit of the graph to Bohr
+ -7 Multiply data by a factor
+ -6 Export calculated plane data to plane.txt in current folder
+ -5 Return to main menu
+ -4 Switch ON/OFF of reversing ticks
+ -3 Set the number of ticks between the labels, current:  2
+ -2 Set stepsize in X and Y axes, current:  1.974  1.968
+ -1 Show the graph again
+ 0 Save the graph to a file
+ 1 Disable showing atom labels and reference point
+ 2 Enable showing isovalue on contour lines
+ 3 Change contour line setting
+ 4 Set marks of critical points and paths
+ 5 Disable showing contour lines
+ 6 Delete interbasin paths
+ 15 Draw a contour line of vdW surface (electron density=0.001)
+ 17 Set the distance criterion for showing atom labels, current:  0.500
+ 18 Change style of atomic labels: Only plot element symbol
+ 
+                    ------------ Main function menu ------------
+ 0 Show molecular structure and view orbitals
+ 1 Output all properties at a point
+ 2 Topology analysis
+ 3 Output and plot specific property in a line
+ 4 Output and plot specific property in a plane
+ 5 Output and plot specific property within a spatial region (calc. grid data)
+ 6 Check & modify wavefunction
+ 7 Population analysis and atomic charges
+ 8 Orbital composition analysis
+ 9 Bond order analysis
+ 10 Plot Total/Partial/Overlap population density-of-states (DOS)
+ 11 Plot IR/Raman/UV-Vis/ECD/VCD spectrum
+ 12 Quantitative analysis of molecular surface
+ 13 Process grid data (No grid data is presented currently)
+ 14 Adaptive natural density partitioning (AdNDP) analysis
+ 15 Fuzzy atomic space analysis
+ 16 Charge decomposition analysis (CDA) and extended CDA (ECDA)
+ 17 Basin analysis
+ 18 Electron excitation analysis
+ 100 Other functions (Part1)
+ 200 Other functions (Part2)

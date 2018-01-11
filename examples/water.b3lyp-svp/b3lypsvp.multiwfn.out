@@ -1,0 +1,673 @@
+ Multiwfn -- A Multifunctional Wavefunction Analyzer (for Linux 64bit)
+ Version 3.4.1, release date: 2017-Nov-1
+ Project leader: Tian Lu (Beijing Kein Research Center for Natural Sciences)
+ Citation of Multiwfn: Tian Lu, Feiwu Chen, J. Comput. Chem. 33, 580-592 (2012)
+ Multiwfn official website: http://sobereva.com/multiwfn
+ Multiwfn English forum: http://sobereva.com/wfnbbs
+ Multiwfn Chinese forum: http://bbs.keinsci.com
+ ( The number of threads:  2   Current date: 2018-01-11   Time: 16:22:37 )
+ 
+ Please wait...
+ Loading various information of the wavefunction
+ The highest angular moment basis functions is D
+ Loading basis-set definition...
+ Loading orbitals...
+ Converting basis function information to GTF information...
+ Generating overlap matrix...
+ Back converting basis function information from Cartesian to spherical type...
+ Generating density matrix based on SCF orbitals...
+ 
+ Total/Alpha/Beta electrons:     10.0000      5.0000      5.0000
+ Net charge:     0.00000      Expected multiplicity:    1
+ Atoms:      3,  Basis functions:     24,  GTFs:     39
+ Total energy:   -76.358315672882 Hartree,   Virial ratio:  2.00687788
+ This is a restricted single-determinant wavefunction
+ Orbitals from 1 to     5 are occupied
+ Title line of this file: Water B3LYP/def2-SVP
+ Formula: H2 O1 
+ Molecule weight:        18.01528
+
+ Loaded b3lypsvp.fchk successfully!
+ 
+                    ------------ Main function menu ------------
+ 0 Show molecular structure and view orbitals
+ 1 Output all properties at a point
+ 2 Topology analysis
+ 3 Output and plot specific property in a line
+ 4 Output and plot specific property in a plane
+ 5 Output and plot specific property within a spatial region (calc. grid data)
+ 6 Check & modify wavefunction
+ 7 Population analysis and atomic charges
+ 8 Orbital composition analysis
+ 9 Bond order analysis
+ 10 Plot Total/Partial/Overlap population density-of-states (DOS)
+ 11 Plot IR/Raman/UV-Vis/ECD/VCD spectrum
+ 12 Quantitative analysis of molecular surface
+ 13 Process grid data (No grid data is presented currently)
+ 14 Adaptive natural density partitioning (AdNDP) analysis
+ 15 Fuzzy atomic space analysis
+ 16 Charge decomposition analysis (CDA) and extended CDA (ECDA)
+ 17 Basin analysis
+ 18 Electron excitation analysis
+ 100 Other functions (Part1)
+ 200 Other functions (Part2)
+                 ============== Population analysis ==============
+ -1 Define fragment
+ 0 Return
+ 1 Hirshfeld population
+ 2 Voronoi deformation density (VDD) population
+ 5 Mulliken atom & basis function population analysis
+ 6 Lowdin population analysis
+ 7 Modified Mulliken population defined by Ros & Schuit (SCPA)
+ 8 Modified Mulliken population defined by Stout & Politzer
+ 9 Modified Mulliken population defined by Bickelhaupt
+ 10 Becke atomic charge with atomic dipole moment correction
+ 11 Atomic dipole corrected Hirshfeld population (ADCH)
+ 12 CHELPG ESP fitting charge
+ 13 Merz-Kollmann (MK) ESP fitting charge
+ 14 AIM charge
+ 15 Hirshfeld-I charge
+ 16 CM5 charge
+ Citation: Theor. Chim. Acta. (Berl), 44, 129-138 (1977)
+ This task requests atomic densities, please select how to obtain them
+ 1 Use build-in sphericalized atomic densities in free-states (more convenient)
+ 2 Provide wavefunction file of involved elements by yourself or invoke Gaussian to automatically calculate them
+ Radial grids:   75    Angular grids:  434   Total:     32550
+ Calculating, please wait...
+ 
+ Hirshfeld charge of atom     1(O ) is   -0.317063
+ Hirshfeld charge of atom     2(H ) is    0.158496
+ Hirshfeld charge of atom     3(H ) is    0.158496
+ Summing up all charges:    -0.00007112
+ 
+ Atomic dipole moments (a.u.):
+ Atom     1(O ) in X/Y/Z:   0.000000   0.000000  -0.162038 Norm:   0.162038
+ Atom     2(H ) in X/Y/Z:   0.000000  -0.161738  -0.133229 Norm:   0.209545
+ Atom     3(H ) in X/Y/Z:   0.000000   0.161738  -0.133229 Norm:   0.209545
+ Total dipole moment from atomic charges:    0.360092 a.u.
+ X/Y/Z of dipole from atomic charge:    0.000000    0.000000   -0.360092 a.u.
+ Total atomic dipole moment:    0.428497 a.u.
+ X/Y/Z of total atomic dipole:    0.000000    0.000000   -0.428497 a.u.
+ 
+ Calculation took up       0 seconds wall clock time
+ 
+ If output atoms with charges to b3lypsvp.chg in current folder? (y/n)
+                 ============== Population analysis ==============
+ -1 Define fragment
+ 0 Return
+ 1 Hirshfeld population
+ 2 Voronoi deformation density (VDD) population
+ 5 Mulliken atom & basis function population analysis
+ 6 Lowdin population analysis
+ 7 Modified Mulliken population defined by Ros & Schuit (SCPA)
+ 8 Modified Mulliken population defined by Stout & Politzer
+ 9 Modified Mulliken population defined by Bickelhaupt
+ 10 Becke atomic charge with atomic dipole moment correction
+ 11 Atomic dipole corrected Hirshfeld population (ADCH)
+ 12 CHELPG ESP fitting charge
+ 13 Merz-Kollmann (MK) ESP fitting charge
+ 14 AIM charge
+ 15 Hirshfeld-I charge
+ 16 CM5 charge
+ Citation: Organomet., 15, 2923-2931
+ Citation: J. Comput. Chem., 25, 189-210 (2004)
+ This task requests atomic densities, please select how to obtain them
+ 1 Use build-in sphericalized atomic densities in free-states (more convenient)
+ 2 Provide wavefunction file of involved elements by yourself or invoke Gaussian to automatically calculate them
+ Radial grids:   75    Angular grids:  434   Total:     32550
+ Calculating, please wait...
+ 
+ VDD charge of atom     1(O ) is   -0.303971
+ VDD charge of atom     2(H ) is    0.152271
+ VDD charge of atom     3(H ) is    0.152271
+ Summing up all charges:     0.00057112
+ 
+ Atomic dipole moments (a.u.):
+ Atom     1(O ) in X/Y/Z:   0.000000   0.000000  -0.152752 Norm:   0.152752
+ Atom     2(H ) in X/Y/Z:   0.000000  -0.218084  -0.145420 Norm:   0.262121
+ Atom     3(H ) in X/Y/Z:   0.000000   0.218084  -0.145420 Norm:   0.262121
+ Total dipole moment from atomic charges:    0.345804 a.u.
+ X/Y/Z of dipole from atomic charge:    0.000000    0.000000   -0.345804 a.u.
+ Total atomic dipole moment:    0.443592 a.u.
+ X/Y/Z of total atomic dipole:    0.000000    0.000000   -0.443592 a.u.
+ 
+ Calculation took up       0 seconds wall clock time
+ 
+ If output atoms with charges to b3lypsvp.chg in current folder? (y/n)
+ Note: The wavefunction file has been reloaded, your previous modifications on occupation number will be ignored
+                 ============== Population analysis ==============
+ -1 Define fragment
+ 0 Return
+ 1 Hirshfeld population
+ 2 Voronoi deformation density (VDD) population
+ 5 Mulliken atom & basis function population analysis
+ 6 Lowdin population analysis
+ 7 Modified Mulliken population defined by Ros & Schuit (SCPA)
+ 8 Modified Mulliken population defined by Stout & Politzer
+ 9 Modified Mulliken population defined by Bickelhaupt
+ 10 Becke atomic charge with atomic dipole moment correction
+ 11 Atomic dipole corrected Hirshfeld population (ADCH)
+ 12 CHELPG ESP fitting charge
+ 13 Merz-Kollmann (MK) ESP fitting charge
+ 14 AIM charge
+ 15 Hirshfeld-I charge
+ 16 CM5 charge
+ 0 Return
+ 1 Output Mulliken population/charges and decompose them to MO's contribution
+ 2 Output gross atomic population matrix and decompose it
+ 3 Output gross basis function population matrix and decompose it
+ Population of basis functions:
+  Basis Type    Atom    Shell   Population
+     1   S        1(O )    1      1.98886
+     2   S        1(O )    2      1.07252
+     3   S        1(O )    3      0.62537
+     4   X        1(O )    4      1.14269
+     5   Y        1(O )    4      0.79534
+     6   Z        1(O )    4      0.93359
+     7   X        1(O )    5      0.81651
+     8   Y        1(O )    5      0.34960
+     9   Z        1(O )    5      0.55892
+    10   D 0      1(O )    6      0.00157
+    11   D+1      1(O )    6      0.00123
+    12   D-1      1(O )    6      0.00740
+    13   D+2      1(O )    6      0.00073
+    14   D-2      1(O )    6      0.00000
+    15   S        2(H )    7      0.69367
+    16   S        2(H )    8      0.08870
+    17   X        2(H )    9      0.01979
+    18   Y        2(H )    9      0.02859
+    19   Z        2(H )    9      0.02209
+    20   S        3(H )   10      0.69367
+    21   S        3(H )   11      0.08870
+    22   X        3(H )   12      0.01979
+    23   Y        3(H )   12      0.02859
+    24   Z        3(H )   12      0.02209
+ 
+ Population of shells of basis functions:
+ Shell     1 Type: S    in atom    1(O ) :  1.98886
+ Shell     2 Type: S    in atom    1(O ) :  1.07252
+ Shell     3 Type: S    in atom    1(O ) :  0.62537
+ Shell     4 Type: P    in atom    1(O ) :  2.87162
+ Shell     5 Type: P    in atom    1(O ) :  1.72503
+ Shell     6 Type: D    in atom    1(O ) :  0.01092
+ Shell     7 Type: S    in atom    2(H ) :  0.69367
+ Shell     8 Type: S    in atom    2(H ) :  0.08870
+ Shell     9 Type: P    in atom    2(H ) :  0.07047
+ Shell    10 Type: S    in atom    3(H ) :  0.69367
+ Shell    11 Type: S    in atom    3(H ) :  0.08870
+ Shell    12 Type: P    in atom    3(H ) :  0.07047
+ 
+ Population of each type of angular moment orbitals:
+ Atom     1(O ) s: 3.6868 p: 4.5967 d: 0.0109 f: 0.0000 g: 0.0000 h: 0.0000
+ Atom     2(H ) s: 0.7824 p: 0.0705 d: 0.0000 f: 0.0000 g: 0.0000 h: 0.0000
+ Atom     3(H ) s: 0.7824 p: 0.0705 d: 0.0000 f: 0.0000 g: 0.0000 h: 0.0000
+ Sum  s:   5.2515 p:   4.7376 d:   0.0109 f:   0.0000 g:   0.0000 h:   0.0000
+ 
+ Population of atoms:
+ Atom     1(O )    Population:    8.29433    Net charge:   -0.29433
+ Atom     2(H )    Population:    0.85284    Net charge:    0.14716
+ Atom     3(H )    Population:    0.85284    Net charge:    0.14716
+ Total net charge:   0.00000
+ 
+ Decompose atomic charges to MO contribution? (y/n)
+ The (i,j) elements means the contribution to the jth atoms from the ith MO
+             1             2             3      
+     1    2.00111545   -0.00055773   -0.00055773
+     2    1.44739894    0.27630053    0.27630053
+     3    1.15233713    0.42383144    0.42383144
+     4    1.73305038    0.13347481    0.13347481
+     5    1.96042483    0.01978759    0.01978759
+ 
+ If output atom with charges to b3lypsvp.chg in current folder? (y/n)
+ Result have been saved to b3lypsvp.chg in current folder
+ Columns ranging from 1 to 5 are name,X,Y,Z,charge respectively, unit is Angstrom
+                 ============== Population analysis ==============
+ -1 Define fragment
+ 0 Return
+ 1 Hirshfeld population
+ 2 Voronoi deformation density (VDD) population
+ 5 Mulliken atom & basis function population analysis
+ 6 Lowdin population analysis
+ 7 Modified Mulliken population defined by Ros & Schuit (SCPA)
+ 8 Modified Mulliken population defined by Stout & Politzer
+ 9 Modified Mulliken population defined by Bickelhaupt
+ 10 Becke atomic charge with atomic dipole moment correction
+ 11 Atomic dipole corrected Hirshfeld population (ADCH)
+ 12 CHELPG ESP fitting charge
+ 13 Merz-Kollmann (MK) ESP fitting charge
+ 14 AIM charge
+ 15 Hirshfeld-I charge
+ 16 CM5 charge
+ 
+                    ------------ Main function menu ------------
+ 0 Show molecular structure and view orbitals
+ 1 Output all properties at a point
+ 2 Topology analysis
+ 3 Output and plot specific property in a line
+ 4 Output and plot specific property in a plane
+ 5 Output and plot specific property within a spatial region (calc. grid data)
+ 6 Check & modify wavefunction
+ 7 Population analysis and atomic charges
+ 8 Orbital composition analysis
+ 9 Bond order analysis
+ 10 Plot Total/Partial/Overlap population density-of-states (DOS)
+ 11 Plot IR/Raman/UV-Vis/ECD/VCD spectrum
+ 12 Quantitative analysis of molecular surface
+ 13 Process grid data (No grid data is presented currently)
+ 14 Adaptive natural density partitioning (AdNDP) analysis
+ 15 Fuzzy atomic space analysis
+ 16 Charge decomposition analysis (CDA) and extended CDA (ECDA)
+ 17 Basin analysis
+ 18 Electron excitation analysis
+ 100 Other functions (Part1)
+ 200 Other functions (Part2)
+ 
+                  ============= Basin analysis =============
+ -10 Return to main menu
+ -6 Set parameter for attractor clustering
+ -1 Select the method for generating basins, current: Near-grid with refinement
+  1 Generate basins and locate attractors
+ Select the real space function to be integrated
+             ----------- Avaliable real space functions -----------
+ 1 Electron density                 2 Gradient norm of electron density
+ 3 Laplacian of electron density    4 Value of orbital wavefunction
+ 5 Electron spin density
+ 6 Hamiltonian kinetic energy density K(r)
+ 7 Lagrangian kinetic energy density G(r)
+ 8 Electrostatic potential from nuclear charges
+ 9 Electron Localization Function (ELF)
+ 10 Localized orbital locator (LOL)
+ 11 Local information entropy
+ 12 Total electrostatic potential (ESP)
+ 13 Reduced density gradient (RDG)     14 RDG with promolecular approximation
+ 15 Sign(lambda2)*rho    16 Sign(lambda2)*rho with promolecular approximation
+ 17 Correlation hole for alpha, ref. point:   0.00000   0.00000   0.00000
+ 18 Average local ionization energy
+ 19 Source function, mode: 1, ref. point:   0.00000   0.00000   0.00000
+ 20 Electron delocalization range function EDR(r;d)
+ 21 Orbital overlap distance function D(r)
+ 100 User-defined real space function, iuserfunc=    0
+ Please select a method for setting up grid
+ -10 Set grid extension distance for mode 1~6, current: Detect rho isosurface
+ 1 Low quality grid, spacing=0.20 Bohr, cost: 1x
+ 2 Medium quality grid, spacing=0.10 Bohr, cost: 8x
+ 3 High quality grid, spacing=0.06 Bohr, cost: 36x
+ 4 Lunatic quality grid, spacing=0.04 Bohr, cost: 120x
+ 5 Only input grid spacing, automatically set other parameters
+ 6 Only input the number of points in X,Y,Z, automatically set other parameters
+ 7 Input original point, translation vector and the number of points
+ 8 Set center position, grid spacing and box length
+ 9 Use grid setting of another cube file
+ Detecting proper box size...
+ Coordinate of origin in X,Y,Z is      -5.250000   -6.650000   -6.121266
+ Coordinate of end point in X,Y,Z is    5.212534    6.642799    5.239717
+ Spacing in X,Y,Z is   0.100000   0.100000   0.100000
+ Number of points in X,Y,Z is  105  134  115   Total   1618050
+ Note: All exponential functions exp(x) with x< -40.000 will be ignored 
+ Finished:    1  /  115
+ Finished:    2  /  115
+ Finished:    3  /  115
+ Finished:    4  /  115
+ Finished:    5  /  115
+ Finished:    6  /  115
+ Finished:    7  /  115
+ Finished:    8  /  115
+ Finished:    9  /  115
+ Finished:   10  /  115
+ Finished:   11  /  115
+ Finished:   12  /  115
+ Finished:   13  /  115
+ Finished:   14  /  115
+ Finished:   15  /  115
+ Finished:   16  /  115
+ Finished:   17  /  115
+ Finished:   18  /  115
+ Finished:   19  /  115
+ Finished:   20  /  115
+ Finished:   21  /  115
+ Finished:   22  /  115
+ Finished:   23  /  115
+ Finished:   24  /  115
+ Finished:   25  /  115
+ Finished:   26  /  115
+ Finished:   27  /  115
+ Finished:   28  /  115
+ Finished:   29  /  115
+ Finished:   30  /  115
+ Finished:   31  /  115
+ Finished:   32  /  115
+ Finished:   33  /  115
+ Finished:   34  /  115
+ Finished:   35  /  115
+ Finished:   36  /  115
+ Finished:   37  /  115
+ Finished:   38  /  115
+ Finished:   39  /  115
+ Finished:   40  /  115
+ Finished:   41  /  115
+ Finished:   42  /  115
+ Finished:   43  /  115
+ Finished:   44  /  115
+ Finished:   45  /  115
+ Finished:   46  /  115
+ Finished:   47  /  115
+ Finished:   48  /  115
+ Finished:   49  /  115
+ Finished:   50  /  115
+ Finished:   51  /  115
+ Finished:   52  /  115
+ Finished:   53  /  115
+ Finished:   54  /  115
+ Finished:   55  /  115
+ Finished:   56  /  115
+ Finished:   57  /  115
+ Finished:   58  /  115
+ Finished:   59  /  115
+ Finished:   60  /  115
+ Finished:   61  /  115
+ Finished:   62  /  115
+ Finished:   63  /  115
+ Finished:   64  /  115
+ Finished:   65  /  115
+ Finished:   66  /  115
+ Finished:   67  /  115
+ Finished:   68  /  115
+ Finished:   69  /  115
+ Finished:   70  /  115
+ Finished:   71  /  115
+ Finished:   72  /  115
+ Finished:   73  /  115
+ Finished:   74  /  115
+ Finished:   75  /  115
+ Finished:   76  /  115
+ Finished:   77  /  115
+ Finished:   78  /  115
+ Finished:   79  /  115
+ Finished:   80  /  115
+ Finished:   81  /  115
+ Finished:   82  /  115
+ Finished:   83  /  115
+ Finished:   84  /  115
+ Finished:   85  /  115
+ Finished:   86  /  115
+ Finished:   87  /  115
+ Finished:   88  /  115
+ Finished:   89  /  115
+ Finished:   90  /  115
+ Finished:   91  /  115
+ Finished:   92  /  115
+ Finished:   93  /  115
+ Finished:   94  /  115
+ Finished:   95  /  115
+ Finished:   96  /  115
+ Finished:   97  /  115
+ Finished:   98  /  115
+ Finished:   99  /  115
+ Finished:  100  /  115
+ Finished:  101  /  115
+ Finished:  102  /  115
+ Finished:  103  /  115
+ Finished:  104  /  115
+ Finished:  105  /  115
+ Finished:  106  /  115
+ Finished:  107  /  115
+ Finished:  108  /  115
+ Finished:  109  /  115
+ Finished:  110  /  115
+ Finished:  111  /  115
+ Finished:  112  /  115
+ Finished:  113  /  115
+ Finished:  114  /  115
+ Finished:  115  /  115
+ Calculation took up CPU time        2.67s, wall clock time         2s
+ 
+ Generating basins, please wait...
+   Attractor       X,Y,Z coordinate (Angstrom)                Value
+       1   -0.02645886   -0.71438929   -0.43459529          0.36837076
+       2   -0.02645886   -0.02645886    0.09458196         79.36685660
+       3   -0.02645886    0.71438929   -0.43459529          0.36837076
+ Detecting boundary grids...
+ There are       39514 grids at basin boundary
+ Refining basin boundary...
+ Generating basins took up CPU time        3.15s, wall clock time         1s
+ The number of unassigned grids:           0
+ The number of grids travelled to box boundary:           0
+ The number of interbasin grids:       38190
+ 
+                  ============= Basin analysis =============
+ -10 Return to main menu
+ -6 Set parameter for attractor clustering or manually perform clustering
+ -5 Export basins as cube file
+ -4 Export attractors as pdb file
+ -3 Show information of attractors
+ -2 Measure distances, angles and dihedral angles between attractors or atoms
+ -1 Select the method for generating basins, current: Near-grid with refinement
+  0 Visualize attractors and basins
+  1 Regenerate basins and relocate attractors
+  2 Integrate real space functions in the basins
+  3 Calculate electric multipole moments in the basins
+  4 Calculate localization index and delocalization index for the basins
+  5 Output orbital overlap matrix in basins to BOM.txt in current folder
+  7 Integrate real space functions in AIM basins with mixed type of grids
+  8 Calculate electric multipole moments in AIM basins with mixed type of grids
+  9 Obtain atomic contribution to population of external basins
+ 0 Return
+ 1 Integrate a specific function with atomic-center + uniform grids
+ 2 The same as 1, but with exact refinement of basin boundary
+ 3 The same as 2, but with approximate refinement of basin boundary
+ Hint:
+ Accuracy: 2>=3>>1     Time spent: 2>3>>1     Memory requirement: 3>2=1
+ Please select integrand:
+ -2 Return
+ -1 Deformation density
+             ----------- Avaliable real space functions -----------
+ 1 Electron density                 2 Gradient norm of electron density
+ 3 Laplacian of electron density    4 Value of orbital wavefunction
+ 5 Electron spin density
+ 6 Hamiltonian kinetic energy density K(r)
+ 7 Lagrangian kinetic energy density G(r)
+ 8 Electrostatic potential from nuclear charges
+ 9 Electron Localization Function (ELF)
+ 10 Localized orbital locator (LOL)
+ 11 Local information entropy
+ 12 Total electrostatic potential (ESP)
+ 13 Reduced density gradient (RDG)     14 RDG with promolecular approximation
+ 15 Sign(lambda2)*rho    16 Sign(lambda2)*rho with promolecular approximation
+ 17 Correlation hole for alpha, ref. point:   0.00000   0.00000   0.00000
+ 18 Average local ionization energy
+ 19 Source function, mode: 1, ref. point:   0.00000   0.00000   0.00000
+ 20 Electron delocalization range function EDR(r;d)
+ 21 Orbital overlap distance function D(r)
+ 100 User-defined real space function, iuserfunc=    0
+ Integrating in trust sphere...
+ Attractor     1 corresponds to atom     2 (H )
+ The trust radius of attractor     1 is     0.193 Bohr
+
+ Attractor     2 corresponds to atom     1 (O )
+ The trust radius of attractor     2 is     1.391 Bohr
+
+ Attractor     3 corresponds to atom     3 (H )
+ The trust radius of attractor     3 is     0.193 Bohr
+
+ Integration result inside trust spheres
+   #Sphere       Integral(a.u.)
+       1          0.0095691011
+       2          6.6398188525
+       3          0.0095691011
+ Sum of above values:          6.65895705
+ 
+ Integrating uniform grids...
+ 
+ Integrating grids at basin boundary, finished:    1/  115
+ Integrating grids at basin boundary, finished:    2/  115
+ Integrating grids at basin boundary, finished:    3/  115
+ Integrating grids at basin boundary, finished:    4/  115
+ Integrating grids at basin boundary, finished:    5/  115
+ Integrating grids at basin boundary, finished:    6/  115
+ Integrating grids at basin boundary, finished:    7/  115
+ Integrating grids at basin boundary, finished:    8/  115
+ Integrating grids at basin boundary, finished:    9/  115
+ Integrating grids at basin boundary, finished:   10/  115
+ Integrating grids at basin boundary, finished:   11/  115
+ Integrating grids at basin boundary, finished:   12/  115
+ Integrating grids at basin boundary, finished:   13/  115
+ Integrating grids at basin boundary, finished:   14/  115
+ Integrating grids at basin boundary, finished:   15/  115
+ Integrating grids at basin boundary, finished:   16/  115
+ Integrating grids at basin boundary, finished:   17/  115
+ Integrating grids at basin boundary, finished:   18/  115
+ Integrating grids at basin boundary, finished:   19/  115
+ Integrating grids at basin boundary, finished:   20/  115
+ Integrating grids at basin boundary, finished:   21/  115
+ Integrating grids at basin boundary, finished:   22/  115
+ Integrating grids at basin boundary, finished:   23/  115
+ Integrating grids at basin boundary, finished:   24/  115
+ Integrating grids at basin boundary, finished:   25/  115
+ Integrating grids at basin boundary, finished:   26/  115
+ Integrating grids at basin boundary, finished:   27/  115
+ Integrating grids at basin boundary, finished:   28/  115
+ Integrating grids at basin boundary, finished:   29/  115
+ Integrating grids at basin boundary, finished:   30/  115
+ Integrating grids at basin boundary, finished:   31/  115
+ Integrating grids at basin boundary, finished:   32/  115
+ Integrating grids at basin boundary, finished:   33/  115
+ Integrating grids at basin boundary, finished:   34/  115
+ Integrating grids at basin boundary, finished:   35/  115
+ Integrating grids at basin boundary, finished:   36/  115
+ Integrating grids at basin boundary, finished:   37/  115
+ Integrating grids at basin boundary, finished:   38/  115
+ Integrating grids at basin boundary, finished:   39/  115
+ Integrating grids at basin boundary, finished:   40/  115
+ Integrating grids at basin boundary, finished:   41/  115
+ Integrating grids at basin boundary, finished:   42/  115
+ Integrating grids at basin boundary, finished:   43/  115
+ Integrating grids at basin boundary, finished:   44/  115
+ Integrating grids at basin boundary, finished:   45/  115
+ Integrating grids at basin boundary, finished:   46/  115
+ Integrating grids at basin boundary, finished:   47/  115
+ Integrating grids at basin boundary, finished:   48/  115
+ Integrating grids at basin boundary, finished:   49/  115
+ Integrating grids at basin boundary, finished:   50/  115
+ Integrating grids at basin boundary, finished:   51/  115
+ Integrating grids at basin boundary, finished:   52/  115
+ Integrating grids at basin boundary, finished:   53/  115
+ Integrating grids at basin boundary, finished:   54/  115
+ Integrating grids at basin boundary, finished:   55/  115
+ Integrating grids at basin boundary, finished:   56/  115
+ Integrating grids at basin boundary, finished:   57/  115
+ Integrating grids at basin boundary, finished:   58/  115
+ Integrating grids at basin boundary, finished:   59/  115
+ Integrating grids at basin boundary, finished:   60/  115
+ Integrating grids at basin boundary, finished:   61/  115
+ Integrating grids at basin boundary, finished:   62/  115
+ Integrating grids at basin boundary, finished:   63/  115
+ Integrating grids at basin boundary, finished:   64/  115
+ Integrating grids at basin boundary, finished:   65/  115
+ Integrating grids at basin boundary, finished:   66/  115
+ Integrating grids at basin boundary, finished:   67/  115
+ Integrating grids at basin boundary, finished:   68/  115
+ Integrating grids at basin boundary, finished:   69/  115
+ Integrating grids at basin boundary, finished:   70/  115
+ Integrating grids at basin boundary, finished:   71/  115
+ Integrating grids at basin boundary, finished:   72/  115
+ Integrating grids at basin boundary, finished:   73/  115
+ Integrating grids at basin boundary, finished:   74/  115
+ Integrating grids at basin boundary, finished:   75/  115
+ Integrating grids at basin boundary, finished:   76/  115
+ Integrating grids at basin boundary, finished:   77/  115
+ Integrating grids at basin boundary, finished:   78/  115
+ Integrating grids at basin boundary, finished:   79/  115
+ Integrating grids at basin boundary, finished:   80/  115
+ Integrating grids at basin boundary, finished:   81/  115
+ Integrating grids at basin boundary, finished:   82/  115
+ Integrating grids at basin boundary, finished:   83/  115
+ Integrating grids at basin boundary, finished:   84/  115
+ Integrating grids at basin boundary, finished:   85/  115
+ Integrating grids at basin boundary, finished:   86/  115
+ Integrating grids at basin boundary, finished:   87/  115
+ Integrating grids at basin boundary, finished:   88/  115
+ Integrating grids at basin boundary, finished:   89/  115
+ Integrating grids at basin boundary, finished:   90/  115
+ Integrating grids at basin boundary, finished:   91/  115
+ Integrating grids at basin boundary, finished:   92/  115
+ Integrating grids at basin boundary, finished:   93/  115
+ Integrating grids at basin boundary, finished:   94/  115
+ Integrating grids at basin boundary, finished:   95/  115
+ Integrating grids at basin boundary, finished:   96/  115
+ Integrating grids at basin boundary, finished:   97/  115
+ Integrating grids at basin boundary, finished:   98/  115
+ Integrating grids at basin boundary, finished:   99/  115
+ Integrating grids at basin boundary, finished:  100/  115
+ Integrating grids at basin boundary, finished:  101/  115
+ Integrating grids at basin boundary, finished:  102/  115
+ Integrating grids at basin boundary, finished:  103/  115
+ Integrating grids at basin boundary, finished:  104/  115
+ Integrating grids at basin boundary, finished:  105/  115
+ Integrating grids at basin boundary, finished:  106/  115
+ Integrating grids at basin boundary, finished:  107/  115
+ Integrating grids at basin boundary, finished:  108/  115
+ Integrating grids at basin boundary, finished:  109/  115
+ Integrating grids at basin boundary, finished:  110/  115
+ Integrating grids at basin boundary, finished:  111/  115
+ Integrating grids at basin boundary, finished:  112/  115
+ Integrating grids at basin boundary, finished:  113/  115
+ Basin boundary has been updated
+ The number of interbasin grids:       38399
+ 
+ Total result:
+   #Basin        Integral(a.u.)      Vol(Bohr^3)    Vol(rho>0.001)
+       1          0.4026403776         314.571          21.774
+       2          9.1910264807         907.133         130.192
+       3          0.4026564925         314.644          21.778
+ Sum of above integrals:          9.99632335
+ Sum of basin volumes (rho>0.001):     173.744 Bohr^3
+ 
+ Normalization factor of the integral of electron density is    0.999632
+ The atomic charges after normalization and atomic volumes:
+      1 (O )    Charge:   -1.194407     Volume:   130.192 Bohr^3
+      2 (H )    Charge:    0.597212     Volume:    21.774 Bohr^3
+      3 (H )    Charge:    0.597195     Volume:    21.778 Bohr^3
+ 
+ Integrating basins took up CPU time        2.01s, wall clock time         1s
+ 
+                  ============= Basin analysis =============
+ -10 Return to main menu
+ -6 Set parameter for attractor clustering or manually perform clustering
+ -5 Export basins as cube file
+ -4 Export attractors as pdb file
+ -3 Show information of attractors
+ -2 Measure distances, angles and dihedral angles between attractors or atoms
+ -1 Select the method for generating basins, current: Near-grid with refinement
+  0 Visualize attractors and basins
+  1 Regenerate basins and relocate attractors
+  2 Integrate real space functions in the basins
+  3 Calculate electric multipole moments in the basins
+  4 Calculate localization index and delocalization index for the basins
+  5 Output orbital overlap matrix in basins to BOM.txt in current folder
+  7 Integrate real space functions in AIM basins with mixed type of grids
+  8 Calculate electric multipole moments in AIM basins with mixed type of grids
+  9 Obtain atomic contribution to population of external basins
+ 
+ Note: A set of grid data presents in memory
+                    ------------ Main function menu ------------
+ 0 Show molecular structure and view orbitals
+ 1 Output all properties at a point
+ 2 Topology analysis
+ 3 Output and plot specific property in a line
+ 4 Output and plot specific property in a plane
+ 5 Output and plot specific property within a spatial region (calc. grid data)
+ 6 Check & modify wavefunction
+ 7 Population analysis and atomic charges
+ 8 Orbital composition analysis
+ 9 Bond order analysis
+ 10 Plot Total/Partial/Overlap population density-of-states (DOS)
+ 11 Plot IR/Raman/UV-Vis/ECD/VCD spectrum
+ 12 Quantitative analysis of molecular surface
+ 13 Process grid data
+ 14 Adaptive natural density partitioning (AdNDP) analysis
+ 15 Fuzzy atomic space analysis
+ 16 Charge decomposition analysis (CDA) and extended CDA (ECDA)
+ 17 Basin analysis
+ 18 Electron excitation analysis
+ 100 Other functions (Part1)
+ 200 Other functions (Part2)
