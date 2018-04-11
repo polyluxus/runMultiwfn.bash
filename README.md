@@ -87,7 +87,7 @@ The following option switches are available:
        graphical user interface. This might be very convenient
        if it is operated in an automated fashion.  
 
-  -`-q`
+  - `-q`
        Supress creating a logfile.
        By default a logfile will be created in the 
        location of execution with the base name of the
@@ -96,14 +96,14 @@ The following option switches are available:
        If such a file exists, then a backup copy of the old
        file will be created.
 
-  -`-o <ARG>` 
+  - `-o <ARG>` 
        Specify outputfile.
        If you desire you can specify any location, 
        where the logfile should be saved. If you do 
        so, then you should know that any existing file
        will be overwritten.
 
-  -`-i <ARG>`
+  - `-i <ARG>`
        Specify ithe file on which MultiWFN should operate.
        These are the files that are supported by
        MultiWFN as described in section 2.5 of the program manual.
@@ -135,6 +135,22 @@ The following option switches are available:
        might cause failure.  
        I am not sure anymore if this works as intended in version
        0.5.0 of this script.
+
+  - `-k`
+       Keep temporarily created `settings.ini`.
+
+  - `-Q <ARG>`
+       Which type of job script should be produced.
+       Arguments currently implemented: pbs-gen, bsub-rwth.
+       Mandatory for remote execution, can be set in rc.
+
+  - `-P <ARG>`
+       Account to project.
+       Automatically selects '-Q bsub-rwth' and remote execution.
+
+  - `-s`
+       Suppress logging messages of the script.
+       (May be specified multiple times.)
 
   - `h`
        Prints a short version of the options.

@@ -3,7 +3,7 @@
 #Multiwfn initialization script
 # See CHANGES.txt
 version="0.5.0"
-versiondate="2018-04-xx"
+versiondate="2018-04-11"
 
 # The following two lines give the location of the installation.
 # They can be set in the rc file, too.
@@ -28,94 +28,34 @@ operatingsystem=$(uname -o)
 architecture=$(uname -p)
 processortype=$(grep 'model name' /proc/cpuinfo|uniq|cut -d ':' -f 2)
 
+#
+# Print some helping commands
+# The lines are distributed throughout the script and grepped for
+#
 
-#
-# Display help
-#
+#hlp   This is $scriptname!
+#hlp
+#hlp   This script is a wrapper intended for MultiWFN $installpath_Multiwfn_gui (linux).
+#hlp   A detailed description on how to install MultiWFN and/or
+#hlp   manipulate this script is located in INSTALL.txt distributed 
+#hlp   alongside this script.
+#hlp   This software comes with absolutely no warrenty. None. Nada.
+#hlp
+#hlp   VERSION    :   $version
+#hlp   DATE       :   $versiondate
+#hlp
+#hlp   USAGE      :   $scriptname [options] [IPUT_FILE]
+#hlp
+
 helpme ()
 {
-cat <<-EOF
-   This is $scriptname!
-
-   This script is a wrapper intended for MultiWFN $installpath_Multiwfn_gui (linux).
-   A detailed description on how to install MultiWFN and/or
-   manipulate this script is located in readme.txt distributed 
-   alongside this script.
-   This software comes with absolutely no warrenty. None. Nada.
-
-   VERSION    :   $version
-   DATE       :   $versiondate
-
-   USAGE      :   $scriptname [options] [IPUT_FILE]
-
-   VARIABLES  :
-
-     The script will attempt to read variables necessary for
-     the execution of MultiWFN from the environment settings.
-     If they are unset, they will be replaced by default values
-     or they can be specified via option switches.
-
-   OPTIONS    :
-    
-     -m <ARG> Define memory to be used per thread in byte.
-                (KMP_STACKSIZE; Default: 64000000)
-                [Option has no effect if set though environment.]
-
-     -p <ARG> Define number of threads to be used.
-                (Default: 2)
-                [Option has no effect if set though environment.]
-
-     -l <ARG> Legacy mode (deprecated): Request different version.      
-              With version 0.5.0 of the script, this has been removed 
-              and no longer has any effect.
-
-     -g       run without GUI
-
-     -R       Execute in remote mode.
-              This option creates a job submission script for PBS
-              instead of running MultiWFN.
-
-     -w <ARG> Define maximum walltime.
-                Format: [[HH:]MM:]SS
-                (Default: $requested_walltime)
-
-     -q       Supress creating a logfile.
-
-     -o <ARG> Specify outputfile.
-
-     -i <ARG> Specify file on which MultiWFN should operate.
-  
-     -c <ARG> Specify a file, that contains a sequence of 
-              numbers, that can be interpreted by MultiWFN.
-
-     -f       Force to use supplied values (or defaults).
-              This will overwrite any environment variable.
-              Use with great care.
-
-     -h       this help.
-
-   AUTHOR    : Martin
-               Complaints via chemistry.stackexchange.com
-
-EOF
-exit 0    
+    local line
+    local pattern="^[[:space:]]*#hlp[[:space:]]?(.*)?$"
+    while read -r line; do
+      [[ "$line" =~ $pattern ]] && eval "echo \"${BASH_REMATCH[1]}\""
+    done < <(grep "#hlp" "$0")
+    exit 0
 }
-
-## The following will replace above function, once everything is distributed
-## #
-## # Print some helping commands
-## # The lines are distributed throughout the script and grepped for
-## #
-## 
-## helpme ()
-## {
-##     local line
-##     local pattern="^[[:space:]]*#hlp[[:space:]]?(.*)?$"
-##     while read -r line; do
-##       [[ "$line" =~ $pattern ]] && eval "echo \"${BASH_REMATCH[1]}\""
-##     done < <(grep "#hlp" "$0")
-##     exit 0
-## }
 
 #
 # Print logging information and warnings nicely.
@@ -397,8 +337,8 @@ generate_outputfile_name ()
     echo "${scriptbasename}.out"
   else
     debug "Will base outputname on '$return_outfile_name'."
-    echo "${return_outfile_name%.*}.out"
-    debug "${return_outfile_name%.*}.out"
+    echo "${return_outfile_name%.*}.${scriptbasename}.out"
+    debug "${return_outfile_name%.*}.${scriptbasename}.out"
   fi
 }
 
@@ -500,7 +440,6 @@ check_Multiwfn_install ()
 {
     local test_path="$1"
     debug "check_Multiwfn_install: test_path=$test_path"
-    debug "$(ls $test_path)"
     if [[ ! -d "$test_path" ]] ; then
       fatal "Cannot find Multiwfn installation path '$test_path'."
     fi
@@ -587,7 +526,8 @@ write_temp_settingsini ()
     # Issue a warning if a local file has been found
     if [[ -e $PWD/settings.ini ]] ; then
       message "Found local 'settings.ini' and will modify it."
-      settingsini_source_loc="$PWD/settings.ini"
+        backup_file "$PWD/settings.ini" "$PWD/settings.ini.bak" 
+      settingsini_source_loc="$PWD/settings.ini.bak"
       settingsini_nocleanup="true"
     elif [[ -e "$scriptpath/settings.ini" ]] ; then 
       settingsini_source_loc="$scriptpath/settings.ini"
@@ -607,7 +547,7 @@ write_temp_settingsini ()
 
 remove_temp_settingsini ()
 {
-    [[ settingsini_nocleanup =~ [Tt][Rr][Uu][Ee]? ]] && return 0
+    [[ $settingsini_nocleanup =~ [Tt][Rr][Uu][Ee]? ]] && return 0
     local remove_message
     if [[ -e $PWD/settings.ini ]] ; then
       remove_message=$(rm -v "$PWD/settings.ini")
@@ -621,23 +561,17 @@ remove_temp_settingsini ()
 
 process_options ()
 {
+    #hlp   OPTIONS    :
+    #hlp    
     local OPTIND=1 
 
-    while getopts :hqm:p:l:gRw:o:i:c:fk options ; do
+    while getopts :m:p:w:gRl:i:o:c:qfkQ:P:sh options ; do
         case $options in
 
-            h) helpme ;;
-
-            q) 
-               case $execmode in
-                 default) execmode="nolog"; unset outputfile ;;
-                 logging) fatal "Options '-q' and '-o' are mutually exclusive." ;;
-                  remote) fatal "Options '-q' and '-R' are mutually exclusive." ;;
-                   nolog) warning "Can it really be quieter than quiet? Ignore '-q'." ;;
-                       *) warning "Unspecified modus operandi. Ignore '-q'." ;;
-               esac
-               ;;
-
+          #hlp     -m <ARG> Define memory to be used per thread in byte.
+          #hlp                (KMP_STACKSIZE; Default: 64000000)
+          #hlp                [Option has no effect if set though environment.]
+          #hlp
             m) 
                if [[ -z $requested_KMP_STACKSIZE ]] ; then 
                  validate_integer "$OPTARG" "the memory"
@@ -649,6 +583,10 @@ process_options ()
                  fatal "Option '-m' has been specified multiple times."
                fi ;;
 
+          #hlp     -p <ARG> Define number of threads to be used.
+          #hlp                (Default: 2)
+          #hlp                [Option has no effect if set though environment.]
+          #hlp
             p) 
                validate_integer "$OPTARG" "the number of threads"
                if (( OPTARG == 0 )) ; then
@@ -656,10 +594,16 @@ process_options ()
                fi
                requested_numCPU="$OPTARG" 
                ;;
-            l)
-               fatal "Legacy mode has been removed in script version 0.5.0"
+
+          #hlp     -w <ARG> Define maximum walltime.
+          #hlp                Format: [[HH:]MM:]SS
+          #hlp                (Default: $requested_walltime)
+          #hlp
+            w) requested_walltime=$(format_duration_or_exit "$OPTARG")
                ;;
 
+          #hlp     -g       run without GUI
+          #hlp
             g) 
                request_gui_version="no"
                message "Running without GUI."
@@ -668,6 +612,10 @@ process_options ()
                fi
                ;;
 
+          #hlp     -R       Execute in remote mode.
+          #hlp              This option creates a job submission script for PBS
+          #hlp              instead of running MultiWFN.
+          #hlp
             R)
                case $execmode in
                  default) execmode="remote" ;;
@@ -678,19 +626,16 @@ process_options ()
                esac
                ;;
 
-            w) requested_walltime=$(format_duration_or_exit "$OPTARG")
+          #hlp     -l <ARG> Legacy mode (deprecated): Request different version.      
+          #hlp              With version 0.5.0 of the script, this has been removed 
+          #hlp              and no longer has any effect.
+          #hlp
+            l)
+               fatal "Legacy mode has been removed in script version 0.5.0"
                ;;
 
-            o) 
-               case $execmode in
-                 default) execmode="logging"; outputfile="$OPTARG" ;;
-                 logging) fatal "I cowardly refuse to produce more than one log." ;;
-                  remote) outputfile="$OPTARG" ;;
-                   nolog) fatal "Options '-q' and '-o' are mutually exclusive." ;;
-                       *) warning "Unspecified modus operandi. Ignore '-o'." ;;
-               esac
-               ;;
-
+          #hlp     -i <ARG> Specify file on which MultiWFN should operate.
+          #hlp  
             i) 
                if [[ -z $inputfile ]] ; then
                  inputfile="$OPTARG" 
@@ -701,6 +646,9 @@ process_options ()
                fi 
                ;;
 
+          #hlp     -c <ARG> Specify a file, that contains a sequence of 
+          #hlp              numbers, that can be interpreted by MultiWFN.
+          #hlp
             c) 
                if [[ -z $commandfile ]] ; then
                  commandfile="$OPTARG" 
@@ -711,9 +659,68 @@ process_options ()
                fi
                ;;
 
+          #hlp     -o <ARG> Specify outputfile.
+          #hlp
+            o) 
+               case $execmode in
+                 default) execmode="logging"; outputfile="$OPTARG" ;;
+                 logging) fatal "I cowardly refuse to produce more than one log." ;;
+                  remote) outputfile="$OPTARG" ;;
+                   nolog) fatal "Options '-q' and '-o' are mutually exclusive." ;;
+                       *) warning "Unspecified modus operandi. Ignore '-o'." ;;
+               esac
+               ;;
+
+          #hlp     -q       Supress creating a logfile.
+          #hlp
+            q) 
+               case $execmode in
+                 default) execmode="nolog"; unset outputfile ;;
+                 logging) fatal "Options '-q' and '-o' are mutually exclusive." ;;
+                  remote) fatal "Options '-q' and '-R' are mutually exclusive." ;;
+                   nolog) warning "Can it really be quieter than quiet? Ignore '-q'." ;;
+                       *) warning "Unspecified modus operandi. Ignore '-q'." ;;
+               esac
+               ;;
+
+          #hlp     -f       Force to use supplied values (or defaults).
+          #hlp              This will overwrite any environment variable.
+          #hlp              Use with great care.
+          #hlp
             f) forceScriptValues="true" ;;
 
+          #hlp     -k       Keep temporarily created 'settings.ini'.
+          #hlp
             k) settingsini_nocleanup="true" ;;
+
+          #hlp     -Q <ARG> Which type of job script should be produced.
+          #hlp              Arguments currently implemented: pbs-gen, bsub-rwth
+          #hlp              Mandatory for remote execution, can be set in rc.
+          #hlp
+            Q) request_qsys="$OPTARG" ;;
+
+          #hlp     -P <ARG> Account to project.
+          #hlp              Automatically selects '-Q bsub-rwth' and remote execution.
+            P) 
+               bsub_rwth_project="$OPTARG"
+               request_qsys="bsub-rwth"  
+               case $execmode in
+                 default) execmode="remote" ;;
+                 logging) execmode="remote" ;;
+                  remote) : ;;
+                   nolog) fatal "Options '-q' and '-P' are mutually exclusive." ;;
+                       *) warning "Unspecified modus operandi. Ignore '-P'." ;;
+               esac
+               ;;
+
+          #hlp     -s       Suppress logging messages of the script.
+          #hlp              (May be specified multiple times.)
+          #hlp
+            s) (( stay_quiet++ )) ;;
+
+          #hlp     -h       this help.
+          #hlp
+            h) helpme ;;
 
            \?) fatal "Invalid option: -$OPTARG." ;;
 
@@ -742,6 +749,7 @@ process_options ()
 
 run_interactive ()
 {
+  exit 0
     export KMP_STACKSIZE=$requested_KMP_STACKSIZE
     message "Memory (KMP_STACKSIZE) is set to $KMP_STACKSIZE."
     Multiwfnpath="$use_Multiwfnpath"
@@ -781,48 +789,105 @@ run_interactive ()
 
 runRemote ()
 {
-    message "Remote mode selected, creating PBS job script instead."
-    if [[ ! -e ${outputfile%.*}.sh ]] ; then
-      submitscript="${outputfile%.*}.sh"
-    else
-      fatal "Designated submitscript ${outputfile%.*}.sh already exists."
+    message "Remote mode selected, creating a job script instead."
+    local queue="$1" queue_short submitscript
+    [[ -z $queue ]] && fatal "No queueing systen selected. Abort."
+    queue_short="${queue%-*}"
+    submitscript="${outputfile%.*}.${queue_short}.bash"
+    debug "Selected queue: $queue; short: $queue_short"
+    debug "Will write submitscript to: $submitscript"
+
+    if [[ -e $submitscript ]] ; then
+      fatal "Designated submitscript '$submitscript' already exists."
     fi
     [[ -z $inputfile ]]   && fatal "No inputfile specified. Abort."
     [[ -z $commandfile ]] && fatal "No commands specified. Abort."
     [[ -z $outputfile ]]  && fatal "No outputfile selected. Abort."
 
-    cat > "$submitscript" <<-EOF
-#!/bin/sh
-#PBS -l nodes=1:ppn=$requested_numCPU
-#PBS -l mem=$requested_KMP_STACKSIZE
-#PBS -l walltime=$requested_walltime
-#PBS -N ${submitscript%.*}
-#PBS -m ae
-#PBS -o $submitscript.o\${PBS_JOBID%%.*}
-#PBS -e $submitscript.e\${PBS_JOBID%%.*}
+    # Open file descriptor 9 for writing
+    exec 9> "$submitscript"
 
-echo "This is $nodename"
-echo "OS $operatingsystem ($architecture)"
-echo "Running on $requested_numCPU $processortype."
-echo "Calculation $inputfile and $commandfile from $PWD."
-echo "Working directry is \$PBS_O_WORKDIR"
-cd \$PBS_O_WORKDIR
+    echo "#!/bin/bash" >&9
+    echo "# Submission script automatically created with $scriptname" >&9
 
-export PATH="\$PATH:$use_Multiwfnpath"
-export Multiwfnpath="$use_Multiwfnpath"
-export KMP_STACKSIZE=$requested_KMP_STACKSIZE
+    overhead_KMP_STACKSIZE=$(( requested_KMP_STACKSIZE + 5000000 ))
 
-date
-Multiwfn "$inputfile" < "$commandfile" > "$outputfile"
-date
+    # Header is different for the queueing systems
+    if [[ "$queue" =~ [Pp][Bb][Ss] ]] ; then
+      cat >&9 <<-EOF
+			#PBS -l nodes=1:ppn=$requested_numCPU
+			#PBS -l mem=$overhead_KMP_STACKSIZE
+			#PBS -l walltime=$requested_walltime
+			#PBS -N ${submitscript%.*}
+			#PBS -m ae
+			#PBS -o $submitscript.o\${PBS_JOBID%%.*}
+			#PBS -e $submitscript.e\${PBS_JOBID%%.*}
+			EOF
+    elif [[ "$queue" =~ [Bb][Ss][Uu][Bb]-[Rr][Ww][Tt][Hh] ]] ; then
+      cat >&9 <<-EOF
+			#BSUB -n $requested_numCPU
+			#BSUB -a openmp
+			#BSUB -M $(( overhead_KMP_STACKSIZE / 1000000 ))
+			#BSUB -W ${requested_walltime%:*}
+			#BSUB -J ${submitscript%.*}
+			#BSUB -N 
+			#BSUB -o df-bp86svp.runMultiwfn.sh.o%J
+			#BSUB -e df-bp86svp.runMultiwfn.sh.e%J
+			EOF
+      if [[ "$PWD" =~ [Hh][Pp][Cc] ]] ; then
+        echo "#BSUB -R select[hpcwork]" >&9
+      fi
+      if [[ ! -z $bsub_rwth_project ]] ; then
+        echo "#BSUB -P $bsub_rwth_project" >&9
+      fi
+    else
+      fatal "Unrecognised queueing system '$queue'."
+    fi
 
-EOF
+    # The body is the same for all queues (so far)
+    cat >&9 <<-EOF
+		
+		echo "This is $nodename"
+		echo "OS $operatingsystem ($architecture)"
+		echo "Running on $requested_numCPU $processortype."
+		echo "Calculation $inputfile and $commandfile from $PWD."
+		echo "Working directry is $PWD"
+		
+		cd $PWD
+		
+		export PATH="\$PATH:$use_Multiwfnpath"
+		export Multiwfnpath="$use_Multiwfnpath"
+		export KMP_STACKSIZE=$requested_KMP_STACKSIZE
+		
+		date
+		Multiwfn "$inputfile" < "$commandfile" > "$outputfile"
+		date
+		
+		EOF
 
-message "Created submit PBS script, to start the job:"
-message "  qsub $submitscript"
-message "The temporarily created 'settings.ini' cill not be cleaned up."
+    # Cleanup
+    if [[ $settingsini_nocleanup =~ [Tt][Rr][Uu][Ee]? ]] ; then
+      cat >&9 <<-EOF
+			echo "Switch prevents cleaning up 'settings.ini'."
+			EOF
+    else
+      cat >&9 <<-EOF
+			[[ -e $PWD/settings.ini ]] && rm -v $PWD/settings.ini
+			EOF
+    fi
 
-return 0
+    # Close file descriptor
+    exec 9>&-
+
+    message "Created submit script, use"
+    if [[ "$queue" =~ [Pp][Bb][Ss] ]] ; then
+      message "  qsub $submitscript"
+    elif [[ "$queue" =~ [Bb][Ss][Uu][Bb]-[Rr][Ww][Tt][Hh] ]] ; then
+      message "  bsub < $submitscript"
+    fi
+    message "to start the job."
+
+    return 0
 }
 
 #
@@ -864,11 +929,18 @@ request_gui_version="yes"
 # Necessary to resolve a clash between -q and -o
 execmode="default"
 
+# Select a queueing system (pbs-gen/bsub-rwth)
+request_qsys="pbs-gen"
+
+# Account to project (only for rwth)
+bsub_rwth_project=default
+
 # By default clean up the temporary setting.ini
 settingsini_nocleanup="false"
 
 # By default the variables set through the environment should be taken
 forceScriptValues="false"
+
 
 # Ensure that in/outputfile variables are empty
 unset inputfile
@@ -916,10 +988,13 @@ fi
 
 write_temp_settingsini
 
-[[ "$execmode" == "remote" ]] && runRemote
+if [[ "$execmode" == "remote" ]] ; then
+  runRemote "$request_qsys"
+else
+  run_interactive
+fi
 
-run_interactive
-
-message "Thank you for travelling with $scriptname."
+#hlp   AUTHOR    : Martin
+message "Thank you for travelling with $scriptname ($version, $versiondate)."
 exit 0
 

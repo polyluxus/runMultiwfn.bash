@@ -18,14 +18,24 @@ requested_KMP_STACKSIZE=64000000
 # <digit(s)> is equal to the number of processes to be used
 requested_numCPU=4
 
-# Use the graphical interface (yes/no)´
+# Use the graphical interface (yes/no)
 # This needs a different binary
 request_gui_version="yes"
 
+# The following two lines give the location of the installation 
+installpath_Multiwfn_gui="$HOME/local/multiwfn/multiwfn.current"
+installpath_Multiwfn_nogui="" # Disabled if empty
+
 # Request default execution mode (i.e. could be set to remote)
+# (Setting this here is not tested yet; be careful.)
 execmode="default"
 
-# The following two lines give the location of the installation 
-installpath_Multiwfn_gui="$HOME/local/multiwfn/Multiwfn_3.4.1_bin_Linux"
-installpath_Multiwfn_nogui="" # Disabled if empty
+# Select a queueing system (pbs-gen/bsub-rwth)
+request_qsys="pbs-gen"
+
+# Account to project (only for rwth)
+bsub_rwth_project="default"
+
+# By default clean up the temporary setting.ini
+settingsini_nocleanup="false"
 
