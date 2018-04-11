@@ -2,12 +2,15 @@
 
 A wrapper for Multiwfn 3.4.1 (Linux) written in bash.
 
-It does probably work without any modification for any other 
-version, as long as the definitions of the environment variables 
+It does probably work without any modification for any newer
+version; as long as the definitions of the environment variables 
 did/do not change.
-In principle it is also capable to be used with older versions
-like Multiwfn 3.3.8, where an additional library had to be made 
-available.
+Since version 0.5.0 the legacy mode has been removed.
+If really necessary, use an older version of this script with
+a more complicated installation procedure.
+In older versions like Multiwfn 3.3.8, 
+an additional library had to be made available.
+(This was becomming too hard to maintain.)  
 Detailed instructions how to unpack and install Multiwfn in
 oder to use this script effectively can be found in a separate
 file INSTALL.txt 
@@ -45,14 +48,15 @@ and uses the defaults.
 The following section contains a more detailed overview
 of the options that can be supplied to the script.
 
-The script will attempt to read variables necessary for
+The script will (or might) attempt to read variables necessary for
 the execution of MultiWFN from the environment settings.
 For one reason or another, you might have already installed 
 this program, or set the variables differently.
 Then it will only provide the possibility to easier log the 
 output of the program.
 If they are unset, they will be replaced by default values
-or they can be specified via option switches.
+or they can be specified via option switches,
+or they can be controlled by the rc file.
 
 The following option switches are available:
  
@@ -67,22 +71,15 @@ The following option switches are available:
 
   - `-p <ARG>`
        Define number of threads to be used.
-       This switch only works correctly if you follow 
-       the instructions on how to install the program package.
-       If no value is provided, a default of 2 threads
-       is assumed, or whatever is set through the environment.
+       If not set via this switch, a default of 4 threads
+       is assumed, or whatever is set through the environment or rc.
 
   - `-l <ARG>`
-       Legacy mode: Request different version.
-       Theoretically one can have multiple versions installed 
-       parallel, and might keep one or the other for testing 
-       purpose. Previous versions (<3.4.0) required that 
-       `LD_LIBRARY_PATH` is set.
-       In principle you can enter whatever you want here, it 
-       should work as long as the set-up is similar to the one 
-       outlined in INSTALL.txt. However, use with great care.
-       This option has no effect if the version is set through 
-       an environment variable.
+       Legacy mode (deprecated): Request different version.
+       This option has no effect any more, since all code 
+       relating to it has been removed.
+       If you really need it, you have to work with an older
+       version of this script, too. Sorry.
 
   - `-g`
        Run without GUI.
@@ -121,11 +118,10 @@ The following option switches are available:
   - `-c <ARG>`
        Specify a file, that contains a sequence of 
        numbers, that can be interpreted by MultiWFN.
-       (I am still trying to figure this one out
-        myself. I will update this as soon as possible.
-        If I suceed I will include examples.)
        The basic idea is to use the program non-interactively. 
-       As far as I know the supplied file shall only contain numbers.
+       As far as I know the supplied file shall only contain numbers,
+       and it might contain comments.
+       There are examples available.
        The script will check if the commandfile exists
        and is readable. It will abort if neither.
 
@@ -136,7 +132,9 @@ The following option switches are available:
        Really, use with great care. If variables have 
        already been set, then there is a reason. This
        could have various reasons. Overwriting them 
-       might cause failure.
+       might cause failure.  
+       I am not sure anymore if this works as intended in version
+       0.5.0 of this script.
 
   - `h`
        Prints a short version of the options.
@@ -147,7 +145,10 @@ The following option switches are available:
 
 The examples folder contains a few files generated with Gaussian 09, 
 that demonstrate some of the functionality of the script.  
-It also contains a slightly modified version os `settings.ini`.  
+It also contains a slightly modified version of `settings.ini`,
+which you might want to further modify and copy to the base 
+directory of the script.
+See INSTALL.txt for further information.
 To Do: Provide some more wfn files for some more elements and methods.
 
 ---
@@ -161,4 +162,4 @@ or via github (polyluxus), or any other way you can think of.
 I have a blog (that has not been updated in a while): 
 https://thedailystamp.wordpress.com/
 
-(Martin; 0.4.4; 2018-01-11)
+(Martin; 0.5.0; 2018-04-11)

@@ -1,62 +1,16 @@
 #! /bin/bash
 
 #Multiwfn initialization script
-scriptname=${0##*\/} # Remove trailing path
-scriptname=${scriptname%.sh} # remove scripting ending (if present)
-
 # See CHANGES.txt
+version="0.5.0"
+versiondate="2018-04-xx"
 
-version="0.4.4"
-versiondate="2018-01-11"
-
-#
-# In order to make the installation and setup easier,
-# define a variable that contains the rootpath 
-# for the MultiWFN installation 
-# The following path must be modified to fit your system
-installPathMultiWFN="/home/chemsoft/multiwfn"
-
-# Which is the installed version of MultiWFN?
-# This should be a directory inside the above path.
-# In this directory the executable (and the library file
-# if using a legacy version) should be located.
-# This must also be modified for your system
-installPrefixMultiWFN="Multiwfn_"
-
-# At the time of writing the most up-to-date version was 3.4.1
-installVersionMultiWFN="3.4.1"
-
-# In the multiwfn-root directory should be multiple directories
-# they should be named with the specified prefix, version number
-# and a suffix indicating the number of professors it uses
-# like _cpu<digit(s)>
-installSuffixMultiWFN="_cpu"
-
-# This corresponds to  nthreads=<digit(s)> in the settings.ini
-# <digit(s)> will be determined by the requested number
-requested_NumCPU=2
-# If no directory with this set-up exists, it will count down
-# the variable, until it finds a suitable option or reaches 0.
-
-# For example, in the above case the following is a valid 
-# path and excecuteable:
-#   "/home/chemsoft/multiwfn/Multiwfn_3.4.1_cpu2/Multiwfn" 
-
-# If available, the program can be run without a GUI, that is
-# a different executeable. The script assumes that to the version
-# the letters 'ng' are appended, hence the following
-#   "/home/chemsoft/multiwfn/Multiwfn_3.4.1ng_cpu2/Multiwfn" 
-# is a valit path to the executeable.
-# This mode must be enabled here.
-installNoguiMultiWFN="no"
-#  installNoguiMultiWFN="yes"
-
-# Specify default Walltime, this is only relevant for remote
-# execution as a header line for PBS.
-requested_Walltime="24:00:00"
+# The following two lines give the location of the installation.
+# They can be set in the rc file, too.
+installpath_Multiwfn_gui="/path/is/not/set"
+installpath_Multiwfn_nogui="/path/is/not/set"
 
 # See the readme file for more details. 
-
 
 #####
 #
@@ -68,24 +22,12 @@ requested_Walltime="24:00:00"
 #
 # Get some informations of the platform
 #
+# Move this to install routine and hardcode in rc (?)
 nodename=$(uname -n)
 operatingsystem=$(uname -o)
 architecture=$(uname -p)
 processortype=$(grep 'model name' /proc/cpuinfo|uniq|cut -d ':' -f 2)
 
-#
-# Set some default values for other variables
-#
-
-# Necessary to resolve a clash between -q and -o
-execmode="default"
-# By default the variables set through the environment should be taken
-forceScriptValues="false"
-# Do not use legacy version
-legacyBinary="false"
-# Ensure that inputfile variables are empty
-unset inputfile
-unset commandfile
 
 #
 # Display help
@@ -95,7 +37,7 @@ helpme ()
 cat <<-EOF
    This is $scriptname!
 
-   This script is a wrapper intended for MultiWFN $installVersionMultiWFN (linux).
+   This script is a wrapper intended for MultiWFN $installpath_Multiwfn_gui (linux).
    A detailed description on how to install MultiWFN and/or
    manipulate this script is located in readme.txt distributed 
    alongside this script.
@@ -123,11 +65,9 @@ cat <<-EOF
                 (Default: 2)
                 [Option has no effect if set though environment.]
 
-     -l <ARG> Legacy mode: Request different version.      
-              Currently in use $installVersionMultiWFN
-              Previously in use 3.4.1, 3.3.8
-              Use with great care.
-              [Option has no effect if set though environment.]
+     -l <ARG> Legacy mode (deprecated): Request different version.      
+              With version 0.5.0 of the script, this has been removed 
+              and no longer has any effect.
 
      -g       run without GUI
 
@@ -137,7 +77,7 @@ cat <<-EOF
 
      -w <ARG> Define maximum walltime.
                 Format: [[HH:]MM:]SS
-                (Default: $requested_Walltime)
+                (Default: $requested_walltime)
 
      -q       Supress creating a logfile.
 
@@ -161,6 +101,22 @@ EOF
 exit 0    
 }
 
+## The following will replace above function, once everything is distributed
+## #
+## # Print some helping commands
+## # The lines are distributed throughout the script and grepped for
+## #
+## 
+## helpme ()
+## {
+##     local line
+##     local pattern="^[[:space:]]*#hlp[[:space:]]?(.*)?$"
+##     while read -r line; do
+##       [[ "$line" =~ $pattern ]] && eval "echo \"${BASH_REMATCH[1]}\""
+##     done < <(grep "#hlp" "$0")
+##     exit 0
+## }
+
 #
 # Print logging information and warnings nicely.
 # If there is an unrecoverable error: display a message and exit.
@@ -168,78 +124,148 @@ exit 0
 
 message ()
 {
-    echo "INFO   : " "$*"
-}
-
-indent ()
-{
-    echo -n "INFO   : " 
+    if (( stay_quiet <= 0 )) ; then
+      echo "INFO   : " "$*" >&3
+    else
+      debug "(info   ) " "$*"
+    fi
 }
 
 warning ()
 {
-    echo "WARNING: " "$*" >&2
+    if (( stay_quiet <= 1 )) ; then
+      echo "WARNING: " "$*" >&2
+    else
+      debug "(warning) " "$*"
+    fi
+    return 1
 }
 
 fatal ()
 {
-    echo "ERROR  : " "$*" >&2
+    if (( stay_quiet <= 2 )) ; then 
+      echo "ERROR  : " "$*" >&2
+    else
+      debug "(error  ) " "$*"
+    fi
     exit 1
 }
+
+debug ()
+{
+    echo "DEBUG  : " "$*" >&4
+}    
+
+# 
+# Let's know where the script is and how it is actually called
+#
+
+get_absolute_location ()
+{
+#  Taken from https://stackoverflow.com/a/246128/3180795
+  local resolve_file="$1" description="$2" 
+  local link_target directory_name filename resolve_dir_name 
+  debug "Getting directory for '$resolve_file'."
+  #  resolve $resolve_file until it is no longer a symlink
+  while [ -h "$resolve_file" ]; do 
+    link_target="$(readlink "$resolve_file")"
+    if [[ $link_target == /* ]]; then
+      debug "File '$resolve_file' is an absolute symlink to '$link_target'"
+      resolve_file="$link_target"
+    else
+      directory_name="$( dirname "$resolve_file" )" 
+      debug "File '$resolve_file' is a relative symlink to '$link_target' (relative to '$directory_name')"
+      #  If $resolve_file was a relative symlink, we need to resolve 
+      #+ it relative to the path where the symlink file was located
+      resolve_file="$directory_name/$link_target"
+    fi
+  done
+  debug "File is '$resolve_file'" 
+  filename="$( basename "$resolve_file" )"
+  debug "File name is '$filename'"
+  resolve_dir_name="$( dirname "$resolve_file")"
+  directory_name="$( cd -P "$( dirname "$resolve_file" )" && pwd )"
+  if [ "$directory_name" != "$resolve_dir_name" ]; then
+    debug "$description '$directory_name' resolves to '$directory_name'"
+  fi
+  debug "$description is '$directory_name'"
+  if [[ -z $directory_name ]] ; then
+    echo "."
+  else
+    echo "$directory_name/$filename"
+  fi
+}
+
+get_absolute_filename ()
+{
+  local resolve_file="$1" description="$2" return_filename
+  return_filename=$(get_absolute_location "$resolve_file" "$description")
+  return_filename=${return_filename##*/}
+  echo "$return_filename"
+}
+
+get_absolute_dirname ()
+{
+  local resolve_file="$1" description="$2" return_dirname
+  return_dirname=$(get_absolute_location "$resolve_file" "$description")
+  return_dirname=${return_dirname%/*}
+  echo "$return_dirname"
+}
+
 
 #
 # Test if a given value is an integer
 #
 
-isInteger()
+is_integer()
 {
     [[ $1 =~ ^[[:digit:]]+$ ]]
 }
 
-validateInteger () 
+validate_integer () 
 {
-    if ! isInteger "$1"; then
+    if ! is_integer "$1"; then
         [ ! -z "$2" ] && fatal "Value for $2 ($1) is no integer."
           [ -z "$2" ] && fatal "Value \"$1\" is no integer."
     fi
 }
 
-validateDuration ()
+format_duration_or_exit ()
 {
-    local checkDuration=$1
+    local check_duration="$1"
     # Split time in HH:MM:SS
     # Strips away anything up to and including the rightmost colon
     # strips nothing if no colon present
     # and tests if the value is numeric
     # this is assigned to seconds
-    local truncDuration_Seconds=${checkDuration##*:}
-    validateInteger "$truncDuration_Seconds" "seconds"
+    local trunc_duration_seconds=${check_duration##*:}
+    validate_integer "$trunc_duration_seconds" "seconds"
     # If successful value is stored for later assembly
     #
     # Check if the value is given in seconds
-    # "${checkDuration%:*}" strips shortest match ":*" from back
+    # "${check_duration%:*}" strips shortest match ":*" from back
     # If no colon is present, the strings are identical
-    if [[ ! "$checkDuration" == "${checkDuration%:*}" ]]; then
+    if [[ ! "$check_duration" == "${check_duration%:*}" ]]; then
         # Strip seconds and colon
-        checkDuration="${checkDuration%:*}"
+        check_duration="${check_duration%:*}"
         # Strips away anything up to and including the rightmost colon
         # this is assigned as minutes
         # and tests if the value is numeric
-        local truncDuration_Minutes=${checkDuration##*:}
-        validateInteger "$truncDuration_Minutes" "minutes"
+        local trunc_duration_minutes=${check_duration##*:}
+        validate_integer "$trunc_duration_minutes" "minutes"
         # If successful value is stored for later assembly
         #
         # Check if value was given as MM:SS same procedure as above
-        if [[ ! "$checkDuration" == "${checkDuration%:*}" ]]; then
+        if [[ ! "$check_duration" == "${check_duration%:*}" ]]; then
             #Strip minutes and colon
-            checkDuration="${checkDuration%:*}"
+            check_duration="${check_duration%:*}"
             # # Strips away anything up to and including the rightmost colon
             # this is assigned as hours
             # and tests if the value is numeric
-            local truncDuration_Hours=${checkDuration##*:}
-            validateInteger "$truncDuration_Hours" "hours"
+            local trunc_duration_hours=${check_duration##*:}
+            validate_integer "$trunc_duration_hours" "hours"
             # Check if value was given as HH:MM:SS if not, then exit
-            if [[ ! "$checkDuration" == "${checkDuration%:*}" ]]; then
+            if [[ ! "$check_duration" == "${check_duration%:*}" ]]; then
                 fatal "Unrecognised duration format."
             fi
         fi
@@ -248,44 +274,82 @@ validateDuration ()
     # Modify the duration to have the format HH:MM:SS
     # disregarding the format of the user input
     # keep only 0-59 seconds stored, let rest overflow to minutes
-    local finalDuration_Seconds=$((truncDuration_Seconds % 60))
+    local final_duration_seconds=$((trunc_duration_seconds % 60))
     # Add any multiple of 60 seconds to the minutes given as input
-    truncDuration_Minutes=$((truncDuration_Minutes + truncDuration_Seconds / 60))
+    trunc_duration_minutes=$((trunc_duration_minutes + trunc_duration_seconds / 60))
     # save as minutes what cannot overflow as hours
-    local finalDuration_Minutes=$((truncDuration_Minutes % 60))
+    local final_duration_minutes=$((trunc_duration_minutes % 60))
     # add any multiple of 60 minutes to the hours given as input
-    local finalDuration_Hours=$((truncDuration_Hours + truncDuration_Minutes / 60))
+    local final_duration_hours=$((trunc_duration_hours + trunc_duration_minutes / 60))
 
-    # Format string and save on variable
-    printf -v requested_Walltime "%d:%02d:%02d" $finalDuration_Hours $finalDuration_Minutes \
-                                             $finalDuration_Seconds
+    # Format string and print it
+    printf "%d:%02d:%02d" "$final_duration_hours" "$final_duration_minutes" \
+                          "$final_duration_seconds"
+}
+
+#
+# Get settings from configuration file
+#
+
+test_rc_file ()
+{
+  local test_runrc="$1"
+  debug "Testing '$test_runrc' ..."
+  if [[ -f "$test_runrc" && -r "$test_runrc" ]] ; then
+    echo "$test_runrc"
+    return 0
+  else
+    debug "... missing."
+    return 1
+  fi
+}
+
+get_rc ()
+{
+  local test_runrc_dir test_runrc_loc return_runrc_loc runrc_basename
+  # The rc should have some similarity with the actual scriptname
+  runrc_basename="$scriptbasename"
+  while [[ ! -z $1 ]] ; do
+    test_runrc_dir="$1"
+    shift
+    if test_runrc_loc="$(test_rc_file "$test_runrc_dir/.${runrc_basename}rc")" ; then
+      return_runrc_loc="$test_runrc_loc" 
+      debug "   (found) return_runrc_loc=$return_runrc_loc"
+      continue
+    elif test_runrc_loc="$(test_rc_file "$test_runrc_dir/${runrc_basename}.rc")" ; then 
+      return_runrc_loc="$test_runrc_loc"
+      debug "   (found) return_runrc_loc=$return_runrc_loc"
+    fi
+  done
+  debug "(returned) return_runrc_loc=$return_runrc_loc"
+  echo "$return_runrc_loc"
 }
 
 #
 # Test, whether we can access the given file/directory
 #
 
-isFile ()
+is_file ()
 {
     [[ -f $1 ]]
 }
 
-isReadable ()
+is_readable ()
 {
     [[ -r $1 ]]
 }
 
-isReadableFileOrExit ()
+is_readable_file_or_exit ()
 {
-    isFile "$1"     || fatal "Specified file '$1' is no file or does not exist."
-    isReadable "$1" || fatal "Specified file '$1' is not readable."
+    is_file "$1"     || fatal "Specified file '$1' is no file or does not exist."
+    is_readable "$1" || fatal "Specified file '$1' is not readable."
 }
 
 # 
 # Issue warning if options are ignored.
 #
 
-checkTooManyArgs ()
+warn_additional_args ()
 {
     while [[ ! -z $1 ]]; do
       warning "Specified option $1 will be ignored."
@@ -297,26 +361,44 @@ checkTooManyArgs ()
 # Determine or validate outputfiles
 #
 
-setDefaultOutput ()
+test_output_location ()
 {
-  # In default mode logging is enabled but no filename is specified.
-  # If an output already exists from a previous run it must not be overwritten.
-  # Default name for the output is generated from the name of the script and input
-  local savsuffix=1
-  if [[ -z $outputfile ]] ; then
-    if [[ ! -z $inputfile ]] ; then
-      outputfile="${inputfile%.*}."
-    fi
-    outputfile="$outputfile$scriptname.out"
-    if ! isFile "$outputfile" ; then
-      return
-    fi
-    while isFile "$outputfile.$savsuffix" ; do
-      (( savsuffix++ ))
+  local savesuffix=1 outputfile_return outputfile_return="$1"
+  if ! is_file "$outputfile_return" ; then
+    echo "$outputfile_return"
+    debug "There is no outputfile '$outputfile_return'. Return 0."
+    return 0
+  else
+    while is_file "${outputfile_return}.${savesuffix}" ; do
+      (( savesuffix++ ))
+      debug "The outputfile '${outputfile_return}.${savesuffix}' exists."
     done
-    message "Prevent overwriting of existing file(s)."
-    indent
-    mv -v "$outputfile" "$outputfile.$savsuffix"
+    warning "Outputfile '$outputfile_return' exists."
+    echo "${outputfile_return}.${savesuffix}"
+      debug "There is no outputfile '${outputfile_return}.${savesuffix}'. Return 1."
+    return 1
+  fi
+}
+
+backup_file ()
+{
+  local move_message move_source="$1" move_target="$2"
+  debug "Will attempt: mv -v $move_source $move_target"
+  move_message="$(mv -v "$move_source" "$move_target" || fatal "Backup went wrong.")"
+  message "File will be backed up."
+  message "$move_message"
+}
+
+generate_outputfile_name ()
+{
+  local return_outfile_name="$1"
+  if [[ -z "$return_outfile_name" ]] ; then
+    debug "Nothing specified to base outputname on, will use '${scriptbasename}.out' instead."
+    echo "${scriptbasename}.out"
+  else
+    debug "Will base outputname on '$return_outfile_name'."
+    echo "${return_outfile_name%.*}.out"
+    debug "${return_outfile_name%.*}.out"
   fi
 }
 
@@ -324,143 +406,224 @@ setDefaultOutput ()
 # Check if logging was activated or deactivated
 #
 
-setLoggingOptions ()
+set_outputfile ()
 {
-    case "$execmode" in
+  local test_outputfile="$1" free_outputfile
+  if [[ -z $test_outputfile ]] ; then 
+    test_outputfile=$(generate_outputfile_name "$inputfile")
+  fi
 
-      default) setDefaultOutput ;;
-      logging) 
-               # If an outputfile is specified, assume that the user 
-               # wants to overwrite existing ones. Issue warning nevertheless.
-               if isFile "$outputfile" ; then
-                 warning "Output '$outputfile' from a previous run will be overwritten."
-               fi
-               ;;
-       remote) setDefaultOutput ;;
-        nolog) message "Logging is disabled." ;;
-        *    ) fatal "(Unknown error in setLoggingOptions)" ;;
+  case "$execmode" in
 
-    esac
+    default | remote) 
+      if ! free_outputfile=$(test_output_location "$test_outputfile"; return $?) ; then
+        backup_file "$test_outputfile" "$free_outputfile" 
+      fi
+      outputfile="$test_outputfile"
+      ;;
+    logging) 
+      # If an outputfile is specified, assume that the user 
+      # wants to overwrite existing ones. Issue warning nevertheless.
+      if ! free_outputfile=$(test_output_location "$test_outputfile" || return $?) ; then
+        warning "File '$test_outputfile' will be overwritten."
+      fi
+      ;;
+    nolog) 
+      message "Logging is disabled." 
+      unset outputfile
+      ;;
+    *) 
+      fatal "Unknown execution mode (appeared in 'set_outputfile')." 
+      ;;
+
+  esac
 }
 
 #
 # Assign the values from or to environment variables
 #
 
-checkAndSetMemory ()
+check_environment_memory ()
 {
-    if [[ -z $KMP_STACKSIZE ]] ; then
-      # Checks if value has been set through the environment
-      if [[ -z $requested_KMP_STACKSIZE ]] ; then 
-        # Checks if it has been set via the options
-        requested_KMP_STACKSIZE=64000000 
+    local test_memory="$1"
+    if [[ "$forceScriptValues" == "true" ]] ; then
+      debug "Forcefully setting KMP_STACKSIZE to $test_memory."
+      echo "$test_memory"
+      return
+    fi
+  
+    if [[ ! -z $KMP_STACKSIZE ]] ; then
+      debug "KMP_STACKSIZE has been set through the environment to $KMP_STACKSIZE."
+      if (( test_memory > KMP_STACKSIZE )) ; then
+        debug "KMP_STACKSIZE: $KMP_STACKSIZE; Requested: $test_memory."
+        fatal "Requested memory is larger than set through environment."
+      else
+        debug "Adjusting memory to environment setting."
+        test_memory="$KMP_STACKSIZE"
       fi
-      # Use and export those values
-      message "Setting KMP_STACKSIZE to $requested_KMP_STACKSIZE."
-      export KMP_STACKSIZE=$requested_KMP_STACKSIZE
-    elif [[ ! -z $KMP_STACKSIZE && "$forceScriptValues" = "true" ]] ; then
-      # Issue warning is environment settings will be overwritten
-      warning "Overwriting environment variable for memory"
-      warning "from $KMP_STACKSIZE to $requested_KMP_STACKSIZE."
-      # Use forced values
-      export KMP_STACKSIZE=$requested_KMP_STACKSIZE
     else
-      # Issue information warning
-      message "KMP_STACKSIZE is set to $KMP_STACKSIZE."
+      debug "KMP_STACKSIZE needs to be set."
+    fi
+      
+    echo "$test_memory"
+}
+
+exit_if_Multiwfn_cmd_found ()
+{
+    local command_check command_check_out
+    for command_check in Multiwfn multiwfn; do
+      if command_check_out=$(command -v "$command_check" && return $?) ; then
+        fatal "Found confusing executable in '$command_check_out'"
+      fi
+    done
+}
+
+remove_from_PATH ()
+{ 
+  local removefrompath="$1"
+  debug "This is PATH: $PATH"
+  debug "This will be removed: $removefrompath"
+  PATH="${PATH/$removefrompath/}"
+  debug "This is PATH now: $PATH"
+}
+
+warn_if_Multiwfnpath_set ()
+{
+    if [[ ! -z $Multiwfnpath ]] ; then
+      warning "Multiwfnpath is set to '$Multiwfnpath'; this will be overwritten."
+      unset Multiwfnpath
+      debug "Unsetting Multiwfnpath."
     fi
 }
 
-checkIfInPath ()
+check_Multiwfn_install ()
 {
+    local test_path="$1"
+    debug "check_Multiwfn_install: test_path=$test_path"
+    debug "$(ls $test_path)"
+    if [[ ! -d "$test_path" ]] ; then
+      fatal "Cannot find Multiwfn installation path '$test_path'."
+    fi
+    if [[ ! -x "$test_path/Multiwfn" ]] ; then
+      fatal "Multiwfn ($test_path/Multiwfn) does not exist or is not executable."
+    fi
+    echo "$test_path"
+    debug "Path tested: $test_path"
+}
+
+get_Multiwfnpath_or_exit ()
+{
+    local test_path="$1" return_path
+    exit_if_Multiwfn_cmd_found
+    warn_if_Multiwfnpath_set
     # Check if there could be clashes if an executeable has been set 
     # via the environment
     local pattern="(^|:)([^:]*/[Mm]ulti[Ww][Ff][Nn]/[^:]*)(:|$)"
-    local storepath removefrompath
+    local storepath
     if [[ "$PATH" =~ $pattern ]]; then
-      # Only for debugging: message "Have it here: ${BASH_REMATCH[2]}"
+      warning "Found Multiwfn already in PATH: '${BASH_REMATCH[2]}'"
       storepath="${BASH_REMATCH[2]}"
-      # Reminder ${BASH_REMATCH[0]} is the full match
-      # Store that value, if it needs to be removed
-      if [[ ${BASH_REMATCH[1]} == "${BASH_REMATCH[3]}" ]] ; then
-        removefrompath="${BASH_REMATCH[2]}:"
-      else
-        removefrompath="${BASH_REMATCH[0]}"
-      fi
-    else
-      return 1
-    fi
-
-    if [[ "$legacyBinary" == "true" ]] ; then
-      local storelibpath removefromlibpath
-      if [[ "$LD_LIBRARY_PATH" =~ $pattern ]]; then
-        # Only for debugging message "Have it here: ${BASH_REMATCH[2]}"
-        storelibpath="${BASH_REMATCH[2]}"
+      if [[ "$forceScriptValues" == "true" ]] ; then
+        # Reminder: ${BASH_REMATCH[0]} is the full match
+        # Store that value, in case it needs to be removed
         if [[ ${BASH_REMATCH[1]} == "${BASH_REMATCH[3]}" ]] ; then
-          removefromlibpath="${BASH_REMATCH[2]}:"
+          remove_from_PATH "${BASH_REMATCH[2]}:"
         else
-          removefromlibpath="${BASH_REMATCH[0]}"
+          remove_from_PATH "${BASH_REMATCH[0]}"
         fi
-      fi
-      if [[ ! "$storepath" == "$storelibpath" ]] ; then
-        # Avoid using a library from a different binary
-        fatal "Library path does not match executable path. Something is seriously wrong."
+        return_path=""
+      else
+        return_path="$storepath"
       fi
     fi
-    # If it is in PATH, but we want to force defaults, we need to remove it
-    # and re-add it
-    if [[ "$forceScriptValues" == "true" ]] ; then
-      PATH="${PATH/$removefrompath/}"
-      [[ "$legacyBinary" == "true" ]] && LD_LIBRARY_PATH="${LD_LIBRARY_PATH/$removefromlibpath/}"
-      warning "Path to executable has already been set."
-      warning "Overwriting existing choice."
+    if [[ -z $return_path ]] ; then
+      return_path=$(check_Multiwfn_install "$test_path") || exit 1
+    elif [[ "$return_path" == "$test_path" ]] ; then
+      return_path=$(check_Multiwfn_install "$test_path") || exit 1
+    else
+      fatal "Found path '$return_path' does not match specified path '$test_path'."
+    fi
+    echo "$return_path"
+}
+
+replace_line ()
+{
+    debug "Enter 'replace_line'."
+    local search_pattern="$1"
+    debug "search_pattern=$search_pattern"
+    local replace_pattern="$2"
+    debug "replace_pattern=$replace_pattern"
+    local inputstring="$3"
+    debug "inputstring=$inputstring"
+
+    (( $# < 3 )) && fatal "Wrong internal call of replace function. Please report this bug."
+
+    if [[ "$inputstring" =~ ^(.*)($search_pattern)(.+)$ ]] ; then
+      debug "Found match: ${BASH_REMATCH[0]}"
+      echo "${BASH_REMATCH[1]}$replace_pattern${BASH_REMATCH[3]}"
+      debug "Leave 'replace_line' with 0."
+      return 0
+    else
+      debug "No match found. Leave 'replace_line' with 1."
       return 1
     fi
-    
-    # If we found it in PATH, then we use it
-    Multiwfnpath="$storepath"
-}
+}    
 
-checkIfPathExists ()
+modify_settingsini ()
 {
-    local Multiwfnsubpath="$installPrefixMultiWFN$installVersionMultiWFN$installSuffixMultiWFN"
-    local test_CPUs=$requested_NumCPU
-    while [[ ! -d "$installPathMultiWFN/$Multiwfnsubpath$test_CPUs" ]] ; do
-      warning "Cannot find '$Multiwfnsubpath$test_CPUs', try next."
-      (( test_CPUs-- ))
-      (( test_CPUs == 0 )) && fatal "Cannot find suitable excecutable."
+    local settingsini_source_loc="$1" # settingsini_target_loc="$2"
+    local -a settingsini_source_content
+    local element
+    mapfile -t settingsini_source_content < "$settingsini_source_loc"
+    for element in "${settingsini_source_content[@]}" ; do
+      replace_line "nthreads=[[:space:]]*[[:digit:]]+" "nthreads= $requested_numCPU" "${element}" && continue
+      echo "${element}" 
     done
-    Multiwfnpath="$installPathMultiWFN/$Multiwfnsubpath$test_CPUs"
 }
 
-checkAndSetMultiWFN ()
+write_temp_settingsini ()
 {
-    # If it is already included in PATH, assume everything is ok and continue 
-    checkIfInPath && return 0
-    checkIfPathExists
-
-    export PATH="$PATH:$Multiwfnpath"
-    export Multiwfnpath
-    # Only any longer necessary for the legacy option
-    [[ "$legacyBinary" == "true" ]] && export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$Multiwfnpath"
-    message "Using following version:"
-    message "  $Multiwfnpath"
+    local settingsini_source_loc settingsini_target_loc="$PWD/settings.ini"
+    # Issue a warning if a local file has been found
+    if [[ -e $PWD/settings.ini ]] ; then
+      message "Found local 'settings.ini' and will modify it."
+      settingsini_source_loc="$PWD/settings.ini"
+      settingsini_nocleanup="true"
+    elif [[ -e "$scriptpath/settings.ini" ]] ; then 
+      settingsini_source_loc="$scriptpath/settings.ini"
+      message "Use template '$settingsini_source_loc' to pass on settings."
+    elif [[ -e "$use_Multiwfnpath/settings.ini" ]] ; then 
+      settingsini_source_loc="$use_Multiwfnpath/settings.ini"
+      message "Use template '$settingsini_source_loc' to pass on settings."
+    else
+      warning "Cannot find suitable template for 'settings.ini'."
+      warning "Be aware that Multiwfn might only run with default settings."
+      return 1
+    fi
+    echo "// This file was created by '$scriptname'" > "$settingsini_target_loc"
+    echo "// from the template '$settingsini_source_loc'" >> "$settingsini_target_loc"
+    modify_settingsini "$settingsini_source_loc" >> "$settingsini_target_loc"
 }
 
-# Check if a local settings.ini exists and warn
-checkLocalSettinsIni ()
+remove_temp_settingsini ()
 {
-    [[ -e ./settings.ini ]] && warning "Found local 'settings.ini'. This will overwrite any option set through the script."
+    [[ settingsini_nocleanup =~ [Tt][Rr][Uu][Ee]? ]] && return 0
+    local remove_message
+    if [[ -e $PWD/settings.ini ]] ; then
+      remove_message=$(rm -v "$PWD/settings.ini")
+      message "$remove_message"
+    fi
 }
 
 #
 # Process Options
 #
 
-settings ()
+process_options ()
 {
     local OPTIND=1 
 
-    while getopts :hqm:p:l:gRw:o:i:c:f options ; do
+    while getopts :hqm:p:l:gRw:o:i:c:fk options ; do
         case $options in
 
             h) helpme ;;
@@ -477,7 +640,7 @@ settings ()
 
             m) 
                if [[ -z $requested_KMP_STACKSIZE ]] ; then 
-                 validateInteger "$OPTARG" "the memory"
+                 validate_integer "$OPTARG" "the memory"
                  if (( OPTARG == 0 )) ; then
                    fatal "KMP_STACKSIZE must not be zero."
                  fi
@@ -487,24 +650,21 @@ settings ()
                fi ;;
 
             p) 
-               validateInteger "$OPTARG" "the number of threads"
+               validate_integer "$OPTARG" "the number of threads"
                if (( OPTARG == 0 )) ; then
                  fatal "Number of threads must not be zero."
                fi
-               requested_NumCPU="$OPTARG" 
+               requested_numCPU="$OPTARG" 
                ;;
             l)
-               warning "Legacy mode chosen."
-               installVersionMultiWFN="$OPTARG"
-               legacyBinary="true"  
+               fatal "Legacy mode has been removed in script version 0.5.0"
                ;;
 
             g) 
-               if [[ $installNoguiMultiWFN == "yes" ]] ; then
-                 message "No GUI will be available."
-                 installVersionMultiWFN="${installVersionMultiWFN}ng" 
-               else
-                 fatal "Running without GUI is disabled."
+               request_gui_version="no"
+               message "Running without GUI."
+               if [[ -z $installpath_Multiwfn_nogui ]] ; then
+                 fatal "There is no version set for running without GUI."
                fi
                ;;
 
@@ -518,7 +678,8 @@ settings ()
                esac
                ;;
 
-            w) validateDuration "$OPTARG"  ;;
+            w) requested_walltime=$(format_duration_or_exit "$OPTARG")
+               ;;
 
             o) 
                case $execmode in
@@ -534,9 +695,7 @@ settings ()
                if [[ -z $inputfile ]] ; then
                  inputfile="$OPTARG" 
                  # If a filename is specified, it must exist, otherwise exit
-                 isReadableFileOrExit "$inputfile"
-                 # isFile "$inputfile" || fatal "Inputfile '$inputfile' is no file or does not exist."
-                 # isReadable "$inputfile" || fatal "Inputfile '$inputfile' is not readable."
+                 is_readable_file_or_exit "$inputfile"
                else
                  fatal "I only know how to operate on one inputfile."
                fi 
@@ -546,15 +705,15 @@ settings ()
                if [[ -z $commandfile ]] ; then
                  commandfile="$OPTARG" 
                  # If a filename is specified, it must exist, otherwise exit
-                 isReadableFileOrExit "$commandfile"
-                 # isFile "$commandfile" || fatal "Inputfile '$commandfile' is no file or does not exist."
-                 # isReadable "$commandfile" || fatal "Inputfile '$commandfile' is not readable."
+                 is_readable_file_or_exit "$commandfile"
                else 
                  fatal "I can only handle one set of commands."
                fi
                ;;
 
             f) forceScriptValues="true" ;;
+
+            k) settingsini_nocleanup="true" ;;
 
            \?) fatal "Invalid option: -$OPTARG." ;;
 
@@ -573,16 +732,23 @@ settings ()
     # thus enabeling "multiwfn [<file>]" as a default operation.
     if [[ -z $inputfile ]] ; then
       # If a filename is specified, it must exist, otherwise exit
-      isReadableFileOrExit "$1" && inputfile="$1" 
+      is_readable_file_or_exit "$1" && inputfile="$1" 
       shift
     fi
     # If a file has already been specified issue a warning 
     # that the addidtional flag has no effect.
-    checkTooManyArgs "$@"
+    warn_additional_args "$@"
 }
 
-runInteractive ()
+run_interactive ()
 {
+    export KMP_STACKSIZE=$requested_KMP_STACKSIZE
+    message "Memory (KMP_STACKSIZE) is set to $KMP_STACKSIZE."
+    Multiwfnpath="$use_Multiwfnpath"
+    message "Using following version: $Multiwfnpath"
+    export PATH="$PATH:$Multiwfnpath"
+    export Multiwfnpath
+
     # Now everything should be set an we can call the program.
     # Decide how to call the program analogous to setting permissions
     #    input    4
@@ -593,22 +759,24 @@ runInteractive ()
     #
     # Initialise variable; i.e. just call the program
 
-    callmode=0
+    local callmode=0
     [[ ! -z $inputfile ]]   && ((callmode+=4))
     [[ ! -z $commandfile ]] && ((callmode+=2))
     [[ ! -z $outputfile ]]  && ((callmode+=1))
 
     case $callmode in
 
-        0) Multiwfn  ;;
-        1) script -c "Multiwfn" "$outputfile" ;;
-        4) Multiwfn "$inputfile" ;;
-        5) script -c "Multiwfn \"$inputfile\"" "$outputfile" ;;
-        6) Multiwfn "$inputfile" < "$commandfile" ;;
         7) Multiwfn "$inputfile" < "$commandfile" > "$outputfile" ;;
+        6) Multiwfn "$inputfile" < "$commandfile" ;;
+        5) script -c "Multiwfn \"$inputfile\"" "$outputfile" ;;
+        4) Multiwfn "$inputfile" ;;
+        1) script -c "Multiwfn" "$outputfile" ;;
+        0) Multiwfn  ;;
         *) fatal "This set-up would cause Multiwfn to crash." ;;
 
     esac
+
+    remove_temp_settingsini
 }
 
 runRemote ()
@@ -625,9 +793,9 @@ runRemote ()
 
     cat > "$submitscript" <<-EOF
 #!/bin/sh
-#PBS -l nodes=1:ppn=$requested_NumCPU
+#PBS -l nodes=1:ppn=$requested_numCPU
 #PBS -l mem=$requested_KMP_STACKSIZE
-#PBS -l walltime=$requested_Walltime
+#PBS -l walltime=$requested_walltime
 #PBS -N ${submitscript%.*}
 #PBS -m ae
 #PBS -o $submitscript.o\${PBS_JOBID%%.*}
@@ -635,14 +803,13 @@ runRemote ()
 
 echo "This is $nodename"
 echo "OS $operatingsystem ($architecture)"
-echo "Running on $requested_NumCPU $processortype."
+echo "Running on $requested_numCPU $processortype."
 echo "Calculation $inputfile and $commandfile from $PWD."
 echo "Working directry is \$PBS_O_WORKDIR"
 cd \$PBS_O_WORKDIR
 
-export PATH="\$PATH:$Multiwfnpath"
-export Multiwfnpath="$Multiwfnpath"
-export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$Multiwfnpath"
+export PATH="\$PATH:$use_Multiwfnpath"
+export Multiwfnpath="$use_Multiwfnpath"
 export KMP_STACKSIZE=$requested_KMP_STACKSIZE
 
 date
@@ -653,25 +820,105 @@ EOF
 
 message "Created submit PBS script, to start the job:"
 message "  qsub $submitscript"
+message "The temporarily created 'settings.ini' cill not be cleaned up."
 
-exit 0
+return 0
 }
 
+#
+# Begin main script
+#
 
+# Sent logging information to stdout
+exec 3>&1
+
+# Secret debugging switch
+if [[ "$1" == "debug" ]] ; then
+  exec 4>&1
+  stay_quiet=0 
+  shift 
+else
+  exec 4> /dev/null
+fi
 
 #
+# Setting some defaults
+#
+
+# Print all information by default
+stay_quiet=0
+
+# Specify default Walltime, this is only relevant for remote
+# execution as a header line for PBS.
+requested_walltime="24:00:00"
+
+# Specify a default value for the memory
+requested_KMP_STACKSIZE=64000000 
+
+# This corresponds to  nthreads=<digit(s)> in the settings.ini
+requested_numCPU=4
+
+# Use the graphical interface by default
+request_gui_version="yes"
+
+# Necessary to resolve a clash between -q and -o
+execmode="default"
+
+# By default clean up the temporary setting.ini
+settingsini_nocleanup="false"
+
+# By default the variables set through the environment should be taken
+forceScriptValues="false"
+
+# Ensure that in/outputfile variables are empty
+unset inputfile
+unset commandfile
+unset outputfile
+
+# Who are we and where are we?
+scriptname="$(get_absolute_filename "${BASH_SOURCE[0]}" "installname")"
+debug "Script is called '$scriptname'"
+# remove scripting ending (if present)
+scriptbasename=${scriptname%.sh} 
+debug "Base name of the script is '$scriptbasename'"
+scriptpath="$(get_absolute_dirname  "${BASH_SOURCE[0]}" "installdirectory")"
+debug "Script is located in '$scriptpath'"
+
+# Check for settings in three default locations (increasing priority):
+#   install path of the script, user's home directory, current directory
+runMultiwfn_rc_loc="$(get_rc "$scriptpath" "/home/$USER" "$PWD")"
+debug "runMultiwfn_rc_loc=$runMultiwfn_rc_loc"
+
+# Load custom settings from the rc
+
+if [[ ! -z $runMultiwfn_rc_loc ]] ; then
+  #shellcheck source=/home/te768755/devel/runMultiwfn.bash/runMultiwfn.rc
+  . "$runMultiwfn_rc_loc"
+  message "Configuration file '$runMultiwfn_rc_loc' applied."
+else
+  debug "No custom settings found."
+fi
+
 # Evaluate Options
-#
 
-settings "$@"
-setLoggingOptions
-checkAndSetMemory
-checkAndSetMultiWFN
-checkLocalSettinsIni
+process_options "$@"
+set_outputfile "$outputfile"
+requested_KMP_STACKSIZE=$(check_environment_memory "$requested_KMP_STACKSIZE")
+if [[ $request_gui_version =~ [Yy][Ee][Ss] ]] ; then
+  use_Multiwfnpath=$(get_Multiwfnpath_or_exit "$installpath_Multiwfn_gui") || exit 1
+  debug "Using Multiwfnpath: $use_Multiwfnpath"
+elif [[ $request_gui_version =~ [Nn][Oo] ]] ; then
+  use_Multiwfnpath=$(get_Multiwfnpath_or_exit "$installpath_Multiwfn_nogui") || exit 1
+  debug "Using Multiwfnpath: $use_Multiwfnpath"
+else
+  fatal "Cannot determine which modus (gui/nogui) to use."
+fi
+
+write_temp_settingsini
 
 [[ "$execmode" == "remote" ]] && runRemote
 
-runInteractive
+run_interactive
 
 message "Thank you for travelling with $scriptname."
 exit 0
