@@ -39,3 +39,8 @@ bsub_rwth_project="default"
 # By default clean up the temporary setting.ini
 settingsini_nocleanup="false"
 
+# Set a default pdfviewer (needs to be an executable command found through PATH)
+# Tested in that order are: "$use_pdfviewer" xdg-open gvfs-open evince okular less 
+use_pdfviewer="xpdf"
+
+# (Martin; 0.5.1; 2018-04-13)

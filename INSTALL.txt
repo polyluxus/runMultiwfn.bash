@@ -105,8 +105,18 @@ working on it further, but until then see the following.
 
 (e) What else?
 
-  Make sure the script is executeable.
+  If you want to access the manual with the -H switch, you need to download 
+  it and put it with the executable. The script searches for a pdf file,
+  and will display the first it finds.
+
+  There are a couple of options implemented to look for a pdf viewer,
+  the safest is to set 'use_pdfviewer=' to your preferred one in the rc.
+  Tested are in that order: "use_pdfviewer" xdg-open gvfs-open evince okular less.
+
+  Also please make sure the script is executeable.
    (chmod +x <scriptname>)
+  Occasionally the Multiwfn distribution itself was not marked executable;
+  therefore better check that one, too.
 
   Now everything should be done.
 
@@ -119,4 +129,4 @@ working on it further, but until then see the following.
   Alternatively you can add an alias, or add the multiwfn
   directory to your PATH.
 
-(Martin; 0.5.0; 2018-04-11)
+(Martin; 0.5.1; 2018-04-13)

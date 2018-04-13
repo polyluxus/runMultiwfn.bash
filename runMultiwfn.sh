@@ -2,13 +2,17 @@
 
 #Multiwfn initialization script
 # See CHANGES.txt
-version="0.5.0"
-versiondate="2018-04-11"
+version="0.5.1"
+versiondate="2018-04-13"
 
 # The following two lines give the location of the installation.
 # They can be set in the rc file, too.
 installpath_Multiwfn_gui="/path/is/not/set"
 installpath_Multiwfn_nogui="/path/is/not/set"
+
+# Set a default pdfviewer (needs to be an executable command found through PATH)
+# Tested in that order are: "$use_pdfviewer" xdg-open gvfs-open evince okular less 
+use_pdfviewer="xpdf"
 
 # See the readme file for more details. 
 
@@ -54,6 +58,24 @@ helpme ()
     while read -r line; do
       [[ "$line" =~ $pattern ]] && eval "echo \"${BASH_REMATCH[1]}\""
     done < <(grep "#hlp" "$0")
+    exit 0
+}
+
+display_manual ()
+{
+    local manual_location use_Multiwfnpath pdf_open pdf_open_command
+    use_Multiwfnpath=$(get_Multiwfnpath_or_exit "$installpath_Multiwfn_gui") || exit 1
+    if manual_location=$(find "$use_Multiwfnpath" -iname '*.pdf' -print -quit) ; then
+      debug "manual_location=$manual_location"
+      for pdf_open in "$use_pdfviewer" xdg-open gvfs-open evince okular less ; do
+        debug "Testing: $pdf_open"
+        pdf_open_command=$(command -v "$pdf_open") || continue
+        "$pdf_open_command" "$manual_location" && break
+        fatal "Could not find programm to open pdf; please check your settings."
+      done
+    else
+      fatal "Cannot find manual."
+    fi
     exit 0
 }
 
@@ -565,7 +587,7 @@ process_options ()
     #hlp    
     local OPTIND=1 
 
-    while getopts :m:p:w:gRl:i:o:c:qfkQ:P:sh options ; do
+    while getopts :m:p:w:gRl:i:o:c:qfkQ:P:shH options ; do
         case $options in
 
           #hlp     -m <ARG> Define memory to be used per thread in byte.
@@ -722,6 +744,10 @@ process_options ()
           #hlp
             h) helpme ;;
 
+          #hlp     -H       Display the manual. 
+          #hlp              Requires a pdfviewer and the manual to be installed.
+            H) display_manual ;;
+
            \?) fatal "Invalid option: -$OPTARG." ;;
 
             :) fatal "Option -$OPTARG requires an argument." ;;
@@ -749,7 +775,6 @@ process_options ()
 
 run_interactive ()
 {
-  exit 0
     export KMP_STACKSIZE=$requested_KMP_STACKSIZE
     message "Memory (KMP_STACKSIZE) is set to $KMP_STACKSIZE."
     Multiwfnpath="$use_Multiwfnpath"
@@ -810,6 +835,7 @@ runRemote ()
     echo "#!/bin/bash" >&9
     echo "# Submission script automatically created with $scriptname" >&9
 
+    local overhead_KMP_STACKSIZE
     overhead_KMP_STACKSIZE=$(( requested_KMP_STACKSIZE + 5000000 ))
 
     # Header is different for the queueing systems
@@ -831,8 +857,8 @@ runRemote ()
 			#BSUB -W ${requested_walltime%:*}
 			#BSUB -J ${submitscript%.*}
 			#BSUB -N 
-			#BSUB -o df-bp86svp.runMultiwfn.sh.o%J
-			#BSUB -e df-bp86svp.runMultiwfn.sh.e%J
+			#BSUB -o $submitscript.o%J
+			#BSUB -e $submitscript.e%J
 			EOF
       if [[ "$PWD" =~ [Hh][Pp][Cc] ]] ; then
         echo "#BSUB -R select[hpcwork]" >&9
@@ -853,7 +879,7 @@ runRemote ()
 		echo "Calculation $inputfile and $commandfile from $PWD."
 		echo "Working directry is $PWD"
 		
-		cd $PWD
+		cd "$PWD"
 		
 		export PATH="\$PATH:$use_Multiwfnpath"
 		export Multiwfnpath="$use_Multiwfnpath"
@@ -989,8 +1015,10 @@ fi
 write_temp_settingsini
 
 if [[ "$execmode" == "remote" ]] ; then
+  debug "Running remote."
   runRemote "$request_qsys"
 else
+  debug "Running interactive."
   run_interactive
 fi
 

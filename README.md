@@ -1,6 +1,7 @@
 # runMultiwfn.bash
 
 A wrapper for Multiwfn 3.4.1 (Linux) written in bash.
+Initial tests with Multiwfn 3.5 have been successful, too.
 
 It does probably work without any modification for any newer
 version; as long as the definitions of the environment variables 
@@ -152,8 +153,14 @@ The following option switches are available:
        Suppress logging messages of the script.
        (May be specified multiple times.)
 
-  - `h`
+  - `-h`
        Prints a short version of the options.
+
+  - `-H`
+       Displays the manual (if installed, see INSTALL.txt).
+       This requires a pdfviewer installed, which can be set in the rc.
+       The script will test a few commands before giving up (see the
+       example `runMultiwfn.rc` for details). 
 
 ---
 
@@ -178,4 +185,4 @@ or via github (polyluxus), or any other way you can think of.
 I have a blog (that has not been updated in a while): 
 https://thedailystamp.wordpress.com/
 
-(Martin; 0.5.0; 2018-04-11)
+(Martin; 0.5.1; 2018-04-13)
