@@ -24,15 +24,6 @@ use_pdfviewer="xpdf"
 #
 
 #
-# Get some informations of the platform
-#
-# Move this to install routine and hardcode in rc (?)
-nodename=$(uname -n)
-operatingsystem=$(uname -o)
-architecture=$(uname -p)
-processortype=$(grep 'model name' /proc/cpuinfo|uniq|cut -d ':' -f 2)
-
-#
 # Print some helping commands
 # The lines are distributed throughout the script and grepped for
 #
@@ -65,18 +56,17 @@ display_manual ()
 {
     local manual_location use_Multiwfnpath pdf_open pdf_open_command
     use_Multiwfnpath=$(get_Multiwfnpath_or_exit "$installpath_Multiwfn_gui") || exit 1
-    if manual_location=$(find "$use_Multiwfnpath" -iname '*.pdf' -print -quit) ; then
-      debug "manual_location=$manual_location"
-      for pdf_open in "$use_pdfviewer" xdg-open gvfs-open evince okular less ; do
-        debug "Testing: $pdf_open"
-        pdf_open_command=$(command -v "$pdf_open") || continue
-        "$pdf_open_command" "$manual_location" && break
-        fatal "Could not find programm to open pdf; please check your settings."
-      done
-    else
-      fatal "Cannot find manual."
+    manual_location=$(find "$use_Multiwfnpath/" -iname '*.pdf' -print -quit)
+    debug "manual_location=$manual_location"
+    if [[ -z $manual_location ]] ; then
+      fatal "Unable to locate manual pdf."
     fi
-    exit 0
+    for pdf_open in "$use_pdfviewer" xdg-open gvfs-open evince okular less ; do
+      debug "Testing: $pdf_open"
+      pdf_open_command=$(command -v "$pdf_open") || continue
+      "$pdf_open_command" "$manual_location" && exit 0
+    done
+    fatal "Could not find programm to open pdf; please check your settings."
 }
 
 #
@@ -595,15 +585,13 @@ process_options ()
           #hlp                [Option has no effect if set though environment.]
           #hlp
             m) 
-               if [[ -z $requested_KMP_STACKSIZE ]] ; then 
-                 validate_integer "$OPTARG" "the memory"
-                 if (( OPTARG == 0 )) ; then
-                   fatal "KMP_STACKSIZE must not be zero."
-                 fi
-                 requested_KMP_STACKSIZE="$OPTARG" 
-               else
-                 fatal "Option '-m' has been specified multiple times."
-               fi ;;
+               [[ -z $requested_KMP_STACKSIZE ]] || warning "Overwriting previously set memory of '$requested_KMP_STACKSIZE'."
+               validate_integer "$OPTARG" "the memory"
+               if (( OPTARG == 0 )) ; then
+                 fatal "KMP_STACKSIZE must not be zero."
+               fi
+               requested_KMP_STACKSIZE="$OPTARG" 
+               ;;
 
           #hlp     -p <ARG> Define number of threads to be used.
           #hlp                (Default: 2)
@@ -724,7 +712,7 @@ process_options ()
           #hlp     -P <ARG> Account to project.
           #hlp              Automatically selects '-Q bsub-rwth' and remote execution.
             P) 
-               bsub_rwth_project="$OPTARG"
+               bsub_project="$OPTARG"
                request_qsys="bsub-rwth"  
                case $execmode in
                  default) execmode="remote" ;;
@@ -781,6 +769,13 @@ run_interactive ()
     message "Using following version: $Multiwfnpath"
     export PATH="$PATH:$Multiwfnpath"
     export Multiwfnpath
+
+    # Print some informations of the platform
+		message "This is $(uname -n)"
+		message "OS $(uname -o) ($(uname -p))"
+		message "Running on $requested_numCPU $(grep 'model name' /proc/cpuinfo|uniq|cut -d ':' -f 2)."
+
+    ulimit -s unlimited
 
     # Now everything should be set an we can call the program.
     # Decide how to call the program analogous to setting permissions
@@ -863,8 +858,8 @@ runRemote ()
       if [[ "$PWD" =~ [Hh][Pp][Cc] ]] ; then
         echo "#BSUB -R select[hpcwork]" >&9
       fi
-      if [[ ! -z $bsub_rwth_project ]] ; then
-        echo "#BSUB -P $bsub_rwth_project" >&9
+      if [[ ! -z $bsub_project ]] ; then
+        echo "#BSUB -P $bsub_project" >&9
       fi
     else
       fatal "Unrecognised queueing system '$queue'."
@@ -873,9 +868,9 @@ runRemote ()
     # The body is the same for all queues (so far)
     cat >&9 <<-EOF
 		
-		echo "This is $nodename"
-		echo "OS $operatingsystem ($architecture)"
-		echo "Running on $requested_numCPU $processortype."
+		echo "This is \$(uname -n)"
+		echo "OS \$(uname -o) (\$(uname -p))"
+		echo "Running on $requested_numCPU \$(grep 'model name' /proc/cpuinfo|uniq|cut -d ':' -f 2)."
 		echo "Calculation $inputfile and $commandfile from $PWD."
 		echo "Working directry is $PWD"
 		
@@ -884,6 +879,8 @@ runRemote ()
 		export PATH="\$PATH:$use_Multiwfnpath"
 		export Multiwfnpath="$use_Multiwfnpath"
 		export KMP_STACKSIZE=$requested_KMP_STACKSIZE
+		
+		ulimit -s unlimited
 		
 		date
 		Multiwfn "$inputfile" < "$commandfile" > "$outputfile"
@@ -959,7 +956,7 @@ execmode="default"
 request_qsys="pbs-gen"
 
 # Account to project (only for rwth)
-bsub_rwth_project=default
+bsub_project=default
 
 # By default clean up the temporary setting.ini
 settingsini_nocleanup="false"

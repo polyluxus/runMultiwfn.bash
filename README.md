@@ -185,4 +185,4 @@ or via github (polyluxus), or any other way you can think of.
 I have a blog (that has not been updated in a while): 
 https://thedailystamp.wordpress.com/
 
-(Martin; 0.5.1; 2018-04-13)
+(Martin; 0.5.2; 2018-05-14)

@@ -7,9 +7,9 @@ working on it further, but until then see the following.
 
 (.) The script
 
-  You probably have obtained the script already, read the readme
-  and are ready to modify it to your system. Below are some
-  recommendations about how I have installed it.
+  You probably have obtained the script already, have read the 
+  readme file and are ready to modify it to your system. 
+  Below are some recommendations about how I have installed it.
 
 (a) Variables
 
@@ -24,7 +24,7 @@ working on it further, but until then see the following.
 
   I am currently unsure (version 0.5.0 of this script)
   what happens if such variables are set, 
-  I need to test this again.
+  I need to test this again. (But I have no time.)
 
   If variables are unset, they will be replaced by default 
   values or they can be specified via the option switches,
@@ -53,6 +53,10 @@ working on it further, but until then see the following.
   (Again, I am not sure anymore what actually happens,
   but it is safe to delete those lines.)
 
+  If the script finds executable commands 'Multiwfn', or
+  'multiwfn', it will abort, make sure nothing is sourced 
+  at that time.
+
 (b) Unpacking
 
   I personally like to have a seperate user for any
@@ -75,9 +79,10 @@ working on it further, but until then see the following.
   which you should modify to suit your needs and copy 
   to the same directory as `runMultiwfn.sh` 
 
-  The only lin you should leav untouched is the one like
+  The only line you should leave untouched is the one like
     nthreads= <digit(s)> //How many threads [...]
   because that will be modified by the script.
+  (It wouldn't have an effect if you'd modify it.)
 
   You should then modify the `runMultiwfn.rc` file, or
   create `.runMultiwfnrc` (takes precedence if found),
@@ -89,7 +94,7 @@ working on it further, but until then see the following.
     (1) the installation directory
     (2) the user's home directory
     (3) the parent work directory
-  and it will use the values from the las one found.
+  and it will use the values from the last one found.
   All settings (except the binaries) can be changed with switches.
 
 (c) Non-GUI versions
@@ -128,5 +133,7 @@ working on it further, but until then see the following.
   The script finds its directory even through multiple links.
   Alternatively you can add an alias, or add the multiwfn
   directory to your PATH.
+  Do not use the commands 'Multiwfn' or 'multiwfn', as the script will
+  abort whenever it finds out that these commands exist, even if it is itself.
 
-(Martin; 0.5.1; 2018-04-13)
+(Martin; 0.5.2; 2018-05-14)
