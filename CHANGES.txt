@@ -1,5 +1,13 @@
 VERSIONLOG
 
+0.5.2 2018-05-14
+  bugfixes: -H switch now does find the manual 
+            -m does overwrite settings from rc
+  added `ulimit -s unlimited` to avoid problems at runtime
+  system information will be gathered where it is actually running,
+  not where it was called from
+  internal: exchanged /bsub_rwth_project/ with /bsub_project/ 
+
 0.5.1 2018-04-13
   minor bugfixes
   initial tests with Multiwfn 3.5
@@ -58,4 +66,4 @@ VERSIONLOG
   The first working draft of the script.
   Version 3.3.8 of Multiwfn.
 
-(Martin; 0.5.1; 2018-04-13)
+(Martin; 0.5.2; 2018-05-14)

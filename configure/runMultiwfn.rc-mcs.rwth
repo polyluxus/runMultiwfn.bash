@@ -18,29 +18,27 @@ requested_KMP_STACKSIZE=64000000
 # <digit(s)> is equal to the number of processes to be used
 requested_numCPU=4
 
-# Use the graphical interface (yes/no)
+# Use the graphical interface (yes/no)´
 # This needs a different binary
 request_gui_version="yes"
 
 # The following two lines give the location of the installation 
-installpath_Multiwfn_gui="$HOME/local/multiwfn/multiwfn.current"
-installpath_Multiwfn_nogui="" # Disabled if empty
+installpath_Multiwfn_gui="$HOME/local/multiwfn/Multiwfn_3.5_bin_Linux"
+installpath_Multiwfn_nogui="$HOME/local/multiwfn/Multiwfn_3.5_bin_Linux_noGUI" # Disabled if empty
 
 # Request default execution mode (i.e. could be set to remote)
-# (Setting this here is not tested yet; be careful.)
 execmode="default"
 
 # Select a queueing system (pbs-gen/bsub-rwth)
-request_qsys="pbs-gen"
+request_qsys="bsub-rwth"
 
 # Account to project (only for rwth)
-bsub_project="default"
+bsub_project="mangan2"
 
 # By default clean up the temporary setting.ini
-settingsini_nocleanup="false"
+settingsini_nocleanup="true"
 
 # Set a default pdfviewer (needs to be an executable command found through PATH)
 # Tested in that order are: "$use_pdfviewer" xdg-open gvfs-open evince okular less 
-use_pdfviewer="xpdf"
+use_pdfviewer="evince"
 
-# (Martin; 0.5.2; 2018-05-14)
