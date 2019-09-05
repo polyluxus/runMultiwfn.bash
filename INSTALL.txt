@@ -22,7 +22,7 @@ working on it further, but until then see the following.
   It is possible to write a submission script, which implements
   this functionality here.
 
-  I am currently unsure (version 0.5.0 of this script)
+  I am currently unsure (version > 0.5.0 of this script)
   what happens if such variables are set, 
   I need to test this again. (But I have no time.)
 
@@ -70,14 +70,18 @@ working on it further, but until then see the following.
   home, or sowftware collection.
   I currently use 
     $HOME/local/multiwfn/multiwfn.current
+  or alternatively the project directory on CLAIX18, like
+    /home/rwth0425/local/multiwfn/multiwfn-3.6
 
   You can uncompress the original script to any location
   that suits you. I simply clone the git repository into
     $HOME/local/multiwfn/runMultiwfn.bash
+  or alternatively
+    /home/rwth0425/local/runMultiwfn.bash
 
-  Version 0.5.0 comes with an example `settings.ini`,
+  Version 0.5.0 (and later) comes with an example `settings.ini`,
   which you should modify to suit your needs and copy 
-  to the same directory as `runMultiwfn.sh` 
+  to the same directory as `runMultiwfn.sh`.
 
   The only line you should leave untouched is the one like
     nthreads= <digit(s)> //How many threads [...]
@@ -119,7 +123,7 @@ working on it further, but until then see the following.
   Tested are in that order: "use_pdfviewer" xdg-open gvfs-open evince okular less.
 
   Also please make sure the script is executeable.
-   (chmod +x <scriptname>)
+    (chmod +x <scriptname>)
   Occasionally the Multiwfn distribution itself was not marked executable;
   therefore better check that one, too.
 
@@ -136,4 +140,4 @@ working on it further, but until then see the following.
   Do not use the commands 'Multiwfn' or 'multiwfn', as the script will
   abort whenever it finds out that these commands exist, even if it is itself.
 
-(Martin; 0.5.2; 2018-05-14)
+(Martin; 0.6.0; 2019-09-05)

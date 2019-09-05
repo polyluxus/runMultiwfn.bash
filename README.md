@@ -1,7 +1,7 @@
 # runMultiwfn.bash
 
-A wrapper for Multiwfn 3.4.1 (Linux) written in bash.
-Initial tests with Multiwfn 3.5 have been successful, too.
+A wrapper for Multiwfn (Linux) written in bash.
+Tested with version 3.4.1, and also with 3.5, and currently 3.6.
 
 It does probably work without any modification for any newer
 version; as long as the definitions of the environment variables 
@@ -30,7 +30,7 @@ Enjoy working with this piece of code.
 
 Requires Bash-4.2.1 (probably, that is what I tested) and 
 for the interactive sessions it uses `script` from
-the util-linux-ng package to also log the keystrokes.
+the `util-linux-ng` package to also log the keystrokes.
 
 After appropriate modifications of the paths of Multiwfn,
 it can simply be called with
@@ -74,6 +74,12 @@ The following option switches are available:
        Define number of threads to be used.
        If not set via this switch, a default of 4 threads
        is assumed, or whatever is set through the environment or rc.
+
+  - `-w <ARG>`
+       Define the maximum walltime for remote execution in 
+       format `[[HH:]MM:]SS`.
+       The default is `24:00:00`, which is probably too long for
+       most purposes.
 
   - `-l <ARG>`
        Legacy mode (deprecated): Request different version.
@@ -185,4 +191,4 @@ or via github (polyluxus), or any other way you can think of.
 I have a blog (that has not been updated in a while): 
 https://thedailystamp.wordpress.com/
 
-(Martin; 0.5.2; 2018-05-14)
+(Martin; 0.6.0; 2019-09-05)

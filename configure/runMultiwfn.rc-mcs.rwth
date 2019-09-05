@@ -8,7 +8,8 @@
 stay_quiet=0
 
 # Specify default Walltime, this is only relevant for remote
-# execution as a header line for PBS.
+# execution as a header line for the queueing system.
+# Format [[HH:]MM:]SS
 requested_walltime="24:00:00"
 
 # Specify a default value for the memory
@@ -18,22 +19,24 @@ requested_KMP_STACKSIZE=64000000
 # <digit(s)> is equal to the number of processes to be used
 requested_numCPU=4
 
-# Use the graphical interface (yes/no)´
+# Use the graphical interface (yes/no)
 # This needs a different binary
 request_gui_version="yes"
 
 # The following two lines give the location of the installation 
-installpath_Multiwfn_gui="$HOME/local/multiwfn/Multiwfn_3.5_bin_Linux"
-installpath_Multiwfn_nogui="$HOME/local/multiwfn/Multiwfn_3.5_bin_Linux_noGUI" # Disabled if empty
+installpath_Multiwfn_gui=  "/home/rwth0425/local/multiwfn/Multiwfn_3.6_bin_Linux"
+installpath_Multiwfn_nogui="/home/rwth0425/local/multiwfn/Multiwfn_3.6_bin_Linux_noGUI"
+# No-GUI mode is disabled if the variable is left empty
 
 # Request default execution mode (i.e. could be set to remote)
+# (Setting this here is not tested yet; be careful.)
 execmode="default"
 
-# Select a queueing system (pbs-gen/bsub-rwth)
-request_qsys="bsub-rwth"
+# Select a queueing system (pbs-gen/bsub-rwth/slurm-rwth)
+request_qsys="slurm-rwth"
 
 # Account to project (only for rwth)
-bsub_project="mangan2"
+bsub_project="rwth0425"
 
 # By default clean up the temporary setting.ini
 settingsini_nocleanup="true"

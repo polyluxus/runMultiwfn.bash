@@ -1,5 +1,12 @@
 VERSIONLOG
 
+0.6.0 2019-09-05
+  bugfixes: fixed manual displaying
+            setting memory twice doesn't abort anymore
+            moved platform information to execute at runtime
+            minor markup fixes
+  added SLURM to the queuing systems
+
 0.5.2 2018-05-14
   bugfixes: -H switch now does find the manual 
             -m does overwrite settings from rc

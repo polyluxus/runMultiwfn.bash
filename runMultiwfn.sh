@@ -2,8 +2,8 @@
 
 #Multiwfn initialization script
 # See CHANGES.txt
-version="0.5.1"
-versiondate="2018-04-13"
+version="0.6.0"
+versiondate="2019-09-05"
 
 # The following two lines give the location of the installation.
 # They can be set in the rc file, too.
@@ -605,8 +605,7 @@ process_options ()
                requested_numCPU="$OPTARG" 
                ;;
 
-          #hlp     -w <ARG> Define maximum walltime.
-          #hlp                Format: [[HH:]MM:]SS
+          #hlp     -w <ARG> Define maximum walltime. Format: [[HH:]MM:]SS
           #hlp                (Default: $requested_walltime)
           #hlp
             w) requested_walltime=$(format_duration_or_exit "$OPTARG")
@@ -704,13 +703,13 @@ process_options ()
             k) settingsini_nocleanup="true" ;;
 
           #hlp     -Q <ARG> Which type of job script should be produced.
-          #hlp              Arguments currently implemented: pbs-gen, bsub-rwth
+          #hlp              Arguments currently implemented: pbs-gen, bsub-rwth, slurm-rwth
           #hlp              Mandatory for remote execution, can be set in rc.
           #hlp
             Q) request_qsys="$OPTARG" ;;
 
-          #hlp     -P <ARG> Account to project.
-          #hlp              Automatically selects '-Q bsub-rwth' and remote execution.
+          #hlp     -P <ARG> Account to project (BSUB) or account (SLURM).
+          #hlp              
             P) 
                bsub_project="$OPTARG"
                request_qsys="bsub-rwth"  
@@ -858,9 +857,30 @@ runRemote ()
       if [[ "$PWD" =~ [Hh][Pp][Cc] ]] ; then
         echo "#BSUB -R select[hpcwork]" >&9
       fi
-      if [[ ! -z $bsub_project ]] ; then
+      if [[ -n $bsub_project ]] ; then
         echo "#BSUB -P $bsub_project" >&9
       fi
+    elif [[ "$queue" =~ [Ss][Ll][Uu][Rr][Mm] ]] ; then
+      cat >&9 <<-EOF
+			#SBATCH --nodes=1
+			#SBATCH --ntasks=1
+			#SBATCH --cpus-per-task=$requested_numCPU
+			#SBATCH --mem-per-cpu=$(( overhead_KMP_STACKSIZE / 1000000 / requested_numCPU ))
+			#SBATCH --time=$requested_walltime
+			#SBATCH --job-name=${submitscript%.*}
+			#SBATCH --mail-type=END,FAIL
+			#SBATCH --output="${submitscript}.o%j"
+			#SBATCH --error="${submitscript}.e%j"
+			EOF
+      if [[ "$queue" =~ [Rr][Ww][Tt][Hh] ]] ; then
+        if [[ "$PWD" =~ [Hh][Pp][Cc] ]] ; then
+          echo "#SBATCH --constraint=hpcwork" >&9
+        fi
+        if [[ -n $bsub_project ]] ; then
+          echo "#SBATCH --account=$bsub_project" >&9
+        fi
+      fi
+      queue_wrapper='srun'
     else
       fatal "Unrecognised queueing system '$queue'."
     fi
@@ -880,14 +900,18 @@ runRemote ()
 		export Multiwfnpath="$use_Multiwfnpath"
 		export KMP_STACKSIZE=$requested_KMP_STACKSIZE
 		
+		multiwfn_cmd=\$( command -v Multiwfn ) || { echo "Command not found: Multiwfn." >&2 ; exit 1 ; }
 		ulimit -s unlimited
 		
-		date
-		Multiwfn "$inputfile" < "$commandfile" > "$outputfile"
-		date
-		
+		echo "Start: \$(date)"
 		EOF
-
+    if [[ -z $queue_wrapper ]] ; then
+      echo "\"\$multiwfn_cmd\" \"$inputfile\" < \"$commandfile\" > \"$outputfile\"" >&9
+    else
+      echo "$queue_wrapper \"\$multiwfn_cmd\" \"$inputfile\" < \"$commandfile\" > \"$outputfile\"" >&9
+    fi
+    echo 'echo "End:   $(date)"' >&9
+		
     # Cleanup
     if [[ $settingsini_nocleanup =~ [Tt][Rr][Uu][Ee]? ]] ; then
       cat >&9 <<-EOF
@@ -907,6 +931,8 @@ runRemote ()
       message "  qsub $submitscript"
     elif [[ "$queue" =~ [Bb][Ss][Uu][Bb]-[Rr][Ww][Tt][Hh] ]] ; then
       message "  bsub < $submitscript"
+    elif [[ "$queue" =~ [Ss][Ll][Uu][Rr][Mm] ]] ; then
+      message "  sbatch $submitscript"
     fi
     message "to start the job."
 
@@ -952,7 +978,7 @@ request_gui_version="yes"
 # Necessary to resolve a clash between -q and -o
 execmode="default"
 
-# Select a queueing system (pbs-gen/bsub-rwth)
+# Select a queueing system (pbs-gen/bsub-rwth/slurm-rwth)
 request_qsys="pbs-gen"
 
 # Account to project (only for rwth)
