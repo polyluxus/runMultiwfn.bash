@@ -116,7 +116,8 @@ working on it further, but until then see the following.
 
   If you want to access the manual with the -H switch, you need to download 
   it and put it with the executable. The script searches for a pdf file,
-  and will display the first it finds.
+  and will display the first it finds, which fits the pattern 
+  `Multiwfn*.pdf`.
 
   There are a couple of options implemented to look for a pdf viewer,
   the safest is to set 'use_pdfviewer=' to your preferred one in the rc.
@@ -140,4 +141,4 @@ working on it further, but until then see the following.
   Do not use the commands 'Multiwfn' or 'multiwfn', as the script will
   abort whenever it finds out that these commands exist, even if it is itself.
 
-(Martin; 0.6.0; 2019-09-05)
+(Martin; 0.6.0; 2019-09-10)

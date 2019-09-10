@@ -83,7 +83,7 @@ display_manual ()
 {
     local manual_location use_Multiwfnpath pdf_open pdf_open_command
     use_Multiwfnpath=$(get_Multiwfnpath_or_exit "$installpath_Multiwfn_gui") || exit 1
-    manual_location=$(find "$use_Multiwfnpath/" -iname '*.pdf' -print -quit)
+    manual_location=$(find "$use_Multiwfnpath/" -iname 'Multiwfn*.pdf' -print -quit)
     debug "manual_location=$manual_location"
     if [[ -z $manual_location ]] ; then
       fatal "Unable to locate manual pdf."
