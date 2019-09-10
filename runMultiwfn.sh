@@ -1,9 +1,30 @@
 #! /bin/bash
 
-#Multiwfn initialization script
-# See CHANGES.txt
-version="0.6.0"
-versiondate="2019-09-05"
+###
+#
+# runMultiwfn.sh -- 
+#   a wrapper script to establish an appropriate environment for Multiwfn 
+# Copyright (C) 2019 Martin C Schwarzer
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+###
+
+# Multiwfn initialization script
+# See CHANGES.txt for more information
+# and see VERSION for the current version information
+#
 
 # The following two lines give the location of the installation.
 # They can be set in the rc file, too.
@@ -30,14 +51,20 @@ use_pdfviewer="xpdf"
 
 #hlp   This is $scriptname!
 #hlp
-#hlp   This script is a wrapper intended for MultiWFN $installpath_Multiwfn_gui (linux).
-#hlp   A detailed description on how to install MultiWFN and/or
+#hlp   This script is a wrapper intended for Multiwfn $installpath_Multiwfn_gui (linux).
+#hlp   A detailed description on how to install Multiwfn and/or
 #hlp   manipulate this script is located in INSTALL.txt distributed 
 #hlp   alongside this script.
-#hlp   This software comes with absolutely no warrenty. None. Nada.
 #hlp
-#hlp   VERSION    :   $version
-#hlp   DATE       :   $versiondate
+#hlp   runMultiwfn.sh  Copyright (C) 2019  Martin C Schwarzer
+#hlp   This program comes with ABSOLUTELY NO WARRANTY; this is free software, 
+#hlp   and you are welcome to redistribute it under certain conditions; 
+#hlp   please see the license file distributed alongside this repository,
+#hlp   which is available when you type '$scriptname license',
+#hlp   or at <https://github.com/polyluxus/runMultiwfn.bash>.
+#hlp
+#hlp   VERSION    :   ${version:-undefined}
+#hlp   DATE       :   ${versiondate:-undefined}
 #hlp
 #hlp   USAGE      :   $scriptname [options] [IPUT_FILE]
 #hlp
@@ -177,8 +204,8 @@ is_integer()
 validate_integer () 
 {
     if ! is_integer "$1"; then
-        [ ! -z "$2" ] && fatal "Value for $2 ($1) is no integer."
-          [ -z "$2" ] && fatal "Value \"$1\" is no integer."
+        [ -n "$2" ] && fatal "Value for $2 ($1) is no integer."
+        [ -z "$2" ] && fatal "Value \"$1\" is no integer."
     fi
 }
 
@@ -261,7 +288,7 @@ get_rc ()
   local test_runrc_dir test_runrc_loc return_runrc_loc runrc_basename
   # The rc should have some similarity with the actual scriptname
   runrc_basename="$scriptbasename"
-  while [[ ! -z $1 ]] ; do
+  while [[ -n $1 ]] ; do
     test_runrc_dir="$1"
     shift
     if test_runrc_loc="$(test_rc_file "$test_runrc_dir/.${runrc_basename}rc")" ; then
@@ -303,7 +330,7 @@ is_readable_file_or_exit ()
 
 warn_additional_args ()
 {
-    while [[ ! -z $1 ]]; do
+    while [[ -n $1 ]]; do
       warning "Specified option $1 will be ignored."
       shift
     done
@@ -404,7 +431,7 @@ check_environment_memory ()
       return
     fi
   
-    if [[ ! -z $KMP_STACKSIZE ]] ; then
+    if [[ -n $KMP_STACKSIZE ]] ; then
       debug "KMP_STACKSIZE has been set through the environment to $KMP_STACKSIZE."
       if (( test_memory > KMP_STACKSIZE )) ; then
         debug "KMP_STACKSIZE: $KMP_STACKSIZE; Requested: $test_memory."
@@ -441,7 +468,7 @@ remove_from_PATH ()
 
 warn_if_Multiwfnpath_set ()
 {
-    if [[ ! -z $Multiwfnpath ]] ; then
+    if [[ -n $Multiwfnpath ]] ; then
       warning "Multiwfnpath is set to '$Multiwfnpath'; this will be overwritten."
       unset Multiwfnpath
       debug "Unsetting Multiwfnpath."
@@ -787,9 +814,9 @@ run_interactive ()
     # Initialise variable; i.e. just call the program
 
     local callmode=0
-    [[ ! -z $inputfile ]]   && ((callmode+=4))
-    [[ ! -z $commandfile ]] && ((callmode+=2))
-    [[ ! -z $outputfile ]]  && ((callmode+=1))
+    [[ -n $inputfile ]]   && ((callmode+=4))
+    [[ -n $commandfile ]] && ((callmode+=2))
+    [[ -n $outputfile ]]  && ((callmode+=1))
 
     case $callmode in
 
@@ -910,6 +937,7 @@ runRemote ()
     else
       echo "$queue_wrapper \"\$multiwfn_cmd\" \"$inputfile\" < \"$commandfile\" > \"$outputfile\"" >&9
     fi
+    #shellcheck disable=SC2016
     echo 'echo "End:   $(date)"' >&9
 		
     # Cleanup
@@ -1005,6 +1033,22 @@ debug "Base name of the script is '$scriptbasename'"
 scriptpath="$(get_absolute_dirname  "${BASH_SOURCE[0]}" "installdirectory")"
 debug "Script is located in '$scriptpath'"
 
+if [[ "$1" =~ ^[Ll][Ii][Cc][Ee][Nn][Ss][Ee]$ ]] ; then
+  [[ -r "$scriptpath/LICENSE.txt" ]] || fatal "No license file found. Your copy of the repository might be corrupted."
+  if command -v less &> /dev/null ; then
+    less "$scriptpath/LICENSE.txt"
+  else
+    cat "$scriptpath/LICENSE.txt"
+  fi
+  message "Displayed license and will exit."
+  exit 0
+fi
+
+# Set the verion of the script
+[[ -r "$scriptpath/VERSION" ]] && . "$scriptpath/VERSION"
+version=${version:-undefined}
+versiondate=${versiondate:-undefined}
+
 # Check for settings in three default locations (increasing priority):
 #   install path of the script, user's home directory, current directory
 runMultiwfn_rc_loc="$(get_rc "$scriptpath" "/home/$USER" "$PWD")"
@@ -1012,8 +1056,8 @@ debug "runMultiwfn_rc_loc=$runMultiwfn_rc_loc"
 
 # Load custom settings from the rc
 
-if [[ ! -z $runMultiwfn_rc_loc ]] ; then
-  #shellcheck source=/home/te768755/devel/runMultiwfn.bash/runMultiwfn.rc
+if [[ -n $runMultiwfn_rc_loc ]] ; then
+  #shellcheck source=./runMultiwfn.rc
   . "$runMultiwfn_rc_loc"
   message "Configuration file '$runMultiwfn_rc_loc' applied."
 else

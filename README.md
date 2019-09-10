@@ -174,21 +174,45 @@ The following option switches are available:
 
 The examples folder contains a few files generated with Gaussian 09, 
 that demonstrate some of the functionality of the script.  
+Please note that these examples have not been updated to any changes
+in newer (> 3.4.1) versions of Multiwfn and might not work anymore
+due to interface changes. 
+Please check these files carefully before using them.
 It also contains a slightly modified version of `settings.ini`,
-which you might want to further modify and copy to the base 
-directory of the script.
+which was applicable to version 3.5 of Multiwfn.
+There have been significant changes in version 3.6, 
+it would be best to obtain this settings file from the original distribution.
+A copy of `settings.ini` found in the base directory of the script
+will serve as a template for all runs with this script.  .
 See INSTALL.txt for further information.
-To Do: Provide some more wfn files for some more elements and methods.
 
 ---
+
+## License (GNU General Public License v3.0)
+
+runMultiwn.sh - a wrapper script for Multiwfn  
+Copyright (C) 2019 Martin C Schwarzer
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+See [LICENSE](LICENSE.txt) to see the full text.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ## Who wrote this?
 
 Martin - that is me \\(^-^)/
-Complaints can be directed through the chat 'The Periodic Table'
-somewhere at https://chemistry.stackexchange.com,
-or via github (polyluxus), or any other way you can think of.
-I have a blog (that has not been updated in a while): 
-https://thedailystamp.wordpress.com/
+Bug reports, suggestions, complaints can be directed 
+via the github issue system (polyluxus):
+https://github.com/polyluxus/runMultiwfn.bash/issues
 
-(Martin; 0.6.0; 2019-09-05)
+(Martin; 0.6.0; 2019-09-10)

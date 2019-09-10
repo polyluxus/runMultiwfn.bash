@@ -45,4 +45,4 @@ settingsini_nocleanup="false"
 # Tested in that order are: "$use_pdfviewer" xdg-open gvfs-open evince okular less 
 use_pdfviewer="xpdf"
 
-# (Martin; 0.6.0; 2019-09-05)
+# (Martin; 0.6.0; 2019-09-10)

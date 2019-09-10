@@ -1,0 +1,5 @@
+#!/bin/bash
+# Version file for runMultiwfn.sh
+version="0.6.0"
+versiondate="2019-09-10"
+# EOF
