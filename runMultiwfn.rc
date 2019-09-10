@@ -8,7 +8,8 @@
 stay_quiet=0
 
 # Specify default Walltime, this is only relevant for remote
-# execution as a header line for PBS.
+# execution as a header line for the queueing system.
+# Format [[HH:]MM:]SS
 requested_walltime="24:00:00"
 
 # Specify a default value for the memory
@@ -24,13 +25,14 @@ request_gui_version="yes"
 
 # The following two lines give the location of the installation 
 installpath_Multiwfn_gui="$HOME/local/multiwfn/multiwfn.current"
-installpath_Multiwfn_nogui="" # Disabled if empty
+installpath_Multiwfn_nogui="" 
+# No-GUI mode is disabled if the variable is left empty
 
 # Request default execution mode (i.e. could be set to remote)
 # (Setting this here is not tested yet; be careful.)
 execmode="default"
 
-# Select a queueing system (pbs-gen/bsub-rwth)
+# Select a queueing system (pbs-gen/bsub-rwth/slurm-rwth)
 request_qsys="pbs-gen"
 
 # Account to project (only for rwth)
@@ -43,4 +45,4 @@ settingsini_nocleanup="false"
 # Tested in that order are: "$use_pdfviewer" xdg-open gvfs-open evince okular less 
 use_pdfviewer="xpdf"
 
-# (Martin; 0.5.2; 2018-05-14)
+# (Martin; 0.6.0; 2019-09-10)
